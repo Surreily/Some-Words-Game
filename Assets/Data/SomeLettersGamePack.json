@@ -1,0 +1,20 @@
+{
+    "Title": "Some Letters",
+    "Description": "A silly little game about moving some letters around",
+    "Levels": [
+        {
+            "Title": "Sup dude",
+            "Description": "Can you find a key around here?",
+            "TargetWord": "key",
+            "CursorX": 6,
+            "CursorY": 12,
+            "Width": 20,
+            "Height": 20,
+            "Tiles": [
+                { "X": 3, "Y": 3, "Character": "k" },
+                { "X": 4, "Y": 3, "Character": "e" },
+                { "X": 6, "Y": 4, "Character": "y"}
+            ]
+        }
+    ]
+}
