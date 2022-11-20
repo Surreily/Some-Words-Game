@@ -18,8 +18,8 @@ public class MoveCursorAction : IAction {
         if (board.CursorState == CursorState.Normal) {
             if (
                 (direction == Direction.Left && board.CursorX == 0) ||
-                (direction == Direction.Right && board.CursorX - 1 == board.Width) ||
-                (direction == Direction.Up && board.CursorY - 1 == board.Height) ||
+                (direction == Direction.Right && board.CursorX == board.Width - 1) ||
+                (direction == Direction.Up && board.CursorY == board.Height - 1) ||
                 (direction == Direction.Down && board.CursorY == 0)) {
 
                 board.PlayInvalidAudioClip();
