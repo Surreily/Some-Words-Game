@@ -24,6 +24,8 @@ public class BoardManager : MonoBehaviour, IBoard {
     private GameObject cursor;
     private MovableBehaviour cursorMovableBehaviour;
 
+    private GameObject border;
+
     private Stack<IAction> actions;
 
     public int Width { get; set; }
@@ -32,9 +34,6 @@ public class BoardManager : MonoBehaviour, IBoard {
     public int CursorY { get; set; }
     public CursorState CursorState { get; set; }
     public ITile[,] Tiles { get; set; }
-
-    
-    
 
     public void LoadBoard(JsonLevel level) {
         actions = new Stack<IAction>();
@@ -50,7 +49,20 @@ public class BoardManager : MonoBehaviour, IBoard {
             AddTile(tile.Character[0], tile.X, tile.Y);
         }
 
+        SetUpBorder();
         SetUpCursor(level.CursorX, level.CursorY);
+    }
+
+    private void SetUpBorder() {
+        border = new GameObject();
+        border.transform.SetParent(transform, false);
+
+        BorderRenderer borderRenderer = border.AddComponent<BorderRenderer>();
+        borderRenderer.Z = 1;
+        borderRenderer.Width = Width;
+        borderRenderer.Height = Height;
+        borderRenderer.Border = 2;
+        borderRenderer.Material = cursorMaterial;
     }
 
     private void SetUpCursor(int x, int y) {

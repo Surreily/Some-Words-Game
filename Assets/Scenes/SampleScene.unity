@@ -269,3 +269,5 @@ MonoBehaviour:
   characterMaterial: {fileID: 2100000, guid: 178bf4e81ea11434fa6307f52936af6a, type: 2}
   cursorMaterial: {fileID: 2100000, guid: e63b1073f9341524986815e478595b5d, type: 2}
   cursorAudioClip: {fileID: 8300000, guid: e59a00a4f5015ef43a3f5c6ccc835dbb, type: 3}
+  interactAudioClip: {fileID: 8300000, guid: 38f9082e30ec4a449a3e5723af999a41, type: 3}
+  invalidAudioClip: {fileID: 8300000, guid: 52c60c4183cc81c4d944153db0191aaf, type: 3}
