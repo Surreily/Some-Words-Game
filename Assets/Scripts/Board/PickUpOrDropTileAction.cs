@@ -6,44 +6,25 @@ public class PickUpOrDropTileAction : IAction {
     }
 
     public bool Do() {
-        if (board.SelectedTile == null) {
-            if (board.Tiles[board.CursorX, board.CursorY] != null) {
-                PickUpTile();
+        if (board.CursorState == CursorState.Normal) {
+            if (board.GetTileUnderCursor() != null) {
+                board.CursorState = CursorState.Selected;
                 board.PlayInteractAudioClip();
                 return true;
-            }
-
-            board.PlayInvalidAudioClip();
-            return false;
-        } else {
-            if (board.Tiles[board.CursorX, board.CursorY] != null) {
+            } else {
                 board.PlayInvalidAudioClip();
                 return false;
             }
-
-            DropTile();
+        } else {
+            board.CursorState = CursorState.Normal;
             board.PlayInteractAudioClip();
             return true;
         }
-        
     }
 
     public void Undo() {
-        if (board.SelectedTile == null) {
-            PickUpTile();
-            
-        } else {
-            DropTile();
-        }
-    }
-
-    private void PickUpTile() {
-        board.SelectedTile = board.Tiles[board.CursorX, board.CursorY];
-        board.Tiles[board.CursorX, board.CursorY] = null;
-    }
-
-    private void DropTile() {
-        board.Tiles[board.CursorX, board.CursorY] = board.SelectedTile;
-        board.SelectedTile = null;
+        board.CursorState = board.CursorState == CursorState.Normal
+            ? CursorState.Selected
+            : CursorState.Normal;
     }
 }

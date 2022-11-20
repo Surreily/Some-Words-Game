@@ -30,8 +30,10 @@ public class BoardManager : MonoBehaviour, IBoard {
     public int Height { get; set; }
     public int CursorX { get; set; }
     public int CursorY { get; set; }
+    public CursorState CursorState { get; set; }
     public ITile[,] Tiles { get; set; }
-    public ITile SelectedTile { get; set; }
+
+    
     
 
     public void LoadBoard(JsonLevel level) {
@@ -41,6 +43,7 @@ public class BoardManager : MonoBehaviour, IBoard {
         Height = level.Height;
         CursorX = level.CursorX;
         CursorY = level.CursorY;
+        CursorState = CursorState.Normal;
         Tiles = new ITile[level.Width, level.Height];
 
         foreach (JsonTile tile in level.Tiles) {
@@ -67,14 +70,14 @@ public class BoardManager : MonoBehaviour, IBoard {
     }
 
     private void AddTile(char c, int x, int y) {
-        GameObject tile = new GameObject() {
-            name = "Tile " + c,
-        };
+        GameObject tile = new GameObject();
 
         tile.transform.SetParent(transform, false);
         tile.transform.position = new Vector3(x, y, 0f);
 
         TileManager tileManager = tile.AddComponent<TileManager>();
+        tileManager.X = x;
+        tileManager.Y = y;
         tileManager.CharacterMaterial = characterMaterial;
         tileManager.BackgroundMaterial = backgroundMaterial;
         tileManager.character = c;
@@ -139,6 +142,52 @@ public class BoardManager : MonoBehaviour, IBoard {
         }
 
         cursorMovableBehaviour.Move(direction);
+    }
+
+    public ITile GetTile(int x, int y) {
+        return Tiles[x, y];
+    }
+
+    public ITile GetTileUnderCursor() {
+        return Tiles[CursorX, CursorY];
+    }
+
+    public void MoveTile(int x, int y, Direction direction) {
+        // Get tile.
+        TileManager tile = (TileManager)Tiles[x, y];
+
+        // Throw exception if no tile at coordinates.
+        if (tile == null) {
+            throw new InvalidOperationException("No tile at given coordinates.");
+        }
+
+        // Add tile to new position.
+        switch (direction) {
+            case Direction.Left:
+                Tiles[x - 1, y] = tile;
+                tile.X--;
+                break;
+            case Direction.Right:
+                Tiles[x + 1, y] = tile;
+                tile.X++;
+                break;
+            case Direction.Up:
+                Tiles[x, y + 1] = tile;
+                tile.Y++;
+                break;
+            case Direction.Down:
+                Tiles[x, y - 1] = tile;
+                tile.Y--;
+                break;
+            default:
+                throw new ArgumentException("Unsupported direction.", nameof(direction));
+        }
+
+        // Remove tile from old position.
+        Tiles[x, y] = null;
+
+        // Animate tile movement.
+        tile.Move(direction);
     }
 
     public void PlayCursorAudioClip() {

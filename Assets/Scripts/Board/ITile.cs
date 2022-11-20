@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public interface ITile {
+    int X { get; }
+    int Y { get; }
     char? Character { get; }
-
-    void Move(Direction direction);
 }
