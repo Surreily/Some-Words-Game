@@ -28,6 +28,7 @@ public class BoardManager : MonoBehaviour, IBoard {
 
     private Stack<IAction> actions;
 
+    public MaterialStore MaterialStore { get; set; }
     public int Width { get; set; }
     public int Height { get; set; }
     public int CursorX { get; set; }
@@ -62,7 +63,7 @@ public class BoardManager : MonoBehaviour, IBoard {
         borderRenderer.Width = Width;
         borderRenderer.Height = Height;
         borderRenderer.Border = 2;
-        borderRenderer.Material = cursorMaterial;
+        borderRenderer.Material = MaterialStore.Get("Border");
     }
 
     private void SetUpCursor(int x, int y) {

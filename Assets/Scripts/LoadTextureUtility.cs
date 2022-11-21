@@ -2,7 +2,7 @@ using System.IO;
 using UnityEngine;
 
 public class LoadTextureUtility : MonoBehaviour {
-    public Material LoadTexture(string filePath) {
+    public static Texture2D LoadTexture(string filePath) {
         Texture2D texture = new Texture2D(2, 2, TextureFormat.ARGB32, false);
 
         byte[] bytes;
@@ -13,10 +13,8 @@ public class LoadTextureUtility : MonoBehaviour {
         }
 
         texture.LoadImage(bytes);
+        texture.filterMode = FilterMode.Point;
 
-        Material material = new Material(Shader.Find("Unlit/Transparent"));
-        material.mainTexture = texture;
-
-        return material;
+        return texture;
     }
 }

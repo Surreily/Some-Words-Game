@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
+    private MaterialStore materialStore;
     private BoardManager boardManager;
 
     [SerializeField]
@@ -24,13 +25,34 @@ public class GameManager : MonoBehaviour {
     public AudioClip invalidAudioClip;
 
     public void Start() {
+        SetUpMaterialStore();
         SetUpBoardManager();
 
         boardManager.LoadBoard(LoadFromJson().Levels.First());
     }
 
+    private void SetUpMaterialStore() {
+        LoadTextureUtility loadTextureUtility = new LoadTextureUtility();
+
+        Texture2D border1 = LoadTextureUtility.LoadTexture(
+            Path.Combine(Application.dataPath, "Textures/Border 1.png"));
+        Texture2D border2 = LoadTextureUtility.LoadTexture(
+            Path.Combine(Application.dataPath, "Textures/Border 2.png"));
+        Texture2D border3 = LoadTextureUtility.LoadTexture(
+            Path.Combine(Application.dataPath, "Textures/Border 3.png"));
+        Texture2D border4 = LoadTextureUtility.LoadTexture(
+            Path.Combine(Application.dataPath, "Textures/Border 4.png"));
+
+        GlobalTimer timer = gameObject.GetComponent<GlobalTimer>();
+
+        materialStore = new MaterialStore(timer);
+
+        materialStore.Register("Border", border1, border2, border3, border4);
+    }
+
     private void SetUpBoardManager() {
         boardManager = gameObject.AddComponent<BoardManager>();
+        boardManager.MaterialStore = materialStore;
         boardManager.backgroundMaterial = backgroundMaterial;
         boardManager.characterMaterial = characterMaterial;
         boardManager.cursorMaterial = cursorMaterial;
