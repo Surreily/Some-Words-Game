@@ -28,6 +28,8 @@ public class BoardManager : MonoBehaviour, IBoard {
 
     private Stack<IAction> actions;
 
+    private CameraMovement cameraMovement;
+
     public MaterialStore MaterialStore { get; set; }
     public int Width { get; set; }
     public int Height { get; set; }
@@ -52,6 +54,8 @@ public class BoardManager : MonoBehaviour, IBoard {
 
         SetUpBorder();
         SetUpCursor(level.CursorX, level.CursorY);
+
+        SetUpCameraMovement();
     }
 
     private void SetUpBorder() {
@@ -80,6 +84,11 @@ public class BoardManager : MonoBehaviour, IBoard {
         textureRenderer.width = 1.05f;
         textureRenderer.height = 1.05f;
         textureRenderer.z = 5f;
+    }
+
+    private void SetUpCameraMovement() {
+        cameraMovement = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>();
+        cameraMovement.Target(cursor);
     }
 
     private void AddTile(char c, int x, int y) {
