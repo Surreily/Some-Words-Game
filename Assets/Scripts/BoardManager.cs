@@ -80,7 +80,7 @@ public class BoardManager : MonoBehaviour, IBoard {
         cursorMovableBehaviour.distance = 1f;
 
         TextureRenderer textureRenderer = cursor.AddComponent<TextureRenderer>();
-        textureRenderer.material = cursorMaterial;
+        textureRenderer.material = MaterialStore.Get("Cursor");
         textureRenderer.width = 1.05f;
         textureRenderer.height = 1.05f;
         textureRenderer.z = 5f;

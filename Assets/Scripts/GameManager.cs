@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour {
         materialStore = new MaterialStore(timer);
 
         materialStore.Register("Border", border1, border2, border3, border4);
+        materialStore.Register("Cursor", Resources.LoadAll<Sprite>("Sprites/Cursor"));
     }
 
     private void SetUpBoardManager() {
