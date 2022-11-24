@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
 
-public class GlobalTimer : MonoBehaviour
-{
+public class GlobalTimer : MonoBehaviour {
     private int frame;
     private float nextFrameTime;
 
@@ -13,19 +12,15 @@ public class GlobalTimer : MonoBehaviour
 
     public int Frame => frame;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         nextFrameTime = 0f;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         if (Time.time > nextFrameTime) {
             FrameChanged?.Invoke(this, frame);
 
-            frame = (frame + 1) % 4;
+            frame = (frame + 1) % 8;
             nextFrameTime += frameDuration;
         }
     }
