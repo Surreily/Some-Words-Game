@@ -1,7 +1,7 @@
 using System.IO;
 using UnityEngine;
 
-public class LoadTextureUtility : MonoBehaviour {
+public static class LoadTextureUtility {
     public static Texture2D LoadTexture(string filePath) {
         Texture2D texture = new Texture2D(2, 2, TextureFormat.ARGB32, false);
 

@@ -32,8 +32,6 @@ public class GameManager : MonoBehaviour {
     }
 
     private void SetUpMaterialStore() {
-        LoadTextureUtility loadTextureUtility = new LoadTextureUtility();
-
         Texture2D border1 = LoadTextureUtility.LoadTexture(
             Path.Combine(Application.dataPath, "Textures/Border 1.png"));
         Texture2D border2 = LoadTextureUtility.LoadTexture(
