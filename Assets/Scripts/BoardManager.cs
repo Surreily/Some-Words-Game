@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour, IBoard {
     [SerializeField]
-    public Material characterMaterial;
-
-    [SerializeField]
-    public Material backgroundMaterial;
-
-    [SerializeField]
     public Material cursorMaterial;
 
     [SerializeField]
@@ -91,18 +85,17 @@ public class BoardManager : MonoBehaviour, IBoard {
         cameraMovement.Target(cursor);
     }
 
-    private void AddTile(char c, int x, int y) {
+    private void AddTile(char character, int x, int y) {
         GameObject tile = new GameObject();
 
         tile.transform.SetParent(transform, false);
         tile.transform.position = new Vector3(x, y, 0f);
 
         TileManager tileManager = tile.AddComponent<TileManager>();
+        tileManager.MaterialStore = MaterialStore;
         tileManager.X = x;
         tileManager.Y = y;
-        tileManager.CharacterMaterial = characterMaterial;
-        tileManager.BackgroundMaterial = backgroundMaterial;
-        tileManager.character = c;
+        tileManager.Character = character;
 
         Tiles[x, y] = tileManager;
     }

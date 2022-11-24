@@ -4,17 +4,16 @@ using UnityEngine;
 public class TileCharacterRenderer : MonoBehaviour {
     private GameObject tileCharacter;
 
-    [SerializeField]
-    public char character;
+    private MeshRenderer meshRenderer;
 
-    [SerializeField]
-    public Material material;
+    public MaterialStore MaterialStore { get; set; }
+
+    public char Character { get; set; }
 
     public void Start() {
         tileCharacter = new GameObject();
         tileCharacter.transform.position = new Vector3(1f / 16f * 4.5f, 1f / 16f * 1.5f, 0f);
         tileCharacter.transform.SetParent(transform, false);
-        
 
         Mesh mesh = new Mesh();
 
@@ -30,13 +29,21 @@ public class TileCharacterRenderer : MonoBehaviour {
             0, 2, 3,
         };
 
-        mesh.uv = characterUvs[character];
+        mesh.uv = new Vector2[] {
+            new Vector2(0f, 1f),
+            new Vector2(1f, 1f),
+            new Vector2(1f, 0f),
+            new Vector2(0f, 0f),
+        };
 
         MeshFilter meshFilter = tileCharacter.AddComponent<MeshFilter>();
         meshFilter.mesh = mesh;
 
-        MeshRenderer meshRenderer = tileCharacter.AddComponent<MeshRenderer>();
-        meshRenderer.material = material;
+        meshRenderer = tileCharacter.AddComponent<MeshRenderer>();
+    }
+
+    public void SetCharacter(char character) {
+        meshRenderer.material = MaterialStore.GetRainbowFontMaterial(character);
     }
 
     #region Static

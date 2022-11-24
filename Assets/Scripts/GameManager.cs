@@ -54,8 +54,6 @@ public class GameManager : MonoBehaviour {
     private void SetUpBoardManager() {
         boardManager = gameObject.AddComponent<BoardManager>();
         boardManager.MaterialStore = materialStore;
-        boardManager.backgroundMaterial = backgroundMaterial;
-        boardManager.characterMaterial = characterMaterial;
         boardManager.cursorMaterial = cursorMaterial;
         boardManager.cursorAudioClip = cursorAudioClip;
         boardManager.interactAudioClip = interactAudioClip;

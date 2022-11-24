@@ -5,5 +5,5 @@ using UnityEngine;
 public interface ITile {
     int X { get; }
     int Y { get; }
-    char? Character { get; }
+    char Character { get; }
 }
