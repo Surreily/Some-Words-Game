@@ -7,6 +7,8 @@ public class MaterialStore {
 
     private GlobalTimer timer;
 
+    private IMaterial borderMaterial;
+    private IMaterial cursorMaterial;
     private IMaterial defaultTileBackgroundMaterial;
     private IMaterial matchedTileBackgroundMaterial;
     private IMaterial immovableTileBackgroundMaterial;
@@ -15,13 +17,8 @@ public class MaterialStore {
     private Dictionary<char, IMaterial> blackFontMaterialDictionary;
     private Dictionary<char, IMaterial> rainbowFontMaterialDictionary;
 
-    
-    private Dictionary<string, IMaterial> materials;
-
     public MaterialStore(GlobalTimer timer) {
         this.timer = timer;
-
-        materials = new Dictionary<string, IMaterial>();
 
         // TODO: Don't call this in the constructor?
         SetUpMaterials();
@@ -29,6 +26,10 @@ public class MaterialStore {
     }
 
     #region Get Material
+
+    public Material BorderMaterial => borderMaterial.Material;
+
+    public Material CursorMaterial => cursorMaterial.Material;
 
     public Material DefaultTileBackgroundMaterial => defaultTileBackgroundMaterial.Material;
 
@@ -62,6 +63,8 @@ public class MaterialStore {
     #region Texture Setup
 
     private void SetUpMaterials() {
+        borderMaterial = SetUpAnimatedMaterial(Resources.LoadAll<Sprite>("Sprites/Border"));
+        cursorMaterial = SetUpAnimatedMaterial(Resources.LoadAll<Sprite>("Sprites/Cursor"));
         defaultTileBackgroundMaterial = SetUpAnimatedMaterial(Resources.LoadAll<Sprite>("Sprites/Lines"));
         matchedTileBackgroundMaterial = SetUpAnimatedMaterial(Resources.LoadAll<Sprite>("Sprites/Squares"));
         immovableTileBackgroundMaterial = SetUpAnimatedMaterial(Resources.LoadAll<Sprite>("Sprites/Static"));
@@ -147,41 +150,4 @@ public class MaterialStore {
 
     #endregion
 
-    // TODO: Remove everything below here.
-
-    public void Register(string key, Texture2D texture) {
-        materials.Add(key, new StaticMaterial(texture));
-    }
-
-    public void Register(string key, params Texture2D[] textures) {
-        materials.Add(key, new AnimatedMaterial(textures));
-    }
-
-    public void Register(string key, Sprite[] sprites) {
-        Texture2D[] textures = new Texture2D[sprites.Length];
-
-        for (int i = 0; i < sprites.Length; i++) {
-            Sprite sprite = sprites[i];
-
-            Texture2D texture = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
-            texture.filterMode = FilterMode.Point;
-
-            var pixels = sprite.texture.GetPixels(
-                (int)sprite.rect.x,
-                (int)sprite.rect.y,
-                (int)sprite.rect.width,
-                (int)sprite.rect.height);
-
-            texture.SetPixels(pixels);
-            texture.Apply();
-
-            textures[i] = texture;
-        }
-
-        Register(key, textures);
-    }
-
-    public Material Get(string key) {
-        return materials[key].Material;
-    }
 }

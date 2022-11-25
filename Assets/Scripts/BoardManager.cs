@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour, IBoard {
     [SerializeField]
-    public Material cursorMaterial;
-
-    [SerializeField]
     public AudioClip cursorAudioClip;
 
     [SerializeField]
@@ -61,7 +58,7 @@ public class BoardManager : MonoBehaviour, IBoard {
         borderRenderer.Width = Width;
         borderRenderer.Height = Height;
         borderRenderer.Border = 2;
-        borderRenderer.Material = MaterialStore.Get("Border");
+        borderRenderer.Material = MaterialStore.BorderMaterial;
     }
 
     private void SetUpCursor(int x, int y) {
@@ -74,7 +71,7 @@ public class BoardManager : MonoBehaviour, IBoard {
         cursorMovableBehaviour.distance = 1f;
 
         TextureRenderer textureRenderer = cursor.AddComponent<TextureRenderer>();
-        textureRenderer.material = MaterialStore.Get("Cursor");
+        textureRenderer.material = MaterialStore.CursorMaterial;
         textureRenderer.width = 1.05f;
         textureRenderer.height = 1.05f;
         textureRenderer.z = 5f;

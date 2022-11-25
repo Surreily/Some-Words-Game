@@ -13,9 +13,6 @@ public class GameManager : MonoBehaviour {
     public Material characterMaterial;
 
     [SerializeField]
-    public Material cursorMaterial;
-
-    [SerializeField]
     public AudioClip cursorAudioClip;
 
     [SerializeField]
@@ -44,15 +41,11 @@ public class GameManager : MonoBehaviour {
         GlobalTimer timer = gameObject.GetComponent<GlobalTimer>();
 
         materialStore = new MaterialStore(timer);
-
-        materialStore.Register("Border", border1, border2, border3, border4);
-        materialStore.Register("Cursor", Resources.LoadAll<Sprite>("Sprites/Cursor"));
     }
 
     private void SetUpBoardManager() {
         boardManager = gameObject.AddComponent<BoardManager>();
         boardManager.MaterialStore = materialStore;
-        boardManager.cursorMaterial = cursorMaterial;
         boardManager.cursorAudioClip = cursorAudioClip;
         boardManager.interactAudioClip = interactAudioClip;
         boardManager.invalidAudioClip = invalidAudioClip;
