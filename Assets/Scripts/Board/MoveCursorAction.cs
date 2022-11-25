@@ -19,8 +19,8 @@ public class MoveCursorAction : IAction {
             if (
                 (direction == Direction.Left && board.CursorX == 0) ||
                 (direction == Direction.Right && board.CursorX == board.Width - 1) ||
-                (direction == Direction.Up && board.CursorY == board.Height - 1) ||
-                (direction == Direction.Down && board.CursorY == 0)) {
+                (direction == Direction.Up && board.CursorY == 0) ||
+                (direction == Direction.Down && board.CursorY == board.Height - 1)) {
 
                 board.PlayInvalidAudioClip();
                 return false;
@@ -113,9 +113,9 @@ public class MoveCursorAction : IAction {
             case Direction.Right:
                 return 0;
             case Direction.Up:
-                return 1;
-            case Direction.Down:
                 return -1;
+            case Direction.Down:
+                return 1;
             default:
                 throw new ArgumentException("Unsupported direction.", nameof(direction));
         }

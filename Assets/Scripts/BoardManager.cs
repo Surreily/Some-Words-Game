@@ -67,7 +67,7 @@ public class BoardManager : MonoBehaviour, IBoard {
     private void SetUpCursor(int x, int y) {
         cursor = new GameObject();
         cursor.transform.SetParent(transform, false);
-        cursor.transform.position = new Vector3(x, y, 0f);
+        cursor.transform.position = new Vector3(x, (Height - 1) - y, 0f);
 
         cursorMovableBehaviour = cursor.AddComponent<MovableBehaviour>();
         cursorMovableBehaviour.speed = 15f;
@@ -89,7 +89,7 @@ public class BoardManager : MonoBehaviour, IBoard {
         GameObject tile = new GameObject();
 
         tile.transform.SetParent(transform, false);
-        tile.transform.position = new Vector3(x, y, 0f);
+        tile.transform.position = new Vector3(x, (Height - 1) - y, 0f);
 
         TileManager tileManager = tile.AddComponent<TileManager>();
         tileManager.MaterialStore = MaterialStore;
@@ -147,10 +147,10 @@ public class BoardManager : MonoBehaviour, IBoard {
                 CursorX++;
                 break;
             case Direction.Up:
-                CursorY++;
+                CursorY--;
                 break;
             case Direction.Down:
-                CursorY--;
+                CursorY++;
                 break;
             default:
                 throw new ArgumentException("Unsupported direction.", nameof(direction));
@@ -187,12 +187,12 @@ public class BoardManager : MonoBehaviour, IBoard {
                 tile.X++;
                 break;
             case Direction.Up:
-                Tiles[x, y + 1] = tile;
-                tile.Y++;
-                break;
-            case Direction.Down:
                 Tiles[x, y - 1] = tile;
                 tile.Y--;
+                break;
+            case Direction.Down:
+                Tiles[x, y + 1] = tile;
+                tile.Y++;
                 break;
             default:
                 throw new ArgumentException("Unsupported direction.", nameof(direction));

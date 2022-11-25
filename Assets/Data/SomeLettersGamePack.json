@@ -6,14 +6,18 @@
             "Title": "Sup dude",
             "Description": "Can you find a key around here?",
             "TargetWord": "key",
-            "CursorX": 6,
-            "CursorY": 12,
+            "CursorX": 1,
+            "CursorY": 5,
             "Width": 7,
             "Height": 7,
             "Tiles": [
-                { "X": 2, "Y": 3, "Character": "k" },
-                { "X": 3, "Y": 3, "Character": "e" },
-                { "X": 4, "Y": 4, "Character": "y" }
+                { "X": 3, "Y": 0, "Character": "w" },
+                { "X": 3, "Y": 1, "Character": "e" },
+                { "X": 3, "Y": 2, "Character": "l" },
+                { "X": 3, "Y": 3, "Character": "c" },
+                { "X": 3, "Y": 4, "Character": "o" },
+                { "X": 4, "Y": 5, "Character": "m" },
+                { "X": 3, "Y": 6, "Character": "e" }
             ]
         }
     ]
