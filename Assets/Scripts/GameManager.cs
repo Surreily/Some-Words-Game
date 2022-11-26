@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
     private MaterialStore materialStore;
-    private BoardManager boardManager;
+    private LevelManager levelManager;
 
     [SerializeField]
     public Material backgroundMaterial;
@@ -23,9 +23,9 @@ public class GameManager : MonoBehaviour {
 
     public void Start() {
         SetUpMaterialStore();
-        SetUpBoardManager();
+        SetUpLevelManager();
 
-        boardManager.LoadBoard(LoadFromJson().Levels.First());
+        levelManager.LoadBoard(LoadFromJson().Levels.First());
     }
 
     private void SetUpMaterialStore() {
@@ -43,9 +43,9 @@ public class GameManager : MonoBehaviour {
         materialStore = new MaterialStore(timer);
     }
 
-    private void SetUpBoardManager() {
-        boardManager = gameObject.AddComponent<BoardManager>();
-        boardManager.MaterialStore = materialStore;
+    private void SetUpLevelManager() {
+        levelManager = gameObject.AddComponent<LevelManager>();
+        levelManager.MaterialStore = materialStore;
     }
 
     private JsonGamePack LoadFromJson() {
