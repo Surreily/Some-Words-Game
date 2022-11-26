@@ -11,10 +11,12 @@ This entire thing is me learning how Unity 2D works. Pretty much everything is d
 * Allow player to push tiles
 * Prevent cursor or tiles from leaving the boundaries
 * Allow undo of every move
+* Revamp the undo/redo system to allow nested commands and don't rely on actions performing validity checks
 
 ## TODO
 
-* Revamp the undo/redo system to allow nested commands and don't rely on actions performing validity checks
+* Implement better sound system (use resources folder)
+* Update sounds and properly credit them
 * Use a better border graphic
 * Make tile backgrounds more subtle
 * Add new graphics for special tiles
