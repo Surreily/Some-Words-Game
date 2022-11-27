@@ -12,6 +12,7 @@ This entire thing is me learning how Unity 2D works. Pretty much everything is d
 * Prevent cursor or tiles from leaving the boundaries
 * Allow undo of every move
 * Revamp the undo/redo system to allow nested commands and don't rely on actions performing validity checks
+* Load list of words from dictionary
 
 ## TODO
 
@@ -20,7 +21,6 @@ This entire thing is me learning how Unity 2D works. Pretty much everything is d
 * Use a better border graphic
 * Make tile backgrounds more subtle
 * Add new graphics for special tiles
-* Load list of words from dictionary
 * Better graphics for when cursor is currently 'holding' a tile
 * Show valid words when created
 * Immovable tiles
