@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
     private MaterialStore materialStore;
+    private HashSet<string> gameDictionary;
     private LevelManager levelManager;
 
     [SerializeField]
@@ -23,6 +25,7 @@ public class GameManager : MonoBehaviour {
 
     public void Start() {
         SetUpMaterialStore();
+        SetUpGameDictionary();
         SetUpLevelManager();
 
         levelManager.LoadBoard(LoadFromJson().Levels.First());
@@ -41,6 +44,13 @@ public class GameManager : MonoBehaviour {
         GlobalTimer timer = gameObject.GetComponent<GlobalTimer>();
 
         materialStore = new MaterialStore(timer);
+    }
+
+    private void SetUpGameDictionary() {
+        List<string> words = File.ReadLines(Path.Combine(Application.dataPath, "Data/Dictionary.txt"))
+            .ToList();
+
+        gameDictionary = new HashSet<string>(words);
     }
 
     private void SetUpLevelManager() {
