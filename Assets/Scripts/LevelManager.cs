@@ -113,6 +113,7 @@ public class LevelManager : MonoBehaviour {
     private void UndoAction() {
         if (actions.TryPop(out IAction action)) {
             action.Undo();
+            UpdateTileStates();
         }
     }
 
@@ -253,16 +254,16 @@ public class LevelManager : MonoBehaviour {
                 new MoveTileAction(tile, direction));
         }
 
-        combinedAction.Add(GetUpdateTileStateActions());
-
         DoAction(combinedAction);
+
+        UpdateTileStates();
     }
 
     #endregion
 
-    #region Check Board Tiles
+    #region Update Tile States
 
-    private List<UpdateTileStateAction> GetUpdateTileStateActions() {
+    private void UpdateTileStates() {
         List<UpdateTileStateAction> updateTileStateActions = new List<UpdateTileStateAction>();
 
         TileState[,] newStates = new TileState[level.Width, level.Height];
@@ -354,12 +355,10 @@ public class LevelManager : MonoBehaviour {
                 TileState newTileState = newStates[x, y];
 
                 if (tile.TileState != newTileState) {
-                    updateTileStateActions.Add(new UpdateTileStateAction(tile, newTileState));
+                    tile.TileState = newTileState;
                 }
             }
         }
-
-        return updateTileStateActions;
     }
 
     #endregion
