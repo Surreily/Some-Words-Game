@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour {
     private void SetUpLevelManager() {
         levelManager = gameObject.AddComponent<LevelManager>();
         levelManager.MaterialStore = materialStore;
+        levelManager.GameDictionary = gameDictionary;
     }
 
     private JsonGamePack LoadFromJson() {

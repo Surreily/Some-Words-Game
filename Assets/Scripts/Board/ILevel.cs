@@ -7,5 +7,7 @@ public interface ILevel {
     int CursorY { get; set; }
     CursorState CursorState { get; set; }
 
+    void MoveCursor(Direction direction);
+
     bool IsPositionOnBoard(int x, int y);
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour {
@@ -16,6 +17,7 @@ public class LevelManager : MonoBehaviour {
     private CameraMovement cameraMovement;
 
     public MaterialStore MaterialStore { get; set; }
+    public HashSet<string> GameDictionary { get; set; }
 
     private Level level;
 
@@ -29,7 +31,10 @@ public class LevelManager : MonoBehaviour {
         }
 
         SetUpBorder();
+
         SetUpCursor(level.CursorX, level.CursorY);
+
+        level.CursorMovableBehaviour = cursorMovableBehaviour;
 
         SetUpCameraMovement();
     }
@@ -89,14 +94,13 @@ public class LevelManager : MonoBehaviour {
         backgroundRenderer.Height = 0.95f;
         backgroundRenderer.Material = MaterialStore.ImmovableItemBackgroundMaterial;
 
-        level.Tiles[x, y] = new Tile {
-            MovableBehaviour = movableBehaviour,
-            CharacterRenderer = characterRenderer,
-            BackgroundRenderer = backgroundRenderer,
+        Tile tile = new Tile(MaterialStore, movableBehaviour, characterRenderer, backgroundRenderer) {
             X = x,
             Y = y,
             Character = character,
         };
+
+        level.Tiles[x, y] = tile;
     }
 
     #region Action Stack
@@ -204,7 +208,7 @@ public class LevelManager : MonoBehaviour {
 
         CombinedAction action = new CombinedAction(
             new UpdateCursorPositionAction(level, direction),
-            new MoveObjectAction(cursorGameObject.GetComponent<MovableBehaviour>(), direction));
+            new MoveCursorAction(level, direction));
 
         DoAction(action);
     }
@@ -237,17 +241,125 @@ public class LevelManager : MonoBehaviour {
 
         CombinedAction combinedAction = new CombinedAction();
 
-        combinedAction.AddAction(new UpdateCursorPositionAction(level, direction));
-        combinedAction.AddAction(new MoveObjectAction(cursorGameObject.GetComponent<MovableBehaviour>(), direction));
+        combinedAction.Add(
+            new UpdateCursorPositionAction(level, direction),
+            new MoveCursorAction(level, direction));
 
         for (int i = tiles.Count - 1; i >= 0; i--) {
             ITile tile = tiles[i];
 
-            combinedAction.AddAction(new UpdateTilePositionAction(level, tile.X, tile.Y, direction));
-            combinedAction.AddAction(new MoveObjectAction(tile.MovableBehaviour, direction));
+            combinedAction.Add(
+                new UpdateTilePositionAction(level, tile.X, tile.Y, direction),
+                new MoveTileAction(tile, direction));
         }
 
+        combinedAction.Add(GetUpdateTileStateActions());
+
         DoAction(combinedAction);
+    }
+
+    #endregion
+
+    #region Check Board Tiles
+
+    private List<UpdateTileStateAction> GetUpdateTileStateActions() {
+        List<UpdateTileStateAction> updateTileStateActions = new List<UpdateTileStateAction>();
+
+        TileState[,] newStates = new TileState[level.Width, level.Height];
+
+        List<List<ITile>> horizontalSpans = new List<List<ITile>>();
+        List<List<ITile>> verticalSpans = new List<List<ITile>>();
+
+        List<ITile> currentSpan = new List<ITile>();
+
+        // Create spans of tiles in both directions.
+        for (int y = 0; y < level.Height; y++) {
+            for (int x = 0; x < level.Width; x++) {
+                ITile tile = level.Tiles[x, y];
+
+                if (tile != null) {
+                    currentSpan.Add(tile);
+                    continue;
+                }
+
+                if (currentSpan.Count > 0) {
+                    horizontalSpans.Add(currentSpan);
+                    currentSpan = new List<ITile>();
+                }
+            }
+
+            if (currentSpan.Count > 0) {
+                horizontalSpans.Add(currentSpan);
+                currentSpan = new List<ITile>();
+            }
+        }
+
+        for (int x = 0; x < level.Width; x++) {
+            for (int y = 0; y < level.Height; y++) {
+                ITile tile = level.Tiles[x, y];
+
+                if (tile != null) {
+                    currentSpan.Add(tile);
+                    continue;
+                }
+
+                if (currentSpan.Count > 0) {
+                    verticalSpans.Add(currentSpan);
+                    currentSpan = new List<ITile>();
+                }
+            }
+
+            if (currentSpan.Count > 0) {
+                verticalSpans.Add(currentSpan);
+                currentSpan = new List<ITile>();
+            }
+        }
+
+        // Check for valid words in both directions.
+        foreach (List<ITile> span in horizontalSpans) {
+            bool isValidWord =
+                span.Count >= 3 &&
+                GameDictionary.Contains(new string(span.Select(t => t.Character).ToArray()));
+
+            foreach (ITile tile in span) {
+                newStates[tile.X, tile.Y] = isValidWord
+                    ? TileState.Valid
+                    : TileState.Normal;
+            }
+        }
+
+        foreach (List<ITile> span in verticalSpans) {
+            bool isValidWord =
+                span.Count >= 3 &&
+                GameDictionary.Contains(new string(span.Select(t => t.Character).ToArray()));
+
+            if (!isValidWord) {
+                continue;
+            }
+
+            foreach (ITile tile in span) {
+                newStates[tile.X, tile.Y] = TileState.Valid;
+            }
+        }
+
+        // Set tiles.
+        for (int x = 0; x < level.Width; x++) {
+            for (int y = 0; y < level.Height; y++) {
+                ITile tile = level.Tiles[x, y];
+
+                if (tile == null) {
+                    continue;
+                }
+
+                TileState newTileState = newStates[x, y];
+
+                if (tile.TileState != newTileState) {
+                    updateTileStateActions.Add(new UpdateTileStateAction(tile, newTileState));
+                }
+            }
+        }
+
+        return updateTileStateActions;
     }
 
     #endregion

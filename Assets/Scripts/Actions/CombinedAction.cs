@@ -12,8 +12,16 @@ public class CombinedAction : IAction {
         this.actions = actions.ToList();
     }
 
-    public void AddAction(IAction action) {
-        actions.Add(action);
+    public void Add(IAction newAction) {
+        actions.Add(newAction);
+    }
+
+    public void Add(IEnumerable<IAction> newActions) {
+        actions.AddRange(newActions);
+    }
+
+    public void Add(params IAction[] newActions) {
+        actions.AddRange(newActions);
     }
 
     public void Do() {
