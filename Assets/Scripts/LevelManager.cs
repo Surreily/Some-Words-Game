@@ -4,8 +4,8 @@ using System.Linq;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour {
-    private static readonly Vector3 TileCharacterPosition = new Vector3(1f / 16f * 4.5f, 1f / 16f * 1.5f, 9f);
-    private static readonly Vector3 TileBackgroundPosition = new Vector3(0f, 0f, 10f);
+    private static readonly Vector3 TileCharacterPosition = new Vector3(1f / 16f * 4.5f, 1f / 16f * 1.5f, 0f);
+    private static readonly Vector3 TileBackgroundPosition = new Vector3(0f, 0f, 0f);
 
     private GameObject cursorGameObject;
     private GameObject border;
@@ -54,7 +54,7 @@ public class LevelManager : MonoBehaviour {
     private void SetUpCursor(int x, int y) {
         cursorGameObject = new GameObject();
         cursorGameObject.transform.SetParent(transform, false);
-        cursorGameObject.transform.position = new Vector3(x, (level.Height - 1) - y, 0f);
+        cursorGameObject.transform.localPosition = new Vector3(x, (level.Height - 1) - y, 0f);
 
         cursorMovableBehaviour = cursorGameObject.AddComponent<MovableBehaviour>();
         cursorMovableBehaviour.speed = 15f;
@@ -76,17 +76,11 @@ public class LevelManager : MonoBehaviour {
         GameObject tileGameObject = new GameObject();
 
         tileGameObject.transform.SetParent(transform, false);
-        tileGameObject.transform.position = new Vector3(x, (level.Height - 1) - y, 0f);
+        tileGameObject.transform.localPosition = new Vector3(x, (level.Height - 1) - y, -1f);
 
         MovableBehaviour movableBehaviour = tileGameObject.AddComponent<MovableBehaviour>();
         movableBehaviour.speed = 15f;
         movableBehaviour.distance = 1f;
-
-        TileBackgroundRenderer characterRenderer = tileGameObject.AddComponent<TileBackgroundRenderer>();
-        characterRenderer.Position = TileCharacterPosition;
-        characterRenderer.Width = 1f;
-        characterRenderer.Height = 1f;
-        characterRenderer.Material = MaterialStore.GetRainbowFontMaterial(character);
 
         TileBackgroundRenderer backgroundRenderer = tileGameObject.AddComponent<TileBackgroundRenderer>();
         backgroundRenderer.Position = TileBackgroundPosition;
@@ -94,7 +88,22 @@ public class LevelManager : MonoBehaviour {
         backgroundRenderer.Height = 0.95f;
         backgroundRenderer.Material = MaterialStore.ImmovableItemBackgroundMaterial;
 
-        Tile tile = new Tile(MaterialStore, movableBehaviour, characterRenderer, backgroundRenderer) {
+        GameObject tileCharacterGameObject = new GameObject();
+
+        tileCharacterGameObject.transform.SetParent(tileGameObject.transform, false);
+        tileCharacterGameObject.transform.localPosition = new Vector3(0f, 0f, -1f);
+
+        TileBackgroundRenderer characterRenderer = tileCharacterGameObject.AddComponent<TileBackgroundRenderer>();
+        characterRenderer.Position = TileCharacterPosition;
+        characterRenderer.Width = 1f;
+        characterRenderer.Height = 1f;
+        characterRenderer.Material = MaterialStore.GetRainbowFontMaterial(character);
+
+        PulseAnimationBehaviour pulseAnimationBehaviour = tileCharacterGameObject.AddComponent<PulseAnimationBehaviour>();
+        pulseAnimationBehaviour.Scale = 2f;
+        pulseAnimationBehaviour.Speed = 5f;
+
+        Tile tile = new Tile(MaterialStore, movableBehaviour, pulseAnimationBehaviour, characterRenderer, backgroundRenderer) {
             X = x,
             Y = y,
             Character = character,
@@ -356,6 +365,10 @@ public class LevelManager : MonoBehaviour {
 
                 if (tile.TileState != newTileState) {
                     tile.TileState = newTileState;
+
+                    if (newTileState == TileState.Valid) {
+                        tile.AnimatePulse();
+                    }
                 }
             }
         }

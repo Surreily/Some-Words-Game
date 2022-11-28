@@ -4,6 +4,7 @@ public class Tile : ITile {
     private MaterialStore materialStore;
 
     private MovableBehaviour movableBehaviour;
+    private PulseAnimationBehaviour pulseAnimationBehaviour;
     private TileBackgroundRenderer characterRenderer;
     private TileBackgroundRenderer backgroundRenderer;
 
@@ -12,11 +13,13 @@ public class Tile : ITile {
     public Tile(
         MaterialStore materialStore,
         MovableBehaviour movableBehaviour,
+        PulseAnimationBehaviour pulseAnimationBehaviour,
         TileBackgroundRenderer characterRenderer,
         TileBackgroundRenderer backgroundRenderer) {
 
         this.materialStore = materialStore;
         this.movableBehaviour = movableBehaviour;
+        this.pulseAnimationBehaviour = pulseAnimationBehaviour;
         this.characterRenderer = characterRenderer;
         this.backgroundRenderer = backgroundRenderer;
     }
@@ -50,6 +53,10 @@ public class Tile : ITile {
 
     public void AnimateMove(Direction direction) {
         movableBehaviour.Move(direction);
+    }
+
+    public void AnimatePulse() {
+        pulseAnimationBehaviour.Pulse();
     }
 
     private void SetNormalState() {

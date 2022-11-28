@@ -12,4 +12,6 @@ public interface ITile {
     TileState TileState { get; set; }
 
     void AnimateMove(Direction direction);
+
+    void AnimatePulse();
 }

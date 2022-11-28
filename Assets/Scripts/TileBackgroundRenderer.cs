@@ -25,7 +25,7 @@ public class TileBackgroundRenderer : MonoBehaviour {
 
     public void Start() {
         tileBackground = new GameObject();
-        tileBackground.transform.position = Position;
+        tileBackground.transform.localPosition = Position;
         tileBackground.transform.SetParent(transform, false);
 
         Mesh mesh = new Mesh();
