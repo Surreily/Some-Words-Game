@@ -54,7 +54,7 @@ public class LevelManager : MonoBehaviour {
     private void SetUpCursor(int x, int y) {
         cursorGameObject = new GameObject();
         cursorGameObject.transform.SetParent(transform, false);
-        cursorGameObject.transform.localPosition = new Vector3(x, (level.Height - 1) - y, 0f);
+        cursorGameObject.transform.localPosition = new Vector3(x, (level.Height - 1) - y, -10f);
 
         cursorMovableBehaviour = cursorGameObject.AddComponent<MovableBehaviour>();
         cursorMovableBehaviour.speed = 15f;
