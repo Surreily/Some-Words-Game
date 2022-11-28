@@ -13,6 +13,7 @@ This entire thing is me learning how Unity 2D works. Pretty much everything is d
 * Allow undo of every move
 * Revamp the undo/redo system to allow nested commands and don't rely on actions performing validity checks
 * Load list of words from dictionary
+* Show valid words when created
 
 ## TODO
 
@@ -22,7 +23,6 @@ This entire thing is me learning how Unity 2D works. Pretty much everything is d
 * Make tile backgrounds more subtle
 * Add new graphics for special tiles
 * Better graphics for when cursor is currently 'holding' a tile
-* Show valid words when created
 * Immovable tiles
 * Tiles that must always be part of 1 word
 * Tiles that must always be part of 2 words
@@ -30,7 +30,6 @@ This entire thing is me learning how Unity 2D works. Pretty much everything is d
 * Victory condition by creating a specific word
 * Victory condition by creating X words
 * Secret exist (multiple victory conditions)
-* Finalise all sounds
 * Create or import music
 * Create level selection ('world map'?)
 * Create level data
