@@ -1,12 +1,12 @@
 using UnityEngine;
 
+// TODO: Delete this when the border is replaced.
 public class BorderRenderer : MonoBehaviour {
     public int Z { get; set; }
     public int Width { get; set; }
     public int Height { get; set; }
     public int Border { get; set; }
     public Material Material { get; set; }
-
 
     public void Start() {
         Mesh mesh = new Mesh();
@@ -56,9 +56,5 @@ public class BorderRenderer : MonoBehaviour {
 
         MeshRenderer meshRenderer = gameObject.AddComponent<MeshRenderer>();
         meshRenderer.material = Material;
-    }
-
-    private void CreateQuad(int x, int y) {
-
     }
 }

@@ -1,10 +1,40 @@
 {
     "Title": "Some Letters",
     "Description": "A silly little game about moving some letters around",
+    "Map": {
+        "StartX": 0,
+        "StartY": 0,
+        "Paths": [
+            { "X": 0, "Y": 1, "Width": 1, "Height": 2 },
+            { "X": 1, "Y": 3, "Width": 5, "Height": 1 }
+        ],
+        "Levels": [
+            { "X": 0, "Y": 3, "Id": "tutorial-1" },
+            { "X": 6, "Y": 3, "Id": "tutorial-2" }
+        ]
+    },
     "Levels": [
         {
-            "Title": "Sup dude",
-            "Description": "Can you find a key around here?",
+            "Id": "tutorial-1",
+            "Title": "An Easy Start!",
+            "Description": "Here's an easy one to get you started.",
+            "TargetWord": "start",
+            "Width": 7,
+            "Height": 5,
+            "CursorX": 1,
+            "CursorY": 1,
+            "Tiles": [
+                { "X": 1, "Y": 2, "Character": "s" },
+                { "X": 2, "Y": 2, "Character": "t" },
+                { "X": 3, "Y": 2, "Character": "a" },
+                { "X": 4, "Y": 2, "Character": "r" },
+                { "X": 5, "Y": 1, "Character": "t" }
+            ]
+        },
+        {
+            "Id": "tutorial-2",
+            "Title": "Write It Down",
+            "Description": "Here's something a little harder...",
             "TargetWord": "key",
             "CursorX": 1,
             "CursorY": 5,

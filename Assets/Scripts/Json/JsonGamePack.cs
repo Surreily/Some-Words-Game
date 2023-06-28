@@ -5,6 +5,6 @@ using System.Collections.Generic;
 public class JsonGamePack {
     public string Name;
     public string Description;
-
+    public JsonMap Map;
     public List<JsonLevel> Levels;
 }

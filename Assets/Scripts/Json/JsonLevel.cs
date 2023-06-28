@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 [Serializable]
 public class JsonLevel {
+    public string LevelId;
     public string Title;
     public string Description;
     public int Width;
@@ -11,5 +12,5 @@ public class JsonLevel {
     public int CursorY;
     public string TargetWord;
 
-    public List<JsonTile> Tiles;
+    public List<JsonLevelTile> Tiles;
 }

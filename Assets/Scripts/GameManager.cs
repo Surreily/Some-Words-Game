@@ -6,6 +6,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
     private MaterialStore materialStore;
     private HashSet<string> gameDictionary;
+    private MapManager mapManager;
     private LevelManager levelManager;
 
     [SerializeField]
@@ -26,21 +27,16 @@ public class GameManager : MonoBehaviour {
     public void Start() {
         SetUpMaterialStore();
         SetUpGameDictionary();
+        SetUpMapManager();
         SetUpLevelManager();
 
+        JsonGamePack gamePack = LoadFromJson();
+
+        mapManager.LoadMap(gamePack.Map);
         levelManager.LoadBoard(LoadFromJson().Levels.First());
     }
 
     private void SetUpMaterialStore() {
-        Texture2D border1 = LoadTextureUtility.LoadTexture(
-            Path.Combine(Application.dataPath, "Textures/Border 1.png"));
-        Texture2D border2 = LoadTextureUtility.LoadTexture(
-            Path.Combine(Application.dataPath, "Textures/Border 2.png"));
-        Texture2D border3 = LoadTextureUtility.LoadTexture(
-            Path.Combine(Application.dataPath, "Textures/Border 3.png"));
-        Texture2D border4 = LoadTextureUtility.LoadTexture(
-            Path.Combine(Application.dataPath, "Textures/Border 4.png"));
-
         GlobalTimer timer = gameObject.GetComponent<GlobalTimer>();
 
         materialStore = new MaterialStore(timer);
@@ -51,6 +47,11 @@ public class GameManager : MonoBehaviour {
             .ToList();
 
         gameDictionary = new HashSet<string>(words);
+    }
+
+    private void SetUpMapManager() {
+        mapManager = gameObject.AddComponent<MapManager>();
+        mapManager.MaterialStore = materialStore;
     }
 
     private void SetUpLevelManager() {

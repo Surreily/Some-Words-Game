@@ -26,7 +26,7 @@ public class LevelManager : MonoBehaviour {
 
         level = new Level(jsonLevel.Width, jsonLevel.Height, jsonLevel.CursorX, jsonLevel.CursorY);
 
-        foreach (JsonTile jsonTile in jsonLevel.Tiles) {
+        foreach (JsonLevelTile jsonTile in jsonLevel.Tiles) {
             AddTile(jsonTile.Character[0], jsonTile.X, jsonTile.Y);
         }
 
