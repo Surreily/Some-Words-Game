@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Surreily.SomeWords.Scripts.Renderers;
+using Surreily.SomeWords.Scripts.Utility;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour {
@@ -8,7 +10,6 @@ public class LevelManager : MonoBehaviour {
     private static readonly Vector3 TileBackgroundPosition = new Vector3(0f, 0f, 0f);
 
     private GameObject cursorGameObject;
-    private GameObject border;
 
     private MovableBehaviour cursorMovableBehaviour;
 
@@ -40,15 +41,35 @@ public class LevelManager : MonoBehaviour {
     }
 
     private void SetUpBorder() {
-        border = new GameObject();
-        border.transform.SetParent(transform, false);
+        CreateBorderTileAreaRenderer(0, level.Height, level.Width, 1, SquareTileSetPosition.Top);
+        CreateBorderTileRenderer(level.Width, level.Height, SquareTileSetPosition.TopRight);
+        CreateBorderTileAreaRenderer(level.Width, 0, 1, level.Height, SquareTileSetPosition.Right);
+        CreateBorderTileRenderer(level.Width, -1, SquareTileSetPosition.BottomRight);
+        CreateBorderTileAreaRenderer(0, -1, level.Width, 1, SquareTileSetPosition.Bottom);
+        CreateBorderTileRenderer(-1, -1, SquareTileSetPosition.BottomLeft);
+        CreateBorderTileAreaRenderer(-1, 0, 1, level.Height, SquareTileSetPosition.Left);
+        CreateBorderTileRenderer(-1, level.Height, SquareTileSetPosition.TopLeft);
+        CreateBorderTileAreaRenderer(0, 0, level.Width, level.Height, SquareTileSetPosition.Center);
+    }
 
-        BorderRenderer borderRenderer = border.AddComponent<BorderRenderer>();
-        borderRenderer.Z = 1;
-        borderRenderer.Width = level.Width;
-        borderRenderer.Height = level.Height;
-        borderRenderer.Border = 2;
-        borderRenderer.Material = MaterialStore.BorderMaterial;
+    private void CreateBorderTileRenderer(int x, int y, SquareTileSetPosition position) {
+        GameObject child = new GameObject();
+        child.transform.SetParent(transform);
+        child.transform.Translate(x, y, 0.1f);
+
+        TileRenderer renderer = child.AddComponent<TileRenderer>();
+        renderer.Material = MaterialStore.GetLevelBackgroundMaterial(position);
+    }
+
+    private void CreateBorderTileAreaRenderer(int x, int y, int width, int height, SquareTileSetPosition position) {
+        GameObject child = new GameObject();
+        child.transform.SetParent(transform);
+        child.transform.Translate(x, y, 0.1f);
+
+        TileAreaRenderer renderer = child.AddComponent<TileAreaRenderer>();
+        renderer.Width = width;
+        renderer.Height = height;
+        renderer.Material = MaterialStore.GetLevelBackgroundMaterial(position);
     }
 
     private void SetUpCursor(int x, int y) {

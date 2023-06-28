@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Surreily.SomeWords.Scripts.Utility;
 using UnityEngine;
 
 public class MaterialStore {
@@ -13,6 +14,7 @@ public class MaterialStore {
     private IMaterial matchedTileBackgroundMaterial;
     private IMaterial immovableTileBackgroundMaterial;
 
+    private Dictionary<SquareTileSetPosition, IMaterial> levelBackgroundMaterialDictionary; 
     private Dictionary<char, IMaterial> whiteFontMaterialDictionary;
     private Dictionary<char, IMaterial> blackFontMaterialDictionary;
     private Dictionary<char, IMaterial> rainbowFontMaterialDictionary;
@@ -22,6 +24,7 @@ public class MaterialStore {
 
         // TODO: Don't call this in the constructor?
         SetUpMaterials();
+        SetUpLevelBackgroundMaterials();
         SetUpFonts();
     }
 
@@ -36,6 +39,10 @@ public class MaterialStore {
     public Material MatchedItemBackgroundMaterial => matchedTileBackgroundMaterial.Material;
 
     public Material ImmovableItemBackgroundMaterial => immovableTileBackgroundMaterial.Material;
+
+    public Material GetLevelBackgroundMaterial(SquareTileSetPosition position) {
+        return levelBackgroundMaterialDictionary[position].Material;
+    }
 
     // TODO: GetCursorMaterial()
     // TODO: GetBorderMaterial()
@@ -68,6 +75,22 @@ public class MaterialStore {
         defaultTileBackgroundMaterial = SetUpAnimatedMaterial(Resources.LoadAll<Sprite>("Sprites/Lines"));
         matchedTileBackgroundMaterial = SetUpAnimatedMaterial(Resources.LoadAll<Sprite>("Sprites/Squares"));
         immovableTileBackgroundMaterial = SetUpAnimatedMaterial(Resources.LoadAll<Sprite>("Sprites/Static"));
+    }
+
+    private void SetUpLevelBackgroundMaterials() {
+        Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Level Background");
+
+        levelBackgroundMaterialDictionary = new Dictionary<SquareTileSetPosition, IMaterial> {
+            { SquareTileSetPosition.TopLeft, SetUpStaticMaterial(sprites[0]) },
+            { SquareTileSetPosition.Top, SetUpStaticMaterial(sprites[1]) },
+            { SquareTileSetPosition.TopRight, SetUpStaticMaterial(sprites[2]) },
+            { SquareTileSetPosition.Left, SetUpStaticMaterial(sprites[3]) },
+            { SquareTileSetPosition.Center, SetUpStaticMaterial(sprites[4]) },
+            { SquareTileSetPosition.Right, SetUpStaticMaterial(sprites[5]) },
+            { SquareTileSetPosition.BottomLeft, SetUpStaticMaterial(sprites[6]) },
+            { SquareTileSetPosition.Bottom, SetUpStaticMaterial(sprites[7]) },
+            { SquareTileSetPosition.BottomRight, SetUpStaticMaterial(sprites[8]) }
+        };
     }
 
     private StaticMaterial SetUpStaticMaterial(Sprite sprite) {
