@@ -14,6 +14,8 @@ public class MaterialStore {
     private IMaterial matchedTileBackgroundMaterial;
     private IMaterial immovableTileBackgroundMaterial;
 
+    private Dictionary<int, IMaterial> OpenLevelDictionary;
+    private Dictionary<int, IMaterial> ClearedLevelDictionary;
     private Dictionary<SquareTileSetPosition, IMaterial> levelBackgroundMaterialDictionary; 
     private Dictionary<char, IMaterial> whiteFontMaterialDictionary;
     private Dictionary<char, IMaterial> blackFontMaterialDictionary;
@@ -24,6 +26,7 @@ public class MaterialStore {
 
         // TODO: Don't call this in the constructor?
         SetUpMaterials();
+        SetUpMapLevelTileMaterials();
         SetUpLevelBackgroundMaterials();
         SetUpFonts();
     }
@@ -39,6 +42,14 @@ public class MaterialStore {
     public Material MatchedItemBackgroundMaterial => matchedTileBackgroundMaterial.Material;
 
     public Material ImmovableItemBackgroundMaterial => immovableTileBackgroundMaterial.Material;
+
+    public Material GetOpenLevelMaterial(int variation) {
+        return OpenLevelDictionary[variation].Material;
+    }
+
+    public Material GetClearedLevelMaterial(int variation) {
+        return ClearedLevelDictionary[variation].Material;
+    }
 
     public Material GetLevelBackgroundMaterial(SquareTileSetPosition position) {
         return levelBackgroundMaterialDictionary[position].Material;
@@ -75,6 +86,20 @@ public class MaterialStore {
         defaultTileBackgroundMaterial = SetUpAnimatedMaterial(Resources.LoadAll<Sprite>("Sprites/Lines"));
         matchedTileBackgroundMaterial = SetUpAnimatedMaterial(Resources.LoadAll<Sprite>("Sprites/Squares"));
         immovableTileBackgroundMaterial = SetUpAnimatedMaterial(Resources.LoadAll<Sprite>("Sprites/Static"));
+    }
+
+    private void SetUpMapLevelTileMaterials() {
+        Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Map Level Tiles");
+
+        ClearedLevelDictionary = new Dictionary<int, IMaterial>();
+        OpenLevelDictionary = new Dictionary<int, IMaterial>();
+
+        for (int i = 0; i < 16; i++) {
+            ClearedLevelDictionary.Add(i, SetUpAnimatedMaterial(
+                sprites.Skip(i * 8).Take(4).ToArray()));
+            OpenLevelDictionary.Add(i, SetUpAnimatedMaterial(
+                sprites.Skip((i * 8) + 4).Take(4).ToArray()));
+        }
     }
 
     private void SetUpLevelBackgroundMaterials() {

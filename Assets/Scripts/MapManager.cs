@@ -48,6 +48,6 @@ public class MapManager : MonoBehaviour {
         level.transform.Translate(x, y, Layers.MapLevel, Space.Self);
 
         TileRenderer tileRenderer = level.AddComponent<TileRenderer>();
-        tileRenderer.Material = MaterialStore.MatchedItemBackgroundMaterial; // TODO: Use level material.
+        tileRenderer.Material = MaterialStore.GetOpenLevelMaterial(0); // TODO: Pass in the variation.
     }
 }
