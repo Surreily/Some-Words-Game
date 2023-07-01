@@ -2,12 +2,11 @@ using System;
 using Surreily.SomeWords.Scripts.Materials;
 
 public class Tile : ITile {
-    private MaterialStore materialStore;
-
-    private MovableBehaviour movableBehaviour;
-    private PulseAnimationBehaviour pulseAnimationBehaviour;
-    private TileBackgroundRenderer characterRenderer;
-    private TileBackgroundRenderer backgroundRenderer;
+    private readonly MaterialStore materialStore;
+    private readonly MovableBehaviour movableBehaviour;
+    private readonly PulseAnimationBehaviour pulseAnimationBehaviour;
+    private readonly TileBackgroundRenderer characterRenderer;
+    private readonly TileBackgroundRenderer backgroundRenderer;
 
     private TileState tileState;
 
