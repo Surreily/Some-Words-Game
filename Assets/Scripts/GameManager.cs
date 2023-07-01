@@ -31,12 +31,14 @@ public class GameManager : MonoBehaviour {
         SetUpMaterialStore();
         SetUpGameDictionary();
         SetUpMapManager();
-        SetUpLevelManager();
+        ////SetUpLevelManager();
 
         JsonGamePack gamePack = LoadFromJson();
 
         mapManager.LoadMap(gamePack.Map);
-        levelManager.LoadBoard(LoadFromJson().Levels.First());
+
+        // TODO: Load levels when selected from the map.
+        ////levelManager.LoadBoard(LoadFromJson().Levels.First());
     }
 
     private void SetUpMaterialStore() {
