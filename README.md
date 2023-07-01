@@ -14,12 +14,15 @@ This entire thing is me learning how Unity 2D works. Pretty much everything is d
 * Revamp the undo/redo system to allow nested commands and don't rely on actions performing validity checks
 * Load list of words from dictionary
 * Show valid words when created
+* Use a better border graphic
+
+## In Progress
+* Create level selection ('world map'?)
 
 ## TODO
 
 * Implement better sound system (use resources folder)
 * Update sounds and properly credit them
-* Use a better border graphic
 * Make tile backgrounds more subtle
 * Add new graphics for special tiles
 * Better graphics for when cursor is currently 'holding' a tile
@@ -29,9 +32,8 @@ This entire thing is me learning how Unity 2D works. Pretty much everything is d
 * Require player to undo if any rules are broken (related to the 2 above points)
 * Victory condition by creating a specific word
 * Victory condition by creating X words
-* Secret exist (multiple victory conditions)
+* Secret exits (multiple victory conditions)
 * Create or import music
-* Create level selection ('world map'?)
 * Create level data
 
 ## Maybe
