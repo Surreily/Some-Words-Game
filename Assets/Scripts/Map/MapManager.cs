@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Surreily.SomeWords.Scripts.Map {
     public class MapManager : MonoBehaviour {
-        private Dictionary<(int, int), MapTile> _mapTileDictionary;
+        private Dictionary<(int, int), MapTile> mapTileDictionary;
         private int cursorX;
         private int cursorY;
 
@@ -16,10 +16,10 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         public void LoadMap(JsonMap map) {
             // Set up the map tile dictionary.
-            _mapTileDictionary = new Dictionary<(int, int), MapTile>();
+            mapTileDictionary = new Dictionary<(int, int), MapTile>();
 
             foreach (JsonMapLevel level in map.Levels) {
-                _mapTileDictionary.Add((level.X, level.Y), new MapTile {
+                mapTileDictionary.Add((level.X, level.Y), new MapTile {
                     IsOpen = true,
                 });
             }
@@ -27,7 +27,7 @@ namespace Surreily.SomeWords.Scripts.Map {
             foreach (JsonMapPath path in map.Paths) {
                 for (int x = 0; x < path.Width; x++) {
                     for (int y = 0; y < path.Height; y++) {
-                        _mapTileDictionary.Add((path.X + x, path.Y + y), new MapTile {
+                        mapTileDictionary.Add((path.X + x, path.Y + y), new MapTile {
                             IsOpen = true,
                         });
                     }
@@ -70,10 +70,10 @@ namespace Surreily.SomeWords.Scripts.Map {
 
             TileRenderer tileRenderer = path.AddComponent<TileRenderer>();
 
-            bool north = _mapTileDictionary.ContainsKey((x, y + 1));
-            bool east = _mapTileDictionary.ContainsKey((x + 1, y));
-            bool south = _mapTileDictionary.ContainsKey((x, y - 1));
-            bool west = _mapTileDictionary.ContainsKey((x - 1, y));
+            bool north = mapTileDictionary.ContainsKey((x, y + 1));
+            bool east = mapTileDictionary.ContainsKey((x + 1, y));
+            bool south = mapTileDictionary.ContainsKey((x, y - 1));
+            bool west = mapTileDictionary.ContainsKey((x - 1, y));
 
             PathTileSetPosition position = GetPathTileSetDirection(north, east, south, west);
 
