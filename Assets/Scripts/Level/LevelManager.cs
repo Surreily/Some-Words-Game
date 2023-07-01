@@ -61,7 +61,7 @@ namespace Surreily.SomwWords.Scripts.Level {
             child.transform.Translate(x, y, 0.1f);
 
             TileRenderer renderer = child.AddComponent<TileRenderer>();
-            renderer.Material = MaterialStore.GetLevelBackgroundMaterial(position);
+            renderer.Material = MaterialStore.Level.GetBackgroundMaterial(position);
         }
 
         private void CreateBorderTileAreaRenderer(int x, int y, int width, int height, SquareTileSetPosition position) {
@@ -72,7 +72,7 @@ namespace Surreily.SomwWords.Scripts.Level {
             TileAreaRenderer renderer = child.AddComponent<TileAreaRenderer>();
             renderer.Width = width;
             renderer.Height = height;
-            renderer.Material = MaterialStore.GetLevelBackgroundMaterial(position);
+            renderer.Material = MaterialStore.Level.GetBackgroundMaterial(position);
         }
 
         private void SetUpCursor(int x, int y) {
@@ -110,7 +110,7 @@ namespace Surreily.SomwWords.Scripts.Level {
             backgroundRenderer.Position = TileBackgroundPosition;
             backgroundRenderer.Width = 0.95f;
             backgroundRenderer.Height = 0.95f;
-            backgroundRenderer.Material = MaterialStore.ImmovableItemBackgroundMaterial;
+            backgroundRenderer.Material = MaterialStore.Level.GetImmovableTileMaterial();
 
             GameObject tileCharacterGameObject = new GameObject();
 
@@ -121,7 +121,7 @@ namespace Surreily.SomwWords.Scripts.Level {
             characterRenderer.Position = TileCharacterPosition;
             characterRenderer.Width = 1f;
             characterRenderer.Height = 1f;
-            characterRenderer.Material = MaterialStore.GetRainbowFontMaterial(character);
+            characterRenderer.Material = MaterialStore.Font.GetRainbowFontMaterial(character);
 
             PulseAnimationBehaviour pulseAnimationBehaviour = tileCharacterGameObject.AddComponent<PulseAnimationBehaviour>();
             pulseAnimationBehaviour.Scale = 2f;

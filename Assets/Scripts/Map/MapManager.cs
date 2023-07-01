@@ -61,7 +61,7 @@ namespace Surreily.SomeWords.Scripts.Map {
             decoration.transform.Translate(x, y, Layers.MapDecoration, Space.Self);
 
             TileRenderer tileRenderer = decoration.AddComponent<TileRenderer>();
-            tileRenderer.Material = MaterialStore.BorderMaterial; // TODO: Use decoration material.
+            tileRenderer.Material = MaterialStore.Level.GetDefaultTileMaterial(); // TODO: Use decoration material.
         }
 
         private void CreatePath(int x, int y) {
@@ -77,7 +77,7 @@ namespace Surreily.SomeWords.Scripts.Map {
 
             PathTileSetPosition position = GetPathTileSetDirection(north, east, south, west);
 
-            tileRenderer.Material = MaterialStore.GetPathMaterial(1, position);
+            tileRenderer.Material = MaterialStore.Map.GetPathMaterial(1, position);
         }
 
         private PathTileSetPosition GetPathTileSetDirection(bool north, bool east, bool south, bool west) {
@@ -137,7 +137,7 @@ namespace Surreily.SomeWords.Scripts.Map {
             level.transform.Translate(x, y, Layers.MapLevel, Space.Self);
 
             TileRenderer tileRenderer = level.AddComponent<TileRenderer>();
-            tileRenderer.Material = MaterialStore.GetOpenLevelMaterial(0); // TODO: Pass in the variation.
+            tileRenderer.Material = MaterialStore.Map.GetOpenLevelMaterial(0); // TODO: Pass in the variation.
         }
 
         #endregion

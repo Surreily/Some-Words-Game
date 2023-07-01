@@ -61,17 +61,17 @@ public class Tile : ITile {
     }
 
     private void SetNormalState() {
-        characterRenderer.Material = materialStore.GetWhiteFontMaterial(Character);
-        backgroundRenderer.Material = materialStore.DefaultTileBackgroundMaterial;
+        characterRenderer.Material = materialStore.Font.GetWhiteFontMaterial(Character);
+        backgroundRenderer.Material = materialStore.Level.GetDefaultTileMaterial();
     }
 
     private void SetValidState() {
-        characterRenderer.Material = materialStore.GetRainbowFontMaterial(Character);
-        backgroundRenderer.Material = materialStore.MatchedItemBackgroundMaterial;
+        characterRenderer.Material = materialStore.Font.GetRainbowFontMaterial(Character);
+        backgroundRenderer.Material = materialStore.Level.GetMatchedTileMaterial();
     }
 
     private void SetInvalidState() {
-        characterRenderer.Material = materialStore.GetBlackFontMaterial(Character); // TODO: Make this red.
-        backgroundRenderer.Material = materialStore.ImmovableItemBackgroundMaterial;
+        characterRenderer.Material = materialStore.Font.GetBlackFontMaterial(Character); // TODO: Make this red.
+        backgroundRenderer.Material = materialStore.Level.GetImmovableTileMaterial();
     }
 }
