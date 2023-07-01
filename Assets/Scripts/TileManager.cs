@@ -1,4 +1,5 @@
 using System;
+using Surreily.SomeWords.Scripts.Materials;
 
 public class Tile : ITile {
     private MaterialStore materialStore;

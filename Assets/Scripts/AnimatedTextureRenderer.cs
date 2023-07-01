@@ -1,3 +1,4 @@
+using Surreily.SomeWords.Scripts.Materials;
 using UnityEngine;
 
 public class AnimatedTextureRenderer : MonoBehaviour

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Surreily.SomeWords.Scripts.Materials;
 using Surreily.SomeWords.Scripts.Renderers;
 using Surreily.SomeWords.Scripts.Utility;
 using UnityEngine;
@@ -6,8 +7,12 @@ using UnityEngine;
 namespace Surreily.SomeWords.Scripts.Map {
     public class MapManager : MonoBehaviour {
         private Dictionary<(int, int), MapTile> _mapTileDictionary;
+        private int cursorX;
+        private int cursorY;
 
         public MaterialStore MaterialStore { get; set; }
+
+        #region Load Map
 
         public void LoadMap(JsonMap map) {
             // Set up the map tile dictionary.
@@ -134,5 +139,18 @@ namespace Surreily.SomeWords.Scripts.Map {
             TileRenderer tileRenderer = level.AddComponent<TileRenderer>();
             tileRenderer.Material = MaterialStore.GetOpenLevelMaterial(0); // TODO: Pass in the variation.
         }
+
+        #endregion
+
+        #region Input
+
+        private void HandleInput() {
+            // TODO: Handle up/right/down/left movement
+
+            // TODO: Handle level selected
+        }
+
+        #endregion
+
     }
 }
