@@ -1,4 +1,6 @@
-﻿class MoveCursorAction : IAction {
+﻿using Surreily.SomeWords.Scripts.Utility;
+
+class MoveCursorAction : IAction {
     private readonly ILevel level;
     private readonly Direction direction;
 

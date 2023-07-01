@@ -1,4 +1,6 @@
-﻿public class UpdateCursorPositionAction : IAction {
+﻿using Surreily.SomeWords.Scripts.Utility;
+
+public class UpdateCursorPositionAction : IAction {
     private readonly ILevel level;
     private readonly Direction direction;
 

@@ -85,7 +85,7 @@ namespace Surreily.SomwWords.Scripts.Level {
             cursorMovableBehaviour.distance = 1f;
 
             TextureRenderer textureRenderer = cursorGameObject.AddComponent<TextureRenderer>();
-            textureRenderer.material = MaterialStore.CursorMaterial;
+            textureRenderer.material = MaterialStore.Ui.GetCursorMaterial();
             textureRenderer.width = 1.05f;
             textureRenderer.height = 1.05f;
             textureRenderer.z = 5f;

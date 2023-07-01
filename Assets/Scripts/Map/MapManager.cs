@@ -145,12 +145,68 @@ namespace Surreily.SomeWords.Scripts.Map {
         #region Input
 
         private void HandleInput() {
-            // TODO: Handle up/right/down/left movement
+            // TODO: Check if we're in the map state.
+
+            bool up = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow);
+            bool right = Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow);
+            bool down = Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow);
+            bool left = Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow);
+
+            if (up && !right && !down && !left) {
+                HandleMove(Direction.Up);
+                return;
+            }
+            
+            if (right && !up && !down && !left) {
+                HandleMove(Direction.Right);
+                return;
+            }
+            
+            if (down && !up && !right && !left) {
+                HandleMove(Direction.Down);
+                return;
+            }
+            
+            if (left && !up && !right && !down) {
+                HandleMove(Direction.Left);
+                return;
+            }
 
             // TODO: Handle level selected
         }
 
+        private void HandleMove(Direction direction) {
+            int newX = cursorX;
+            int newY = cursorY;
+
+            while (DoesOpenPathExist(newX, newY, direction)) {
+                newX += direction.GetXOffset();
+                newY += direction.GetYOffset();
+
+                if (DoesOpenPathExist(newX, newY, direction.GetNextClockwise()) ||
+                    DoesOpenPathExist(newX, newY, direction.GetNextAnticlockwise())) {
+                    break;
+                }
+            }
+
+            if (newX == cursorX && newY == cursorY) {
+                return;
+            }
+
+            // TODO: Actual movement.
+            cursorX = newX;
+            cursorY = newY;
+        }
+
         #endregion
+
+        private bool DoesOpenPathExist(int x, int y) {
+            return mapTileDictionary.ContainsKey((x, y));
+        }
+
+        private bool DoesOpenPathExist(int x, int y, Direction direction) {
+            return mapTileDictionary.ContainsKey((x + direction.GetXOffset(), y + direction.GetYOffset()));
+        }
 
     }
 }

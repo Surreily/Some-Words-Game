@@ -1,4 +1,6 @@
-﻿public class MoveTileAction : IAction {
+﻿using Surreily.SomeWords.Scripts.Utility;
+
+public class MoveTileAction : IAction {
     private readonly ITile tile;
     private readonly Direction direction;
 
