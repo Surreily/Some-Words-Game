@@ -14,8 +14,9 @@ public class MaterialStore {
     private IMaterial matchedTileBackgroundMaterial;
     private IMaterial immovableTileBackgroundMaterial;
 
-    private Dictionary<int, IMaterial> OpenLevelDictionary;
-    private Dictionary<int, IMaterial> ClearedLevelDictionary;
+    private Dictionary<(int, PathTileSetPosition), IMaterial> pathDictionary;
+    private Dictionary<int, IMaterial> openLevelDictionary;
+    private Dictionary<int, IMaterial> clearedLevelDictionary;
     private Dictionary<SquareTileSetPosition, IMaterial> levelBackgroundMaterialDictionary; 
     private Dictionary<char, IMaterial> whiteFontMaterialDictionary;
     private Dictionary<char, IMaterial> blackFontMaterialDictionary;
@@ -26,6 +27,7 @@ public class MaterialStore {
 
         // TODO: Don't call this in the constructor?
         SetUpMaterials();
+        SetUpPathMaterials();
         SetUpMapLevelTileMaterials();
         SetUpLevelBackgroundMaterials();
         SetUpFonts();
@@ -43,12 +45,16 @@ public class MaterialStore {
 
     public Material ImmovableItemBackgroundMaterial => immovableTileBackgroundMaterial.Material;
 
+    public Material GetPathMaterial(int variation, PathTileSetPosition type) {
+        return pathDictionary[(variation, type)].Material;
+    }
+
     public Material GetOpenLevelMaterial(int variation) {
-        return OpenLevelDictionary[variation].Material;
+        return openLevelDictionary[variation].Material;
     }
 
     public Material GetClearedLevelMaterial(int variation) {
-        return ClearedLevelDictionary[variation].Material;
+        return clearedLevelDictionary[variation].Material;
     }
 
     public Material GetLevelBackgroundMaterial(SquareTileSetPosition position) {
@@ -88,16 +94,36 @@ public class MaterialStore {
         immovableTileBackgroundMaterial = SetUpAnimatedMaterial(Resources.LoadAll<Sprite>("Sprites/Static"));
     }
 
+    private void SetUpPathMaterials() {
+        pathDictionary = new Dictionary<(int, PathTileSetPosition), IMaterial>();
+
+        Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Map Path Tiles");
+
+        for (int i = 0; i < 16; i++) {
+            pathDictionary.Add((i, PathTileSetPosition.Horizontal), SetUpStaticMaterial(sprites[(i * 11)]));
+            pathDictionary.Add((i, PathTileSetPosition.Vertical), SetUpStaticMaterial(sprites[(i * 11) + 1]));
+            pathDictionary.Add((i, PathTileSetPosition.UpAndRight), SetUpStaticMaterial(sprites[(i * 11) + 2]));
+            pathDictionary.Add((i, PathTileSetPosition.DownAndRight), SetUpStaticMaterial(sprites[(i * 11) + 3]));
+            pathDictionary.Add((i, PathTileSetPosition.DownAndLeft), SetUpStaticMaterial(sprites[(i * 11) + 4]));
+            pathDictionary.Add((i, PathTileSetPosition.UpAndLeft), SetUpStaticMaterial(sprites[(i * 11) + 5]));
+            pathDictionary.Add((i, PathTileSetPosition.HorizontalAndUp), SetUpStaticMaterial(sprites[(i * 11) + 6]));
+            pathDictionary.Add((i, PathTileSetPosition.VerticalAndRight), SetUpStaticMaterial(sprites[(i * 11) + 7]));
+            pathDictionary.Add((i, PathTileSetPosition.HorizontalAndDown), SetUpStaticMaterial(sprites[(i * 11) + 8]));
+            pathDictionary.Add((i, PathTileSetPosition.VerticalAndLeft), SetUpStaticMaterial(sprites[(i * 11) + 9]));
+            pathDictionary.Add((i, PathTileSetPosition.All), SetUpStaticMaterial(sprites[(i * 11) + 10]));
+        }
+    }
+
     private void SetUpMapLevelTileMaterials() {
         Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Map Level Tiles");
 
-        ClearedLevelDictionary = new Dictionary<int, IMaterial>();
-        OpenLevelDictionary = new Dictionary<int, IMaterial>();
+        clearedLevelDictionary = new Dictionary<int, IMaterial>();
+        openLevelDictionary = new Dictionary<int, IMaterial>();
 
         for (int i = 0; i < 16; i++) {
-            ClearedLevelDictionary.Add(i, SetUpAnimatedMaterial(
+            clearedLevelDictionary.Add(i, SetUpAnimatedMaterial(
                 sprites.Skip(i * 8).Take(4).ToArray()));
-            OpenLevelDictionary.Add(i, SetUpAnimatedMaterial(
+            openLevelDictionary.Add(i, SetUpAnimatedMaterial(
                 sprites.Skip((i * 8) + 4).Take(4).ToArray()));
         }
     }

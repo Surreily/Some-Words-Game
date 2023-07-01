@@ -40,7 +40,7 @@ public class MapManager : MonoBehaviour {
         path.transform.Translate(x, y, Layers.MapPath, Space.Self);
 
         TileRenderer tileRenderer = path.AddComponent<TileRenderer>();
-        tileRenderer.Material = MaterialStore.ImmovableItemBackgroundMaterial; // TODO: Use path material.
+        tileRenderer.Material = MaterialStore.GetPathMaterial(1, PathTileSetPosition.Vertical); // TODO: Use path material.
     }
 
     private void CreateLevel(int x, int y, string id) {
