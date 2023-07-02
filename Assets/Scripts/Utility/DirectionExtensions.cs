@@ -22,9 +22,9 @@ namespace Surreily.SomeWords.Scripts.Utility {
                 case Direction.Right:
                     return 0;
                 case Direction.Up:
-                    return -1;
-                case Direction.Down:
                     return 1;
+                case Direction.Down:
+                    return -1;
                 default:
                     throw new InvalidOperationException("Unsupported direction.");
             }

@@ -14,6 +14,10 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         public MaterialStore MaterialStore { get; set; }
 
+        public void Update() {
+            HandleInput();
+        }
+
         #region Load Map
 
         public void LoadMap(JsonMap map) {
@@ -174,6 +178,10 @@ namespace Surreily.SomeWords.Scripts.Map {
         }
 
         private void HandleMove(Direction direction) {
+            if (cursorManager.IsMoving) {
+                return;
+            }
+
             int newX = cursorX;
             int newY = cursorY;
 
@@ -191,9 +199,10 @@ namespace Surreily.SomeWords.Scripts.Map {
                 return;
             }
 
-            // TODO: Actual movement.
             cursorX = newX;
             cursorY = newY;
+
+            cursorManager.Move(cursorX, cursorY);
         }
 
         #endregion
