@@ -8,6 +8,7 @@ namespace Surreily.SomeWords.Scripts.Map {
     public class MapManager : MonoBehaviour {
         private Dictionary<(int, int), MapPathManager> pathDictionary;
         private Dictionary<(int, int), MapLevelManager> levelDictionary;
+        private MapCursorManager cursorManager;
         private int cursorX;
         private int cursorY;
 
@@ -18,6 +19,7 @@ namespace Surreily.SomeWords.Scripts.Map {
         public void LoadMap(JsonMap map) {
             SetUpPathDictionary(map);
             SetUpLevelDictionary(map);
+            SetUpCursor();
 
             CalculatePathTypes();
         }
@@ -29,7 +31,7 @@ namespace Surreily.SomeWords.Scripts.Map {
                 for (int x = 0; x < path.Width; x++) {
                     for (int y = 0; y < path.Height; y++) {
                         GameObject pathObject = new GameObject();
-                        pathObject.transform.SetParent(gameObject.transform, false);
+                        pathObject.transform.SetParent(transform, false);
                         pathObject.transform.Translate(path.X + x, path.Y + y, Layers.MapPath, Space.Self);
 
                         MapPathManager pathManager = pathObject.AddComponent<MapPathManager>();
@@ -48,7 +50,7 @@ namespace Surreily.SomeWords.Scripts.Map {
 
             foreach (JsonMapLevel level in map.Levels) {
                 GameObject levelObject = new GameObject();
-                levelObject.transform.SetParent(gameObject.transform, false);
+                levelObject.transform.SetParent(transform, false);
                 levelObject.transform.Translate(level.X, level.Y, Layers.MapLevel, Space.Self);
 
                 MapLevelManager levelManager = levelObject.AddComponent<MapLevelManager>();
@@ -58,6 +60,15 @@ namespace Surreily.SomeWords.Scripts.Map {
 
                 levelDictionary.Add((level.X, level.Y), levelManager);
             }
+        }
+
+        private void SetUpCursor() {
+            GameObject cursorObject = new GameObject();
+            cursorObject.transform.SetParent(transform, false);
+            cursorObject.transform.Translate(0f, 0f, Layers.MapCursor, Space.Self); // TODO: Get this from the map.
+
+            cursorManager = cursorObject.AddComponent<MapCursorManager>();
+            cursorManager.MaterialStore = MaterialStore;
         }
 
         private void CalculatePathTypes() {
