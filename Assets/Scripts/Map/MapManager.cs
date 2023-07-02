@@ -40,7 +40,7 @@ namespace Surreily.SomeWords.Scripts.Map {
 
                         MapPathManager pathManager = pathObject.AddComponent<MapPathManager>();
                         pathManager.MaterialStore = MaterialStore;
-                        pathManager.Variation = 1; // TODO: Get from JSON.
+                        pathManager.Variation = path.Variation;
                         pathManager.IsOpen = true; // TODO: Get from JSON or calculate.
 
                         pathDictionary.Add((path.X + x, path.Y + y), pathManager);
@@ -59,7 +59,7 @@ namespace Surreily.SomeWords.Scripts.Map {
 
                 MapLevelManager levelManager = levelObject.AddComponent<MapLevelManager>();
                 levelManager.MaterialStore = MaterialStore;
-                levelManager.Variation = 1; // TODO: Get from JSON.
+                levelManager.Variation = level.Variation;
                 levelManager.IsOpen = true; // TODO: Get from JSON or calculate.
 
                 levelDictionary.Add((level.X, level.Y), levelManager);
