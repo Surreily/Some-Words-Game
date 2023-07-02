@@ -22,9 +22,9 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         public void UpdateMaterial() {
             if (IsOpen) {
-                tileRenderer.Material = MaterialStore.Map.GetPathMaterial(Variation, TileType);
+                tileRenderer.Material = MaterialStore.Map.GetOpenPathMaterial(Variation, TileType);
             } else {
-                tileRenderer.Material = MaterialStore.Map.GetPathMaterial(Variation, TileType); // TODO: Get closed path.
+                tileRenderer.Material = MaterialStore.Map.GetClosedPathMaterial(TileType);
             }
         }
     }
