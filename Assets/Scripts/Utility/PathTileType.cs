@@ -1,15 +1,12 @@
-﻿namespace Surreily.SomeWords.Scripts.Utility {
+﻿using System;
+
+namespace Surreily.SomeWords.Scripts.Utility {
+    [Flags]
     public enum PathTileType {
-        Horizontal,
-        Vertical,
-        UpAndRight,
-        DownAndRight,
-        DownAndLeft,
-        UpAndLeft,
-        HorizontalAndUp,
-        VerticalAndRight,
-        HorizontalAndDown,
-        VerticalAndLeft,
-        All,
+        None = 0,
+        Up = 1,
+        Right = 2,
+        Down = 4,
+        Left = 8,
     }
 }

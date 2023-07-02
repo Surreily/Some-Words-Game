@@ -86,60 +86,30 @@ namespace Surreily.SomeWords.Scripts.Map {
                 bool down = DoesPathExist(x, y, Direction.Down);
                 bool left = DoesPathExist(x, y, Direction.Left);
 
-                pathManager.TileType = GetPathTileTile(up, right, down, left);
+                pathManager.TileType = GetPathTileType(up, right, down, left);
             }
         }
 
-        private PathTileType GetPathTileTile(bool up, bool right, bool down, bool left) {
+        private PathTileType GetPathTileType(bool up, bool right, bool down, bool left) {
+            PathTileType value = PathTileType.None;
+
             if (up) {
-                if (right) {
-                    if (down) {
-                        if (left) {
-                            return PathTileType.All;
-                        } else {
-                            return PathTileType.VerticalAndRight;
-                        }
-                    } else {
-                        if (left) {
-                            return PathTileType.HorizontalAndUp;
-                        } else {
-                            return PathTileType.UpAndRight;
-                        }
-                    }
-                } else {
-                    if (down) {
-                        if (left) {
-                            return PathTileType.VerticalAndLeft;
-                        } else {
-                            return PathTileType.Vertical;
-                        }
-                    } else {
-                        if (left) {
-                            return PathTileType.UpAndRight;
-                        }
-                    }
-                }
-            } else {
-                if (right) {
-                    if (down) {
-                        if (left) {
-                            return PathTileType.HorizontalAndDown;
-                        } else {
-                            return PathTileType.DownAndRight;
-                        }
-                    } else {
-                        if (left) {
-                            return PathTileType.Horizontal;
-                        }
-                    }
-                } else {
-                    if (down && left) {
-                        return PathTileType.DownAndLeft;
-                    }
-                }
+                value |= PathTileType.Up;
             }
 
-            return PathTileType.All; // TODO: Return an invalid result.
+            if (right) {
+                value |= PathTileType.Right;
+            }
+
+            if (down) {
+                value |= PathTileType.Down;
+            }
+
+            if (left) {
+                value |= PathTileType.Left;
+            }
+
+            return value;
         }
 
         #endregion
