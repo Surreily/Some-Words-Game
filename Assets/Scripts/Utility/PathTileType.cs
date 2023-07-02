@@ -1,5 +1,5 @@
 ﻿namespace Surreily.SomeWords.Scripts.Utility {
-    public enum PathTileSetPosition {
+    public enum PathTileType {
         Horizontal,
         Vertical,
         UpAndRight,

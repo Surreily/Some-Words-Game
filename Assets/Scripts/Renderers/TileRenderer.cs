@@ -2,7 +2,19 @@
 
 namespace Surreily.SomeWords.Scripts.Renderers {
     public class TileRenderer : MonoBehaviour {
-        public Material Material { get; set; }
+        private MeshRenderer meshRenderer;
+        private Material material;
+
+        public Material Material {
+            get => material;
+            set {
+                material = value;
+
+                if (meshRenderer != null) {
+                    meshRenderer.material = material;
+                }
+            }
+        }
 
         public void Start() {
             Mesh mesh = new Mesh();
@@ -26,7 +38,7 @@ namespace Surreily.SomeWords.Scripts.Renderers {
             MeshFilter meshFilter = gameObject.AddComponent<MeshFilter>();
             meshFilter.mesh = mesh;
 
-            MeshRenderer meshRenderer = gameObject.AddComponent<MeshRenderer>();
+            meshRenderer = gameObject.AddComponent<MeshRenderer>();
             meshRenderer.material = Material;
         }
     }

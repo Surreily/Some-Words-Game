@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using Surreily.SomeWords.Scripts.Map;
 using Surreily.SomeWords.Scripts.Materials;
-using Surreily.SomwWords.Scripts.Level;
+using Surreily.SomeWords.Scripts.Level;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {

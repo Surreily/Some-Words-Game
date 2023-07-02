@@ -6,7 +6,7 @@ using Surreily.SomeWords.Scripts.Renderers;
 using Surreily.SomeWords.Scripts.Utility;
 using UnityEngine;
 
-namespace Surreily.SomwWords.Scripts.Level {
+namespace Surreily.SomeWords.Scripts.Level {
 
     public class LevelManager : MonoBehaviour {
         private static readonly Vector3 TileCharacterPosition = new Vector3(1f / 16f * 4.5f, 1f / 16f * 1.5f, 0f);

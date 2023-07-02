@@ -6,7 +6,8 @@ using UnityEngine;
 
 namespace Surreily.SomeWords.Scripts.Map {
     public class MapManager : MonoBehaviour {
-        private Dictionary<(int, int), MapTile> mapTileDictionary;
+        private Dictionary<(int, int), MapPathManager> pathDictionary;
+        private Dictionary<(int, int), MapLevelManager> levelDictionary;
         private int cursorX;
         private int cursorY;
 
@@ -15,129 +16,115 @@ namespace Surreily.SomeWords.Scripts.Map {
         #region Load Map
 
         public void LoadMap(JsonMap map) {
-            // Set up the map tile dictionary.
-            mapTileDictionary = new Dictionary<(int, int), MapTile>();
+            SetUpPathDictionary(map);
+            SetUpLevelDictionary(map);
 
-            foreach (JsonMapLevel level in map.Levels) {
-                mapTileDictionary.Add((level.X, level.Y), new MapTile {
-                    IsOpen = true,
-                });
-            }
+            CalculatePathTypes();
+        }
+
+        private void SetUpPathDictionary(JsonMap map) {
+            pathDictionary = new Dictionary<(int, int), MapPathManager>();
 
             foreach (JsonMapPath path in map.Paths) {
                 for (int x = 0; x < path.Width; x++) {
                     for (int y = 0; y < path.Height; y++) {
-                        mapTileDictionary.Add((path.X + x, path.Y + y), new MapTile {
-                            IsOpen = true,
-                        });
-                    }
-                }
-            }
+                        GameObject pathObject = new GameObject();
+                        pathObject.transform.SetParent(gameObject.transform, false);
+                        pathObject.transform.Translate(path.X + x, path.Y + y, Layers.MapPath, Space.Self);
 
-            // Add game objects.
-            foreach (JsonMapDecoration decoration in map.Decorations) {
-                for (int x = 0; x < decoration.Width; x++) {
-                    for (int y = 0; y < decoration.Height; y++) {
-                        CreateDecoration(decoration.X + x, decoration.Y + y, decoration.Material);
-                    }
-                }
-            }
+                        MapPathManager pathManager = pathObject.AddComponent<MapPathManager>();
+                        pathManager.MaterialStore = MaterialStore;
+                        pathManager.Variation = 1; // TODO: Get from JSON.
+                        pathManager.IsOpen = true; // TODO: Get from JSON or calculate.
 
-            foreach (JsonMapPath path in map.Paths) {
-                for (int x = 0; x < path.Width; x++) {
-                    for (int y = 0; y < path.Height; y++) {
-                        CreatePath(path.X + x, path.Y + y);
+                        pathDictionary.Add((path.X + x, path.Y + y), pathManager);
                     }
                 }
             }
+        }
+
+        private void SetUpLevelDictionary(JsonMap map) {
+            levelDictionary = new Dictionary<(int, int), MapLevelManager>();
 
             foreach (JsonMapLevel level in map.Levels) {
-                CreateLevel(level.X, level.Y, level.Id);
+                GameObject levelObject = new GameObject();
+                levelObject.transform.SetParent(gameObject.transform, false);
+                levelObject.transform.Translate(level.X, level.Y, Layers.MapLevel, Space.Self);
+
+                MapLevelManager levelManager = levelObject.AddComponent<MapLevelManager>();
+                levelManager.MaterialStore = MaterialStore;
+                levelManager.Variation = 1; // TODO: Get from JSON.
+                levelManager.IsOpen = true; // TODO: Get from JSON or calculate.
+
+                levelDictionary.Add((level.X, level.Y), levelManager);
             }
         }
 
-        private void CreateDecoration(int x, int y, string material) {
-            GameObject decoration = new GameObject();
-            decoration.transform.Translate(x, y, Layers.MapDecoration, Space.Self);
+        private void CalculatePathTypes() {
+            foreach (KeyValuePair<(int, int), MapPathManager> item in pathDictionary) {
+                int x = item.Key.Item1;
+                int y = item.Key.Item2;
+                MapPathManager pathManager = item.Value;
 
-            TileRenderer tileRenderer = decoration.AddComponent<TileRenderer>();
-            tileRenderer.Material = MaterialStore.Level.GetDefaultTileMaterial(); // TODO: Use decoration material.
+                bool up = DoesPathExist(x, y, Direction.Up);
+                bool right = DoesPathExist(x, y, Direction.Right);
+                bool down = DoesPathExist(x, y, Direction.Down);
+                bool left = DoesPathExist(x, y, Direction.Left);
+
+                pathManager.TileType = GetPathTileTile(up, right, down, left);
+            }
         }
 
-        private void CreatePath(int x, int y) {
-            GameObject path = new GameObject();
-            path.transform.Translate(x, y, Layers.MapPath, Space.Self);
-
-            TileRenderer tileRenderer = path.AddComponent<TileRenderer>();
-
-            bool north = mapTileDictionary.ContainsKey((x, y + 1));
-            bool east = mapTileDictionary.ContainsKey((x + 1, y));
-            bool south = mapTileDictionary.ContainsKey((x, y - 1));
-            bool west = mapTileDictionary.ContainsKey((x - 1, y));
-
-            PathTileSetPosition position = GetPathTileSetDirection(north, east, south, west);
-
-            tileRenderer.Material = MaterialStore.Map.GetPathMaterial(1, position);
-        }
-
-        private PathTileSetPosition GetPathTileSetDirection(bool north, bool east, bool south, bool west) {
-            if (north) {
-                if (east) {
-                    if (south) {
-                        if (west) {
-                            return PathTileSetPosition.All;
+        private PathTileType GetPathTileTile(bool up, bool right, bool down, bool left) {
+            if (up) {
+                if (right) {
+                    if (down) {
+                        if (left) {
+                            return PathTileType.All;
                         } else {
-                            return PathTileSetPosition.VerticalAndRight;
+                            return PathTileType.VerticalAndRight;
                         }
                     } else {
-                        if (west) {
-                            return PathTileSetPosition.HorizontalAndUp;
+                        if (left) {
+                            return PathTileType.HorizontalAndUp;
                         } else {
-                            return PathTileSetPosition.UpAndRight;
+                            return PathTileType.UpAndRight;
                         }
                     }
                 } else {
-                    if (south) {
-                        if (west) {
-                            return PathTileSetPosition.VerticalAndLeft;
+                    if (down) {
+                        if (left) {
+                            return PathTileType.VerticalAndLeft;
                         } else {
-                            return PathTileSetPosition.Vertical;
+                            return PathTileType.Vertical;
                         }
                     } else {
-                        if (west) {
-                            return PathTileSetPosition.UpAndRight;
+                        if (left) {
+                            return PathTileType.UpAndRight;
                         }
                     }
                 }
             } else {
-                if (east) {
-                    if (south) {
-                        if (west) {
-                            return PathTileSetPosition.HorizontalAndDown;
+                if (right) {
+                    if (down) {
+                        if (left) {
+                            return PathTileType.HorizontalAndDown;
                         } else {
-                            return PathTileSetPosition.DownAndRight;
+                            return PathTileType.DownAndRight;
                         }
                     } else {
-                        if (west) {
-                            return PathTileSetPosition.Horizontal;
+                        if (left) {
+                            return PathTileType.Horizontal;
                         }
                     }
                 } else {
-                    if (south && west) {
-                        return PathTileSetPosition.DownAndLeft;
+                    if (down && left) {
+                        return PathTileType.DownAndLeft;
                     }
                 }
             }
 
-            return PathTileSetPosition.All; // TODO: Return an invalid result.
-        }
-
-        private void CreateLevel(int x, int y, string id) {
-            GameObject level = new GameObject();
-            level.transform.Translate(x, y, Layers.MapLevel, Space.Self);
-
-            TileRenderer tileRenderer = level.AddComponent<TileRenderer>();
-            tileRenderer.Material = MaterialStore.Map.GetOpenLevelMaterial(0); // TODO: Pass in the variation.
+            return PathTileType.All; // TODO: Return an invalid result.
         }
 
         #endregion
@@ -200,13 +187,28 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         #endregion
 
+        private bool DoesPathExist(int x, int y) {
+            return pathDictionary.ContainsKey((x, y)) || levelDictionary.ContainsKey((x, y));
+        }
+
+        private bool DoesPathExist(int x, int y, Direction direction) {
+            return DoesPathExist(x + direction.GetXOffset(), y + direction.GetYOffset());
+        }
+
         private bool DoesOpenPathExist(int x, int y) {
-            return mapTileDictionary.ContainsKey((x, y));
+            if (pathDictionary.TryGetValue((x, y), out MapPathManager pathManager)) {
+                return pathManager.IsOpen;
+            }
+
+            if (levelDictionary.TryGetValue((x, y), out MapLevelManager levelManager)) {
+                return levelManager.IsOpen;
+            }
+
+            return false;
         }
 
         private bool DoesOpenPathExist(int x, int y, Direction direction) {
-            return mapTileDictionary.ContainsKey((x + direction.GetXOffset(), y + direction.GetYOffset()));
+            return DoesOpenPathExist(x + direction.GetXOffset(), y + direction.GetYOffset());
         }
-
     }
 }

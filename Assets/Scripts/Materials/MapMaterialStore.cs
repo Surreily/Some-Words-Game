@@ -7,7 +7,7 @@ namespace Surreily.SomeWords.Scripts.Materials {
     public class MapMaterialStore {
         private GlobalTimer timer;
 
-        private Dictionary<(int, PathTileSetPosition), IMaterial> pathDictionary;
+        private Dictionary<(int, PathTileType), IMaterial> pathDictionary;
         private Dictionary<int, IMaterial> openLevelDictionary;
         private Dictionary<int, IMaterial> clearedLevelDictionary;
 
@@ -18,7 +18,7 @@ namespace Surreily.SomeWords.Scripts.Materials {
             SetUpLevelMaterials();
         }
 
-        public Material GetPathMaterial(int variation, PathTileSetPosition type) {
+        public Material GetPathMaterial(int variation, PathTileType type) {
             return pathDictionary[(variation, type)].Material;
         }
 
@@ -31,43 +31,43 @@ namespace Surreily.SomeWords.Scripts.Materials {
         }
 
         private void SetUpPathMaterials() {
-            pathDictionary = new Dictionary<(int, PathTileSetPosition), IMaterial>();
+            pathDictionary = new Dictionary<(int, PathTileType), IMaterial>();
 
             Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Map Path Tiles");
 
             for (int i = 0; i < 16; i++) {
                 pathDictionary.Add(
-                    (i, PathTileSetPosition.Horizontal),
+                    (i, PathTileType.Horizontal),
                     MaterialHelper.SetUpStaticMaterial(sprites[(i * 11)]));
                 pathDictionary.Add(
-                    (i, PathTileSetPosition.Vertical),
+                    (i, PathTileType.Vertical),
                     MaterialHelper.SetUpStaticMaterial(sprites[(i * 11) + 1]));
                 pathDictionary.Add(
-                    (i, PathTileSetPosition.UpAndRight),
+                    (i, PathTileType.UpAndRight),
                     MaterialHelper.SetUpStaticMaterial(sprites[(i * 11) + 2]));
                 pathDictionary.Add(
-                    (i, PathTileSetPosition.DownAndRight),
+                    (i, PathTileType.DownAndRight),
                     MaterialHelper.SetUpStaticMaterial(sprites[(i * 11) + 3]));
                 pathDictionary.Add(
-                    (i, PathTileSetPosition.DownAndLeft),
+                    (i, PathTileType.DownAndLeft),
                     MaterialHelper.SetUpStaticMaterial(sprites[(i * 11) + 4]));
                 pathDictionary.Add(
-                    (i, PathTileSetPosition.UpAndLeft),
+                    (i, PathTileType.UpAndLeft),
                     MaterialHelper.SetUpStaticMaterial(sprites[(i * 11) + 5]));
                 pathDictionary.Add(
-                    (i, PathTileSetPosition.HorizontalAndUp),
+                    (i, PathTileType.HorizontalAndUp),
                     MaterialHelper.SetUpStaticMaterial(sprites[(i * 11) + 6]));
                 pathDictionary.Add(
-                    (i, PathTileSetPosition.VerticalAndRight),
+                    (i, PathTileType.VerticalAndRight),
                     MaterialHelper.SetUpStaticMaterial(sprites[(i * 11) + 7]));
                 pathDictionary.Add(
-                    (i, PathTileSetPosition.HorizontalAndDown),
+                    (i, PathTileType.HorizontalAndDown),
                     MaterialHelper.SetUpStaticMaterial(sprites[(i * 11) + 8]));
                 pathDictionary.Add(
-                    (i, PathTileSetPosition.VerticalAndLeft),
+                    (i, PathTileType.VerticalAndLeft),
                     MaterialHelper.SetUpStaticMaterial(sprites[(i * 11) + 9]));
                 pathDictionary.Add(
-                    (i, PathTileSetPosition.All),
+                    (i, PathTileType.All),
                     MaterialHelper.SetUpStaticMaterial(sprites[(i * 11) + 10]));
             }
         }
