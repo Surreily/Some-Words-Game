@@ -49,6 +49,8 @@ namespace Surreily.SomeWords.Scripts.Map {
             SetUpLevelDictionary(map);
             SetUpCursor();
 
+            GameManager.CameraMovement.Target(cursorManager.gameObject);
+
             CalculatePathTypes();
         }
 

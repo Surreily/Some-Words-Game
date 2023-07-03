@@ -11,11 +11,16 @@ public class GameManager : MonoBehaviour {
     private HashSet<string> gameDictionary;
     private MapManager mapManager;
     private LevelManager levelManager;
+    private CameraMovement cameraMovement;
 
     [SerializeField]
     public Camera MainCamera;
 
+    public CameraMovement CameraMovement => cameraMovement;
+
     public void Start() {
+        cameraMovement = MainCamera.GetComponent<CameraMovement>();
+
         SetUpMaterialStore();
         SetUpGameDictionary();
         SetUpMapManager();
@@ -43,12 +48,18 @@ public class GameManager : MonoBehaviour {
     }
 
     private void SetUpMapManager() {
-        mapManager = gameObject.AddComponent<MapManager>();
+        GameObject mapManagerObject = new GameObject("Map Manager");
+        mapManagerObject.transform.parent = transform;
+        
+        mapManager = mapManagerObject.AddComponent<MapManager>();
         mapManager.GameManager = this;
         mapManager.MaterialStore = materialStore;
     }
 
     private void SetUpLevelManager() {
+        GameObject levelManagerObject = new GameObject("Level Manager");
+        levelManagerObject.transform.parent = transform;
+
         levelManager = gameObject.AddComponent<LevelManager>();
         levelManager.MaterialStore = materialStore;
         levelManager.GameDictionary = gameDictionary;
