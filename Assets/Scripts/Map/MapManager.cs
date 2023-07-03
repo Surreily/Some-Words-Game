@@ -3,6 +3,7 @@ using Surreily.SomeWords.Scripts.Materials;
 using Surreily.SomeWords.Scripts.Renderers;
 using Surreily.SomeWords.Scripts.Utility;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Surreily.SomeWords.Scripts.Map {
     public class MapManager : MonoBehaviour {
@@ -12,7 +13,30 @@ namespace Surreily.SomeWords.Scripts.Map {
         private int cursorX;
         private int cursorY;
 
+        public GameManager GameManager { get; set; }
+
         public MaterialStore MaterialStore { get; set; }
+
+        public void Start() {
+            // TODO: This is all test code for UI elements! Remove!
+            ////GameObject canvasObject = new GameObject();
+
+            ////Canvas canvas = canvasObject.AddComponent<Canvas>();
+            ////canvas.renderMode = RenderMode.ScreenSpaceCamera;
+            ////canvas.worldCamera = GameManager.MainCamera;
+            
+            ////canvasObject.AddComponent<CanvasScaler>();
+
+            ////RectTransform rectTransform = canvas.GetComponent<RectTransform>();
+
+            ////GameObject tileObject = new GameObject();
+            ////tileObject.transform.parent = canvasObject.transform;
+            ////tileObject.transform.localPosition = new Vector3(rectTransform.rect.width / 2f, rectTransform.rect.height / 2f, 0f);
+
+            ////TileRenderer tileRenderer = tileObject.AddComponent<TileRenderer>();
+            ////tileRenderer.Material = MaterialStore.Font.GetRainbowFontMaterial('a');
+            ////tileRenderer.Size = 1f;
+        }
 
         public void Update() {
             HandleInput();

@@ -21,7 +21,7 @@ namespace Surreily.SomeWords.Scripts.Materials {
             if (Time.time > nextFrameTime) {
                 FrameChanged?.Invoke(this, frame);
 
-                frame = (frame + 1) % 8;
+                frame = (frame + 1) % 16;
                 nextFrameTime += frameDuration;
             }
         }

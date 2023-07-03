@@ -13,19 +13,7 @@ public class GameManager : MonoBehaviour {
     private LevelManager levelManager;
 
     [SerializeField]
-    public Material backgroundMaterial;
-
-    [SerializeField]
-    public Material characterMaterial;
-
-    [SerializeField]
-    public AudioClip cursorAudioClip;
-
-    [SerializeField]
-    public AudioClip interactAudioClip;
-
-    [SerializeField]
-    public AudioClip invalidAudioClip;
+    public Camera MainCamera;
 
     public void Start() {
         SetUpMaterialStore();
@@ -56,6 +44,7 @@ public class GameManager : MonoBehaviour {
 
     private void SetUpMapManager() {
         mapManager = gameObject.AddComponent<MapManager>();
+        mapManager.GameManager = this;
         mapManager.MaterialStore = materialStore;
     }
 

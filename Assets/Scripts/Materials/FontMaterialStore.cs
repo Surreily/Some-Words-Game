@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace Surreily.SomeWords.Scripts.Materials {
     public class FontMaterialStore {
-        private static readonly char[] supportedCharacters = "abcdefghijklmnopqrstuvwxyz".ToArray();
+        private static readonly char[] supportedCharacters =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"#$%&'()*+,-./:;<=>?".ToArray();
 
         private readonly GlobalTimer timer;
 
@@ -45,7 +46,7 @@ namespace Surreily.SomeWords.Scripts.Materials {
 
             rainbowFontMaterialDictionary = SetUpAnimatedFont(
                 supportedCharacters,
-                sprites.Skip(characterCount * 2).Take(characterCount * 8).ToArray());
+                sprites.Skip(characterCount * 2).Take(characterCount * 16).ToArray());
         }
 
         private Dictionary<char, IMaterial> SetUpStaticFont(char[] characters, Sprite[] sprites) {

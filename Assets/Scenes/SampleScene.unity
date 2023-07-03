@@ -280,8 +280,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc57eba009d1ed94c9e7078cc505bd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundMaterial: {fileID: 2100000, guid: 0ff9f7834e11b1a44b8c62a7343a6e19, type: 2}
-  characterMaterial: {fileID: 2100000, guid: 178bf4e81ea11434fa6307f52936af6a, type: 2}
-  cursorAudioClip: {fileID: 8300000, guid: e59a00a4f5015ef43a3f5c6ccc835dbb, type: 3}
-  interactAudioClip: {fileID: 8300000, guid: 38f9082e30ec4a449a3e5723af999a41, type: 3}
-  invalidAudioClip: {fileID: 8300000, guid: 52c60c4183cc81c4d944153db0191aaf, type: 3}
+  MainCamera: {fileID: 519420031}
