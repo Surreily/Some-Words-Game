@@ -5,6 +5,7 @@ using Surreily.SomeWords.Scripts.Map;
 using Surreily.SomeWords.Scripts.Materials;
 using Surreily.SomeWords.Scripts.Level;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     private MaterialStore materialStore;
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour {
     public void Start() {
         cameraMovement = MainCamera.GetComponent<CameraMovement>();
 
+        SetUpCanvas();
         SetUpMaterialStore();
         SetUpGameDictionary();
         SetUpMapManager();
@@ -32,6 +34,16 @@ public class GameManager : MonoBehaviour {
 
         // TODO: Load levels when selected from the map.
         ////levelManager.LoadBoard(LoadFromJson().Levels.First());
+    }
+
+    private void SetUpCanvas() {
+        GameObject canvasObject = new GameObject();
+
+        Canvas canvas = canvasObject.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceCamera;
+        canvas.worldCamera = MainCamera;
+
+        canvasObject.AddComponent<CanvasScaler>();
     }
 
     private void SetUpMaterialStore() {

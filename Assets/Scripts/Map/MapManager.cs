@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Surreily.SomeWords.Scripts.Materials;
 using Surreily.SomeWords.Scripts.Renderers;
+using Surreily.SomeWords.Scripts.Ui;
 using Surreily.SomeWords.Scripts.Utility;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,7 +25,7 @@ namespace Surreily.SomeWords.Scripts.Map {
             ////Canvas canvas = canvasObject.AddComponent<Canvas>();
             ////canvas.renderMode = RenderMode.ScreenSpaceCamera;
             ////canvas.worldCamera = GameManager.MainCamera;
-            
+
             ////canvasObject.AddComponent<CanvasScaler>();
 
             ////RectTransform rectTransform = canvas.GetComponent<RectTransform>();
@@ -36,6 +37,12 @@ namespace Surreily.SomeWords.Scripts.Map {
             ////TileRenderer tileRenderer = tileObject.AddComponent<TileRenderer>();
             ////tileRenderer.Material = MaterialStore.Font.GetRainbowFontMaterial('a');
             ////tileRenderer.Size = 1f;
+            ///
+
+            StringRenderer stringRenderer = gameObject.AddComponent<StringRenderer>();
+            stringRenderer.MaterialStore = MaterialStore;
+            stringRenderer.Text = "This is a big fat test";
+            stringRenderer.Refresh();
         }
 
         public void Update() {
