@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 namespace Surreily.SomeWords.Scripts.Map {
     public class MapManager : MonoBehaviour {
+        private GameObject canvasObject;
+        private RectTransform canvasRectTransform;
+
         private Dictionary<(int, int), MapPathManager> pathDictionary;
         private Dictionary<(int, int), MapLevelManager> levelDictionary;
         private MapCursorManager cursorManager;
@@ -19,6 +22,8 @@ namespace Surreily.SomeWords.Scripts.Map {
         public MaterialStore MaterialStore { get; set; }
 
         public void Start() {
+            canvasObject = GameManager.CanvasObject;
+            canvasRectTransform = GameManager.CanvasObject.GetComponent<RectTransform>();
             // TODO: This is all test code for UI elements! Remove!
             ////GameObject canvasObject = new GameObject();
 
@@ -39,7 +44,14 @@ namespace Surreily.SomeWords.Scripts.Map {
             ////tileRenderer.Size = 1f;
             ///
 
-            StringRenderer stringRenderer = gameObject.AddComponent<StringRenderer>();
+            GameObject textGameObject = new GameObject();
+            textGameObject.transform.parent = canvasObject.transform;
+            textGameObject.transform.localPosition = new Vector3(
+                -(canvasRectTransform.rect.width / 2f) + 50f,
+                -(canvasRectTransform.rect.height / 2f) + 50f,
+                0f);
+
+            StringRenderer stringRenderer = textGameObject.AddComponent<StringRenderer>();
             stringRenderer.MaterialStore = MaterialStore;
             stringRenderer.Text = "This is a big fat test";
             stringRenderer.Refresh();

@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
+    private GameObject canvasObject;
     private MaterialStore materialStore;
     private HashSet<string> gameDictionary;
     private MapManager mapManager;
@@ -16,6 +17,8 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField]
     public Camera MainCamera;
+
+    public GameObject CanvasObject => canvasObject;
 
     public CameraMovement CameraMovement => cameraMovement;
 
@@ -37,7 +40,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private void SetUpCanvas() {
-        GameObject canvasObject = new GameObject();
+        canvasObject = new GameObject();
 
         Canvas canvas = canvasObject.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceCamera;
