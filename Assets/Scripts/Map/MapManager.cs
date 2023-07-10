@@ -24,25 +24,6 @@ namespace Surreily.SomeWords.Scripts.Map {
         public void Start() {
             canvasObject = GameManager.CanvasObject;
             canvasRectTransform = GameManager.CanvasObject.GetComponent<RectTransform>();
-            // TODO: This is all test code for UI elements! Remove!
-            ////GameObject canvasObject = new GameObject();
-
-            ////Canvas canvas = canvasObject.AddComponent<Canvas>();
-            ////canvas.renderMode = RenderMode.ScreenSpaceCamera;
-            ////canvas.worldCamera = GameManager.MainCamera;
-
-            ////canvasObject.AddComponent<CanvasScaler>();
-
-            ////RectTransform rectTransform = canvas.GetComponent<RectTransform>();
-
-            ////GameObject tileObject = new GameObject();
-            ////tileObject.transform.parent = canvasObject.transform;
-            ////tileObject.transform.localPosition = new Vector3(rectTransform.rect.width / 2f, rectTransform.rect.height / 2f, 0f);
-
-            ////TileRenderer tileRenderer = tileObject.AddComponent<TileRenderer>();
-            ////tileRenderer.Material = MaterialStore.Font.GetRainbowFontMaterial('a');
-            ////tileRenderer.Size = 1f;
-            ///
 
             GameObject textGameObject = new GameObject();
             textGameObject.transform.parent = canvasObject.transform;
@@ -54,6 +35,7 @@ namespace Surreily.SomeWords.Scripts.Map {
             StringRenderer stringRenderer = textGameObject.AddComponent<StringRenderer>();
             stringRenderer.MaterialStore = MaterialStore;
             stringRenderer.Text = "This is a big fat test";
+
             stringRenderer.Refresh();
         }
 
