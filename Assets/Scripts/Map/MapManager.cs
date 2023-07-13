@@ -13,8 +13,8 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         private TMP_Text levelTitleText;
 
-        private Dictionary<(int, int), MapPathManager> pathDictionary;
-        private Dictionary<(int, int), MapLevelManager> levelDictionary;
+        private Dictionary<(int, int), MapPathTile> pathTileDictionary;
+        private Dictionary<(int, int), MapLevelTile> levelTileDictionary;
 
         private GameObject cursorObject;
         private int cursorX;
@@ -63,98 +63,100 @@ namespace Surreily.SomeWords.Scripts.Map {
         #region Load Map
 
         public void LoadMap(JsonGame game) {
-            SetUpPathDictionary(game);
-            SetUpLevelDictionary(game);
-            SetUpCursor();
-
-            GameManager.CameraMovement.Target(cursorObject);
-
-            CalculatePathTypes();
+            SetUpPathObjects(game);
+            SetUpLevelObjects(game);
+            SetUpCursor(game);
+            SetUpPathTileRenderers();
+            SetUpLevelTileRenderers();
         }
 
-        private void SetUpPathDictionary(JsonGame game) {
-            pathDictionary = new Dictionary<(int, int), MapPathManager>();
+        private void SetUpPathObjects(JsonGame game) {
+            pathTileDictionary = new Dictionary<(int, int), MapPathTile>();
 
             foreach (JsonPath path in game.Paths) {
                 for (int x = 0; x < path.Width; x++) {
                     for (int y = 0; y < path.Height; y++) {
-                        GameObject pathObject = new GameObject();
+                        GameObject pathObject = new GameObject("Path Tile");
                         pathObject.transform.SetParent(transform, false);
                         pathObject.transform.Translate(path.X + x, path.Y + y, Layers.MapPath, Space.Self);
 
-                        MapPathManager pathManager = pathObject.AddComponent<MapPathManager>();
-                        pathManager.MaterialStore = MaterialStore;
-                        pathManager.Colour = path.Colour;
-                        pathManager.IsOpen = true; // TODO: Get from JSON or calculate.
+                        MapPathTile pathTile = new MapPathTile {
+                            GameObject = pathObject,
+                            IsOpen = true,
+                        };
 
-                        pathDictionary.Add((path.X + x, path.Y + y), pathManager);
+                        pathTileDictionary.Add((path.X + x, path.Y + y), pathTile);
                     }
                 }
             }
         }
 
-        private void SetUpLevelDictionary(JsonGame game) {
-            levelDictionary = new Dictionary<(int, int), MapLevelManager>();
+        private void SetUpLevelObjects(JsonGame game) {
+            levelTileDictionary = new Dictionary<(int, int), MapLevelTile>();
 
             foreach (JsonLevel level in game.Levels) {
                 GameObject levelObject = new GameObject();
                 levelObject.transform.SetParent(transform, false);
                 levelObject.transform.Translate(level.X, level.Y, Layers.MapLevel, Space.Self);
 
-                MapLevelManager levelManager = levelObject.AddComponent<MapLevelManager>();
-                levelManager.MaterialStore = MaterialStore;
-                levelManager.Colour = level.Colour;
-                levelManager.IsOpen = true; // TODO: Get from JSON or calculate.
+                MapLevelTile levelTile = new MapLevelTile {
+                    GameObject = levelObject,
+                    IsOpen = true,
+                };
 
-                levelDictionary.Add((level.X, level.Y), levelManager);
+                levelTileDictionary.Add((level.X, level.Y), levelTile);
             }
         }
 
-        private void SetUpCursor() {
+        private void SetUpCursor(JsonGame game) {
             cursorObject = new GameObject();
             cursorObject.transform.SetParent(transform, false);
-            cursorObject.transform.Translate(0f, 0f, Layers.MapCursor, Space.Self); // TODO: Get this from the map.
+            cursorObject.transform.Translate(game.StartX, game.StartY, Layers.MapCursor, Space.Self);
 
             TileRenderer tileRenderer = cursorObject.AddComponent<TileRenderer>();
             tileRenderer.Material = MaterialStore.Ui.GetCursorMaterial();
             tileRenderer.Size = 2f;
+
+            GameManager.CameraMovement.Target(cursorObject);
         }
 
-        private void CalculatePathTypes() {
-            foreach (KeyValuePair<(int, int), MapPathManager> item in pathDictionary) {
-                int x = item.Key.Item1;
-                int y = item.Key.Item2;
-                MapPathManager pathManager = item.Value;
+        private void SetUpPathTileRenderers() {
+            foreach (KeyValuePair<(int, int), MapPathTile> pair in pathTileDictionary) {
+                int x = pair.Key.Item1;
+                int y = pair.Key.Item2;
+                MapPathTile tile = pair.Value;
 
                 bool up = DoesPathExist(x, y, Direction.Up);
                 bool right = DoesPathExist(x, y, Direction.Right);
                 bool down = DoesPathExist(x, y, Direction.Down);
                 bool left = DoesPathExist(x, y, Direction.Left);
 
-                pathManager.TileType = GetPathTileType(up, right, down, left);
+                PathTileType pathTileType = PathTileTypeHelper.GetPathTileType(up, right, down, left);
+
+                TileRenderer tileRenderer = tile.GameObject.AddComponent<TileRenderer>();
+
+                if (tile.IsOpen) {
+                    tileRenderer.Material = MaterialStore.Map.GetOpenPathMaterial(tile.Colour, pathTileType);
+                } else {
+                    tileRenderer.Material = MaterialStore.Map.GetClosedPathMaterial(pathTileType);
+                }
             }
         }
 
-        private PathTileType GetPathTileType(bool up, bool right, bool down, bool left) {
-            PathTileType value = PathTileType.None;
+        private void SetUpLevelTileRenderers() {
+            foreach (KeyValuePair<(int, int), MapLevelTile> pair in levelTileDictionary) {
+                int x = pair.Key.Item1;
+                int y = pair.Key.Item2;
+                MapLevelTile tile = pair.Value;
 
-            if (up) {
-                value |= PathTileType.Up;
+                TileRenderer tileRenderer = tile.GameObject.AddComponent<TileRenderer>();
+
+                if (tile.IsOpen) {
+                    tileRenderer.Material = MaterialStore.Map.GetOpenLevelMaterial(tile.Colour);
+                } else {
+                    tileRenderer.Material = MaterialStore.Map.GetClearedLevelMaterial(tile.Colour);
+                }
             }
-
-            if (right) {
-                value |= PathTileType.Right;
-            }
-
-            if (down) {
-                value |= PathTileType.Down;
-            }
-
-            if (left) {
-                value |= PathTileType.Left;
-            }
-
-            return value;
         }
 
         #endregion
@@ -222,7 +224,7 @@ namespace Surreily.SomeWords.Scripts.Map {
         #endregion
 
         private bool DoesPathExist(int x, int y) {
-            return pathDictionary.ContainsKey((x, y)) || levelDictionary.ContainsKey((x, y));
+            return pathTileDictionary.ContainsKey((x, y)) || levelTileDictionary.ContainsKey((x, y));
         }
 
         private bool DoesPathExist(int x, int y, Direction direction) {
@@ -230,12 +232,12 @@ namespace Surreily.SomeWords.Scripts.Map {
         }
 
         private bool DoesOpenPathExist(int x, int y) {
-            if (pathDictionary.TryGetValue((x, y), out MapPathManager pathManager)) {
-                return pathManager.IsOpen;
+            if (pathTileDictionary.TryGetValue((x, y), out MapPathTile path)) {
+                return path.IsOpen;
             }
 
-            if (levelDictionary.TryGetValue((x, y), out MapLevelManager levelManager)) {
-                return levelManager.IsOpen;
+            if (levelTileDictionary.TryGetValue((x, y), out MapLevelTile level)) {
+                return level.IsOpen;
             }
 
             return false;
@@ -243,6 +245,18 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         private bool DoesOpenPathExist(int x, int y, Direction direction) {
             return DoesOpenPathExist(x + direction.GetXOffset(), y + direction.GetYOffset());
+        }
+
+        private class MapPathTile {
+            public GameObject GameObject { get; set; }
+            public int Colour { get; set; }
+            public bool IsOpen { get; set; }
+        }
+
+        private class MapLevelTile {
+            public GameObject GameObject { get; set; }
+            public int Colour { get; set; }
+            public bool IsOpen { get; set; }
         }
     }
 }
