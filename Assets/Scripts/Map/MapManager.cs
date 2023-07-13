@@ -8,20 +8,25 @@ using UnityEngine.UI;
 
 namespace Surreily.SomeWords.Scripts.Map {
     public class MapManager : MonoBehaviour {
+        private MapState state;
+
         private GameObject canvasObject;
         private RectTransform canvasRectTransform;
 
         private Dictionary<(int, int), MapPathManager> pathDictionary;
         private Dictionary<(int, int), MapLevelManager> levelDictionary;
-        private MapCursorManager cursorManager;
+
+        private GameObject cursorObject;
         private int cursorX;
         private int cursorY;
+        private Vector3 cursorTarget;
 
         public GameManager GameManager { get; set; }
 
         public MaterialStore MaterialStore { get; set; }
 
         public void Start() {
+            state = MapState.Ready;
             canvasObject = GameManager.CanvasObject;
             canvasRectTransform = GameManager.CanvasObject.GetComponent<RectTransform>();
 
@@ -40,7 +45,24 @@ namespace Surreily.SomeWords.Scripts.Map {
         }
 
         public void Update() {
-            HandleInput();
+            switch (state) {
+                case MapState.Ready:
+                    HandleInput();
+                    break;
+                case MapState.CursorMoving:
+                    UpdateCursorMovingState();
+                    break;
+            }
+        }
+
+        private void UpdateCursorMovingState() {
+            cursorObject.transform.localPosition = Vector3.MoveTowards(
+                cursorObject.transform.localPosition, cursorTarget, Time.deltaTime * 10f);
+
+            if (cursorObject.transform.localPosition == cursorTarget) {
+                // TODO: Set map title text.
+                state = MapState.Ready;
+            }
         }
 
         #region Load Map
@@ -50,7 +72,7 @@ namespace Surreily.SomeWords.Scripts.Map {
             SetUpLevelDictionary(map);
             SetUpCursor();
 
-            GameManager.CameraMovement.Target(cursorManager.gameObject);
+            GameManager.CameraMovement.Target(cursorObject);
 
             CalculatePathTypes();
         }
@@ -94,12 +116,13 @@ namespace Surreily.SomeWords.Scripts.Map {
         }
 
         private void SetUpCursor() {
-            GameObject cursorObject = new GameObject();
+            cursorObject = new GameObject();
             cursorObject.transform.SetParent(transform, false);
             cursorObject.transform.Translate(0f, 0f, Layers.MapCursor, Space.Self); // TODO: Get this from the map.
 
-            cursorManager = cursorObject.AddComponent<MapCursorManager>();
-            cursorManager.MaterialStore = MaterialStore;
+            TileRenderer tileRenderer = cursorObject.AddComponent<TileRenderer>();
+            tileRenderer.Material = MaterialStore.Ui.GetCursorMaterial();
+            tileRenderer.Size = 2f;
         }
 
         private void CalculatePathTypes() {
@@ -175,10 +198,6 @@ namespace Surreily.SomeWords.Scripts.Map {
         }
 
         private void HandleMove(Direction direction) {
-            if (cursorManager.IsMoving) {
-                return;
-            }
-
             int newX = cursorX;
             int newY = cursorY;
 
@@ -198,8 +217,11 @@ namespace Surreily.SomeWords.Scripts.Map {
 
             cursorX = newX;
             cursorY = newY;
+            cursorTarget = new Vector3(cursorX, cursorY, 0f);
 
-            cursorManager.Move(cursorX, cursorY);
+            // TODO: Clear map title text.
+
+            state = MapState.CursorMoving;
         }
 
         #endregion
