@@ -22,12 +22,12 @@ namespace Surreily.SomeWords.Scripts.Materials {
             SetUpLevelMaterials();
         }
 
-        public Material GetOpenPathMaterial(int variation, PathTileType type) {
-            if (openPathDictionary.TryGetValue((variation, type), out IMaterial material)) {
+        public Material GetOpenPathMaterial(int colour, PathTileType type) {
+            if (openPathDictionary.TryGetValue((colour, type), out IMaterial material)) {
                 return material.Material;
             }
 
-            return openPathDictionary[(variation, AllPathTileType)].Material;
+            return openPathDictionary[(colour, AllPathTileType)].Material;
         }
 
         public Material GetClosedPathMaterial(PathTileType type) {
@@ -38,12 +38,12 @@ namespace Surreily.SomeWords.Scripts.Materials {
             return closedPathDictionary[AllPathTileType].Material;
         }
 
-        public Material GetOpenLevelMaterial(int variation) {
-            return openLevelDictionary[variation].Material;
+        public Material GetOpenLevelMaterial(int colour) {
+            return openLevelDictionary[colour].Material;
         }
 
-        public Material GetClearedLevelMaterial(int variation) {
-            return clearedLevelDictionary[variation].Material;
+        public Material GetClearedLevelMaterial(int colour) {
+            return clearedLevelDictionary[colour].Material;
         }
 
         private void SetUpPathMaterials() {

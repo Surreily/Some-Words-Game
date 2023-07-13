@@ -1,54 +1,120 @@
 {
     "Title": "Some Letters",
     "Description": "A silly little game about moving some letters around",
-    "Map": {
-        "StartX": 0,
-        "StartY": 0,
-        "Paths": [
-            { "X": 0, "Y": 1, "Width": 1, "Height": 2, "Variation": 4 },
-            { "X": 1, "Y": 3, "Width": 5, "Height": 1, "Variation": 5 },
-            { "X": 3, "Y": 4, "Width": 1, "Height": 3, "Variation": 12 }
-        ],
-        "Levels": [
-            { "X": 0, "Y": 3, "Variation": 1, "Id": "tutorial-1" },
-            { "X": 6, "Y": 3, "Variation": 3, "Id": "tutorial-2" }
-        ]
-    },
+    "StartX": 0,
+    "StartY": 0,
+    "Paths": [
+        {
+            "X": 0,
+            "Y": 1,
+            "Width": 1,
+            "Height": 2,
+            "Colour": 4
+        },
+        {
+            "X": 1,
+            "Y": 3,
+            "Width": 5,
+            "Height": 1,
+            "Colour": 5
+        },
+        {
+            "X": 3,
+            "Y": 4,
+            "Width": 1,
+            "Height": 3,
+            "Colour": 12
+        }
+    ],
     "Levels": [
         {
+            "X": 0,
+            "Y": 3,
             "Id": "tutorial-1",
             "Title": "An Easy Start!",
             "Description": "Here's an easy one to get you started.",
-            "TargetWord": "start",
+            "Colour": 1,
             "Width": 7,
             "Height": 5,
-            "CursorX": 1,
-            "CursorY": 1,
+            "StartX": 1,
+            "StartY": 1,
+            "TargetWord": "start",
             "Tiles": [
-                { "X": 1, "Y": 2, "Character": "s" },
-                { "X": 2, "Y": 2, "Character": "t" },
-                { "X": 3, "Y": 2, "Character": "a" },
-                { "X": 4, "Y": 2, "Character": "r" },
-                { "X": 5, "Y": 1, "Character": "t" }
+                {
+                    "X": 1,
+                    "Y": 2,
+                    "Character": "s"
+                },
+                {
+                    "X": 2,
+                    "Y": 2,
+                    "Character": "t"
+                },
+                {
+                    "X": 3,
+                    "Y": 2,
+                    "Character": "a"
+                },
+                {
+                    "X": 4,
+                    "Y": 2,
+                    "Character": "r"
+                },
+                {
+                    "X": 5,
+                    "Y": 1,
+                    "Character": "t"
+                }
             ]
         },
         {
+            "X": 6,
+            "Y": 3,
             "Id": "tutorial-2",
             "Title": "Write It Down",
             "Description": "Here's something a little harder...",
-            "TargetWord": "key",
-            "CursorX": 1,
-            "CursorY": 5,
+            "Colour": 2,
             "Width": 7,
             "Height": 7,
+            "StartX": 1,
+            "StartY": 5,
+            "TargetWord": "welcome",
             "Tiles": [
-                { "X": 3, "Y": 0, "Character": "w" },
-                { "X": 3, "Y": 1, "Character": "e" },
-                { "X": 3, "Y": 2, "Character": "l" },
-                { "X": 3, "Y": 3, "Character": "c" },
-                { "X": 3, "Y": 4, "Character": "o" },
-                { "X": 4, "Y": 5, "Character": "m" },
-                { "X": 3, "Y": 6, "Character": "e" }
+                {
+                    "X": 3,
+                    "Y": 0,
+                    "Character": "w"
+                },
+                {
+                    "X": 3,
+                    "Y": 1,
+                    "Character": "e"
+                },
+                {
+                    "X": 3,
+                    "Y": 2,
+                    "Character": "l"
+                },
+                {
+                    "X": 3,
+                    "Y": 3,
+                    "Character": "c"
+                },
+                {
+                    "X": 3,
+                    "Y": 4,
+                    "Character": "o"
+                },
+                {
+                    "X": 4,
+                    "Y": 5,
+                    "Character": "m"
+                },
+                {
+                    "X": 3,
+                    "Y": 6,
+                    "Character": "e"
+                }
             ]
         }
     ]

@@ -9,7 +9,7 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         public MaterialStore MaterialStore { get; set; }
 
-        public int Variation { get; set; }
+        public int Colour { get; set; }
 
         public bool IsOpen { get; set; }
 
@@ -22,7 +22,7 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         public void UpdateMaterial() {
             if (IsOpen) {
-                tileRenderer.Material = MaterialStore.Map.GetOpenPathMaterial(Variation, TileType);
+                tileRenderer.Material = MaterialStore.Map.GetOpenPathMaterial(Colour, TileType);
             } else {
                 tileRenderer.Material = MaterialStore.Map.GetClosedPathMaterial(TileType);
             }

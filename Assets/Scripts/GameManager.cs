@@ -6,6 +6,7 @@ using Surreily.SomeWords.Scripts.Materials;
 using Surreily.SomeWords.Scripts.Level;
 using UnityEngine;
 using UnityEngine.UI;
+using Surreily.SomeWords.Scripts.Json.Game;
 
 public class GameManager : MonoBehaviour {
     private GameObject canvasObject;
@@ -31,9 +32,9 @@ public class GameManager : MonoBehaviour {
         SetUpMapManager();
         ////SetUpLevelManager();
 
-        JsonGamePack gamePack = LoadFromJson();
+        JsonGame game = LoadFromJson();
 
-        mapManager.LoadMap(gamePack.Map);
+        mapManager.LoadMap(game);
 
         // TODO: Load levels when selected from the map.
         ////levelManager.LoadBoard(LoadFromJson().Levels.First());
@@ -80,8 +81,8 @@ public class GameManager : MonoBehaviour {
         levelManager.GameDictionary = gameDictionary;
     }
 
-    private JsonGamePack LoadFromJson() {
+    private JsonGame LoadFromJson() {
         string json = File.ReadAllText(Path.Combine(Application.dataPath, "Data/SomeLettersGamePack.json"));
-        return JsonUtility.FromJson<JsonGamePack>(json);
+        return JsonUtility.FromJson<JsonGame>(json);
     }
 }

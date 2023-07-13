@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Surreily.SomeWords.Scripts.Json.Game;
 using Surreily.SomeWords.Scripts.Materials;
 using Surreily.SomeWords.Scripts.Renderers;
 using Surreily.SomeWords.Scripts.Utility;
@@ -28,9 +29,9 @@ namespace Surreily.SomeWords.Scripts.Level {
         public void LoadBoard(JsonLevel jsonLevel) {
             actions = new Stack<IAction>();
 
-            level = new Surreily.SomeWords.Scripts.Level.Level(jsonLevel.Width, jsonLevel.Height, jsonLevel.CursorX, jsonLevel.CursorY);
+            level = new Surreily.SomeWords.Scripts.Level.Level(jsonLevel.Width, jsonLevel.Height, jsonLevel.StartX, jsonLevel.StartY);
 
-            foreach (JsonLevelTile jsonTile in jsonLevel.Tiles) {
+            foreach (JsonTile jsonTile in jsonLevel.Tiles) {
                 AddTile(jsonTile.Character[0], jsonTile.X, jsonTile.Y);
             }
 

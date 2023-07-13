@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Surreily.SomeWords.Scripts.Json.Game;
 using Surreily.SomeWords.Scripts.Materials;
 using Surreily.SomeWords.Scripts.Renderers;
 using Surreily.SomeWords.Scripts.Ui;
@@ -61,9 +62,9 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         #region Load Map
 
-        public void LoadMap(JsonMap map) {
-            SetUpPathDictionary(map);
-            SetUpLevelDictionary(map);
+        public void LoadMap(JsonGame game) {
+            SetUpPathDictionary(game);
+            SetUpLevelDictionary(game);
             SetUpCursor();
 
             GameManager.CameraMovement.Target(cursorObject);
@@ -71,10 +72,10 @@ namespace Surreily.SomeWords.Scripts.Map {
             CalculatePathTypes();
         }
 
-        private void SetUpPathDictionary(JsonMap map) {
+        private void SetUpPathDictionary(JsonGame game) {
             pathDictionary = new Dictionary<(int, int), MapPathManager>();
 
-            foreach (JsonMapPath path in map.Paths) {
+            foreach (JsonPath path in game.Paths) {
                 for (int x = 0; x < path.Width; x++) {
                     for (int y = 0; y < path.Height; y++) {
                         GameObject pathObject = new GameObject();
@@ -83,7 +84,7 @@ namespace Surreily.SomeWords.Scripts.Map {
 
                         MapPathManager pathManager = pathObject.AddComponent<MapPathManager>();
                         pathManager.MaterialStore = MaterialStore;
-                        pathManager.Variation = path.Variation;
+                        pathManager.Colour = path.Colour;
                         pathManager.IsOpen = true; // TODO: Get from JSON or calculate.
 
                         pathDictionary.Add((path.X + x, path.Y + y), pathManager);
@@ -92,17 +93,17 @@ namespace Surreily.SomeWords.Scripts.Map {
             }
         }
 
-        private void SetUpLevelDictionary(JsonMap map) {
+        private void SetUpLevelDictionary(JsonGame game) {
             levelDictionary = new Dictionary<(int, int), MapLevelManager>();
 
-            foreach (JsonMapLevel level in map.Levels) {
+            foreach (JsonLevel level in game.Levels) {
                 GameObject levelObject = new GameObject();
                 levelObject.transform.SetParent(transform, false);
                 levelObject.transform.Translate(level.X, level.Y, Layers.MapLevel, Space.Self);
 
                 MapLevelManager levelManager = levelObject.AddComponent<MapLevelManager>();
                 levelManager.MaterialStore = MaterialStore;
-                levelManager.Variation = level.Variation;
+                levelManager.Colour = level.Colour;
                 levelManager.IsOpen = true; // TODO: Get from JSON or calculate.
 
                 levelDictionary.Add((level.X, level.Y), levelManager);
