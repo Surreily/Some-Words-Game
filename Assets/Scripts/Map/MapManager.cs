@@ -30,28 +30,9 @@ namespace Surreily.SomeWords.Scripts.Map {
         #region Start
 
         public void Start() {
-            StartMapCanvas();
+            levelTitleText = GameObject.Find("Map Canvas/Level Title").GetComponent<TMP_Text>();
 
             state = MapState.Ready;
-            canvasObject = GameManager.CanvasObject;
-            canvasRectTransform = GameManager.CanvasObject.GetComponent<RectTransform>();
-
-            GameObject textGameObject = new GameObject();
-            textGameObject.transform.parent = canvasObject.transform;
-            textGameObject.transform.localPosition = new Vector3(
-                -(canvasRectTransform.rect.width / 2f) + 50f,
-                -(canvasRectTransform.rect.height / 2f) + 50f,
-                0f);
-
-            StringRenderer stringRenderer = textGameObject.AddComponent<StringRenderer>();
-            stringRenderer.MaterialStore = MaterialStore;
-            stringRenderer.Text = "This is a big fat test";
-
-            stringRenderer.Refresh();
-        }
-
-        private void StartMapCanvas() {
-            levelTitleText = GameObject.Find("Map Canvas/Level Title").GetComponent<TMP_Text>();
         }
 
         #endregion
