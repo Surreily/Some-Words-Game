@@ -12,9 +12,6 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         private TMP_Text levelTitleText;
 
-        private GameObject canvasObject;
-        private RectTransform canvasRectTransform;
-
         private Dictionary<(int, int), MapPathManager> pathDictionary;
         private Dictionary<(int, int), MapLevelManager> levelDictionary;
 
