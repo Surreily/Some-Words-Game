@@ -3,12 +3,14 @@ using Surreily.SomeWords.Scripts.Materials;
 using Surreily.SomeWords.Scripts.Renderers;
 using Surreily.SomeWords.Scripts.Ui;
 using Surreily.SomeWords.Scripts.Utility;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Surreily.SomeWords.Scripts.Map {
     public class MapManager : MonoBehaviour {
         private MapState state;
+
+        private TMP_Text levelTitleText;
 
         private GameObject canvasObject;
         private RectTransform canvasRectTransform;
@@ -25,7 +27,11 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         public MaterialStore MaterialStore { get; set; }
 
+        #region Start
+
         public void Start() {
+            StartMapCanvas();
+
             state = MapState.Ready;
             canvasObject = GameManager.CanvasObject;
             canvasRectTransform = GameManager.CanvasObject.GetComponent<RectTransform>();
@@ -44,6 +50,14 @@ namespace Surreily.SomeWords.Scripts.Map {
             stringRenderer.Refresh();
         }
 
+        private void StartMapCanvas() {
+            levelTitleText = GameObject.Find("Map Canvas/Level Title").GetComponent<TMP_Text>();
+        }
+
+        #endregion
+
+        #region Update
+
         public void Update() {
             switch (state) {
                 case MapState.Ready:
@@ -60,10 +74,12 @@ namespace Surreily.SomeWords.Scripts.Map {
                 cursorObject.transform.localPosition, cursorTarget, Time.deltaTime * 10f);
 
             if (cursorObject.transform.localPosition == cursorTarget) {
-                // TODO: Set map title text.
+                levelTitleText.text = "Moving stopped!"; // TODO: Get this from the map.
                 state = MapState.Ready;
             }
         }
+
+        #endregion
 
         #region Load Map
 
@@ -219,7 +235,7 @@ namespace Surreily.SomeWords.Scripts.Map {
             cursorY = newY;
             cursorTarget = new Vector3(cursorX, cursorY, 0f);
 
-            // TODO: Clear map title text.
+            levelTitleText.text = "We're moving!"; // TODO: Just clear the text.
 
             state = MapState.CursorMoving;
         }
