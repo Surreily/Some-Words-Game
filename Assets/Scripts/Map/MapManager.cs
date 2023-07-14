@@ -53,7 +53,10 @@ namespace Surreily.SomeWords.Scripts.Map {
                 cursorObject.transform.localPosition, cursorTarget, Time.deltaTime * 10f);
 
             if (cursorObject.transform.localPosition == cursorTarget) {
-                levelTitleText.text = "Moving stopped!"; // TODO: Get this from the map.
+                if (TryGetLevel(cursorX, cursorY, out MapLevelTile tile)) {
+                    levelTitleText.text = tile.JsonLevel.Title;
+                }
+                
                 state = MapState.Ready;
             }
         }
@@ -224,13 +227,13 @@ namespace Surreily.SomeWords.Scripts.Map {
             cursorY = newY;
             cursorTarget = new Vector3(cursorX, cursorY, 0f);
 
-            levelTitleText.text = "We're moving!"; // TODO: Just clear the text.
+            levelTitleText.text = string.Empty;
 
             state = MapState.CursorMoving;
         }
 
         private void HandleEnter() {
-            if (levelTileDictionary.TryGetValue((cursorX, cursorY), out MapLevelTile tile)) {
+            if (TryGetLevel(cursorX, cursorY, out MapLevelTile tile)) {
                 GameManager.OpenLevel(tile.JsonLevel);
             }
         }
@@ -259,6 +262,14 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         private bool DoesOpenPathExist(int x, int y, Direction direction) {
             return DoesOpenPathExist(x + direction.GetXOffset(), y + direction.GetYOffset());
+        }
+
+        private bool TryGetLevel(int x, int y, out MapLevelTile tile) {
+            if (levelTileDictionary.TryGetValue((x, y), out tile)) {
+                return true;
+            }
+
+            return false;
         }
 
         private class MapPathTile {
