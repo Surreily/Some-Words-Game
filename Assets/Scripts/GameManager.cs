@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour {
     private LevelManager levelManager;
     private CameraMovement cameraMovement;
 
+    private GameObject levelObject;
+
     [SerializeField]
     public Camera MainCamera;
 
@@ -23,21 +25,21 @@ public class GameManager : MonoBehaviour {
 
     public CameraMovement CameraMovement => cameraMovement;
 
+    public GameState State { get; private set; }
+
     public void Start() {
+        State = GameState.Map;
+
         cameraMovement = MainCamera.GetComponent<CameraMovement>();
+
+        JsonGame game = LoadFromJson();
 
         SetUpCanvas();
         SetUpMaterialStore();
         SetUpGameDictionary();
-        SetUpMapManager();
-        ////SetUpLevelManager();
-
-        JsonGame game = LoadFromJson();
+        OpenMap(game);
 
         mapManager.LoadMap(game);
-
-        // TODO: Load levels when selected from the map.
-        ////levelManager.LoadBoard(LoadFromJson().Levels.First());
     }
 
     private void SetUpCanvas() {
@@ -63,26 +65,41 @@ public class GameManager : MonoBehaviour {
         gameDictionary = new HashSet<string>(words);
     }
 
-    private void SetUpMapManager() {
+    private void OpenMap(JsonGame game) {
         GameObject mapManagerObject = new GameObject("Map Manager");
         mapManagerObject.transform.parent = transform;
         
         mapManager = mapManagerObject.AddComponent<MapManager>();
         mapManager.GameManager = this;
         mapManager.MaterialStore = materialStore;
-    }
 
-    private void SetUpLevelManager() {
-        GameObject levelManagerObject = new GameObject("Level Manager");
-        levelManagerObject.transform.parent = transform;
+        mapManager.LoadMap(game);
 
-        levelManager = gameObject.AddComponent<LevelManager>();
-        levelManager.MaterialStore = materialStore;
-        levelManager.GameDictionary = gameDictionary;
+        State = GameState.Map;
     }
 
     private JsonGame LoadFromJson() {
         string json = File.ReadAllText(Path.Combine(Application.dataPath, "Data/SomeLettersGamePack.json"));
         return JsonUtility.FromJson<JsonGame>(json);
+    }
+
+    public void OpenLevel(JsonLevel level) {
+        levelObject = new GameObject();
+        levelObject.transform.position = new Vector3(level.X, level.Y, 0f);
+
+        LevelManager levelManager = levelObject.AddComponent<LevelManager>();
+        levelManager.MaterialStore = materialStore;
+        levelManager.GameDictionary = gameDictionary;
+        levelManager.LoadBoard(level);
+
+        State = GameState.Level;
+    }
+
+    public void CloseLevel() {
+        GameObject.Destroy(levelObject);
+
+        levelObject = null;
+
+        State = GameState.Map;
     }
 }

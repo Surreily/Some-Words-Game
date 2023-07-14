@@ -100,6 +100,7 @@ namespace Surreily.SomeWords.Scripts.Map {
                 levelObject.transform.Translate(level.X, level.Y, Layers.MapLevel, Space.Self);
 
                 MapLevelTile levelTile = new MapLevelTile {
+                    JsonLevel = level,
                     GameObject = levelObject,
                     IsOpen = true,
                 };
@@ -164,7 +165,9 @@ namespace Surreily.SomeWords.Scripts.Map {
         #region Input
 
         private void HandleInput() {
-            // TODO: Check if we're in the map state.
+            if (GameManager.State != GameState.Map) {
+                return;
+            }
 
             bool up = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow);
             bool right = Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow);
@@ -191,7 +194,12 @@ namespace Surreily.SomeWords.Scripts.Map {
                 return;
             }
 
-            // TODO: Handle level selected
+            bool enter = Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Return);
+
+            if (enter) {
+                HandleEnter();
+                return;
+            }
         }
 
         private void HandleMove(Direction direction) {
@@ -219,6 +227,12 @@ namespace Surreily.SomeWords.Scripts.Map {
             levelTitleText.text = "We're moving!"; // TODO: Just clear the text.
 
             state = MapState.CursorMoving;
+        }
+
+        private void HandleEnter() {
+            if (levelTileDictionary.TryGetValue((cursorX, cursorY), out MapLevelTile tile)) {
+                GameManager.OpenLevel(tile.JsonLevel);
+            }
         }
 
         #endregion
@@ -255,6 +269,7 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         private class MapLevelTile {
             public GameObject GameObject { get; set; }
+            public JsonLevel JsonLevel { get; set; }
             public int Colour { get; set; }
             public bool IsOpen { get; set; }
         }
