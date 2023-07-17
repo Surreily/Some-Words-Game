@@ -18,6 +18,7 @@ This entire thing is me learning how Unity 2D works. Pretty much everything is d
 
 ## In Progress
 * Create level selection ('world map'?)
+* Use the `SpriteRenderer` and dynamic colouring instead of creating every single sprite variant by hand
 
 ## TODO
 
