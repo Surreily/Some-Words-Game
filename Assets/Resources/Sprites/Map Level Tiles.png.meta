@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -47,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 8
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -63,6 +64,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
@@ -75,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -87,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -99,6 +103,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -2824,138 +2829,137 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Map Level Tiles_54: 1139103959
-      Map Level Tiles_99: -1067840818
-      Map Level Tiles_2: -572497266
-      Map Level Tiles_69: -2118039875
-      Map Level Tiles_94: -1788729493
-      Map Level Tiles_118: -1520318074
-      Map Level Tiles_68: 1720211941
-      Map Level Tiles_12: -1324580544
-      Map Level Tiles_20: -246014149
-      Map Level Tiles_3: -1359851500
-      Map Level Tiles_51: 638082555
-      Map Level Tiles_41: 66266602
       Map Level Tiles_0: 2112085911
-      Map Level Tiles_44: 1802695542
-      Map Level Tiles_80: 1558578775
-      Map Level Tiles_84: -737533313
-      Map Level Tiles_55: -1555664569
-      Map Level Tiles_88: 10790263
-      Map Level Tiles_100: 53585652
-      Map Level Tiles_87: 1145767625
-      Map Level Tiles_89: 968984248
       Map Level Tiles_1: -92088138
-      Map Level Tiles_21: -1430084654
-      Map Level Tiles_37: 1267276496
-      Map Level Tiles_63: -990650581
-      Map Level Tiles_33: -1501230282
-      Map Level Tiles_128: -1374185274
-      Map Level Tiles_79: 132084824
-      Map Level Tiles_13: -1390558694
-      Map Level Tiles_124: -1128203781
-      Map Level Tiles_58: -196138213
-      Map Level Tiles_121: 2035484039
-      Map Level Tiles_66: 663594103
-      Map Level Tiles_62: -256428123
-      Map Level Tiles_36: -1247335029
-      Map Level Tiles_90: -376345505
-      Map Level Tiles_52: 1122476236
-      Map Level Tiles_106: 239083552
-      Map Level Tiles_5: -623440200
-      Map Level Tiles_22: 1920272606
-      Map Level Tiles_6: -319801972
-      Map Level Tiles_117: 277711452
-      Map Level Tiles_35: -1986885827
-      Map Level Tiles_82: 1693795003
-      Map Level Tiles_15: 1476414694
-      Map Level Tiles_71: 1634597196
-      Map Level Tiles_85: 1211438483
-      Map Level Tiles_72: 195076768
-      Map Level Tiles_122: 385368025
-      Map Level Tiles_107: -1201792738
-      Map Level Tiles_67: -2104223778
-      Map Level Tiles_116: -535145238
-      Map Level Tiles_14: -1356641559
-      Map Level Tiles_53: 1506712561
-      Map Level Tiles_26: 1728946245
-      Map Level Tiles_93: 1818428021
-      Map Level Tiles_102: 124817152
-      Map Level Tiles_7: -1889192751
-      Map Level Tiles_57: 364160092
-      Map Level Tiles_95: -205942066
-      Map Level Tiles_123: -816609591
-      Map Level Tiles_31: 244275189
-      Map Level Tiles_17: -534809497
-      Map Level Tiles_83: 247362041
-      Map Level Tiles_81: -493788636
-      Map Level Tiles_18: 1930026521
-      Map Level Tiles_115: 30840334
-      Map Level Tiles_70: 604503160
-      Map Level Tiles_19: 224007411
-      Map Level Tiles_16: -2074149925
-      Map Level Tiles_111: 1865056742
-      Map Level Tiles_125: -1074147729
-      Map Level Tiles_29: 1137552616
-      Map Level Tiles_49: -1850544646
-      Map Level Tiles_39: 1200390620
-      Map Level Tiles_9: 1231516456
-      Map Level Tiles_98: 1704098461
-      Map Level Tiles_120: 616304228
-      Map Level Tiles_30: 2041677320
-      Map Level Tiles_25: -1716330485
-      Map Level Tiles_73: -1481741643
-      Map Level Tiles_104: 519941268
-      Map Level Tiles_42: -2105703229
-      Map Level Tiles_97: -1558012560
-      Map Level Tiles_56: 1176022578
-      Map Level Tiles_60: -298109554
-      Map Level Tiles_112: -2100749088
-      Map Level Tiles_126: 1868383718
-      Map Level Tiles_59: 19322531
-      Map Level Tiles_76: -669108511
-      Map Level Tiles_92: -117158848
-      Map Level Tiles_65: -120096455
-      Map Level Tiles_38: -704846429
-      Map Level Tiles_34: 1623014876
-      Map Level Tiles_103: 313608694
-      Map Level Tiles_108: -1463617096
-      Map Level Tiles_78: 564770332
-      Map Level Tiles_109: -1075026202
-      Map Level Tiles_40: -70818405
-      Map Level Tiles_91: -1592651301
-      Map Level Tiles_101: -501047389
-      Map Level Tiles_50: -1536072155
-      Map Level Tiles_110: -1523844939
       Map Level Tiles_10: -407248458
-      Map Level Tiles_28: 1716372885
-      Map Level Tiles_113: -1003713508
-      Map Level Tiles_8: -1333739931
-      Map Level Tiles_24: 1723820083
-      Map Level Tiles_46: 293536808
-      Map Level Tiles_27: 1614245986
-      Map Level Tiles_45: 237615094
-      Map Level Tiles_61: 1918041560
-      Map Level Tiles_96: 894167397
-      Map Level Tiles_43: 1167270601
-      Map Level Tiles_32: -108914232
-      Map Level Tiles_114: 348657681
+      Map Level Tiles_100: 53585652
+      Map Level Tiles_101: -501047389
+      Map Level Tiles_102: 124817152
+      Map Level Tiles_103: 313608694
+      Map Level Tiles_104: 519941268
       Map Level Tiles_105: 276038961
-      Map Level Tiles_74: 1333527142
-      Map Level Tiles_77: -217318277
-      Map Level Tiles_23: -1196013806
-      Map Level Tiles_48: -1482182611
-      Map Level Tiles_86: 608374812
-      Map Level Tiles_119: 1483914917
+      Map Level Tiles_106: 239083552
+      Map Level Tiles_107: -1201792738
+      Map Level Tiles_108: -1463617096
+      Map Level Tiles_109: -1075026202
       Map Level Tiles_11: -1299493111
-      Map Level Tiles_47: -419621594
-      Map Level Tiles_64: 1273545008
-      Map Level Tiles_4: 1557949314
+      Map Level Tiles_110: -1523844939
+      Map Level Tiles_111: 1865056742
+      Map Level Tiles_112: -2100749088
+      Map Level Tiles_113: -1003713508
+      Map Level Tiles_114: 348657681
+      Map Level Tiles_115: 30840334
+      Map Level Tiles_116: -535145238
+      Map Level Tiles_117: 277711452
+      Map Level Tiles_118: -1520318074
+      Map Level Tiles_119: 1483914917
+      Map Level Tiles_12: -1324580544
+      Map Level Tiles_120: 616304228
+      Map Level Tiles_121: 2035484039
+      Map Level Tiles_122: 385368025
+      Map Level Tiles_123: -816609591
+      Map Level Tiles_124: -1128203781
+      Map Level Tiles_125: -1074147729
+      Map Level Tiles_126: 1868383718
       Map Level Tiles_127: 1186836137
+      Map Level Tiles_128: -1374185274
+      Map Level Tiles_13: -1390558694
+      Map Level Tiles_14: -1356641559
+      Map Level Tiles_15: 1476414694
+      Map Level Tiles_16: -2074149925
+      Map Level Tiles_17: -534809497
+      Map Level Tiles_18: 1930026521
+      Map Level Tiles_19: 224007411
+      Map Level Tiles_2: -572497266
+      Map Level Tiles_20: -246014149
+      Map Level Tiles_21: -1430084654
+      Map Level Tiles_22: 1920272606
+      Map Level Tiles_23: -1196013806
+      Map Level Tiles_24: 1723820083
+      Map Level Tiles_25: -1716330485
+      Map Level Tiles_26: 1728946245
+      Map Level Tiles_27: 1614245986
+      Map Level Tiles_28: 1716372885
+      Map Level Tiles_29: 1137552616
+      Map Level Tiles_3: -1359851500
+      Map Level Tiles_30: 2041677320
+      Map Level Tiles_31: 244275189
+      Map Level Tiles_32: -108914232
+      Map Level Tiles_33: -1501230282
+      Map Level Tiles_34: 1623014876
+      Map Level Tiles_35: -1986885827
+      Map Level Tiles_36: -1247335029
+      Map Level Tiles_37: 1267276496
+      Map Level Tiles_38: -704846429
+      Map Level Tiles_39: 1200390620
+      Map Level Tiles_4: 1557949314
+      Map Level Tiles_40: -70818405
+      Map Level Tiles_41: 66266602
+      Map Level Tiles_42: -2105703229
+      Map Level Tiles_43: 1167270601
+      Map Level Tiles_44: 1802695542
+      Map Level Tiles_45: 237615094
+      Map Level Tiles_46: 293536808
+      Map Level Tiles_47: -419621594
+      Map Level Tiles_48: -1482182611
+      Map Level Tiles_49: -1850544646
+      Map Level Tiles_5: -623440200
+      Map Level Tiles_50: -1536072155
+      Map Level Tiles_51: 638082555
+      Map Level Tiles_52: 1122476236
+      Map Level Tiles_53: 1506712561
+      Map Level Tiles_54: 1139103959
+      Map Level Tiles_55: -1555664569
+      Map Level Tiles_56: 1176022578
+      Map Level Tiles_57: 364160092
+      Map Level Tiles_58: -196138213
+      Map Level Tiles_59: 19322531
+      Map Level Tiles_6: -319801972
+      Map Level Tiles_60: -298109554
+      Map Level Tiles_61: 1918041560
+      Map Level Tiles_62: -256428123
+      Map Level Tiles_63: -990650581
+      Map Level Tiles_64: 1273545008
+      Map Level Tiles_65: -120096455
+      Map Level Tiles_66: 663594103
+      Map Level Tiles_67: -2104223778
+      Map Level Tiles_68: 1720211941
+      Map Level Tiles_69: -2118039875
+      Map Level Tiles_7: -1889192751
+      Map Level Tiles_70: 604503160
+      Map Level Tiles_71: 1634597196
+      Map Level Tiles_72: 195076768
+      Map Level Tiles_73: -1481741643
+      Map Level Tiles_74: 1333527142
       Map Level Tiles_75: 2053676619
-  spritePackingTag: 
+      Map Level Tiles_76: -669108511
+      Map Level Tiles_77: -217318277
+      Map Level Tiles_78: 564770332
+      Map Level Tiles_79: 132084824
+      Map Level Tiles_8: -1333739931
+      Map Level Tiles_80: 1558578775
+      Map Level Tiles_81: -493788636
+      Map Level Tiles_82: 1693795003
+      Map Level Tiles_83: 247362041
+      Map Level Tiles_84: -737533313
+      Map Level Tiles_85: 1211438483
+      Map Level Tiles_86: 608374812
+      Map Level Tiles_87: 1145767625
+      Map Level Tiles_88: 10790263
+      Map Level Tiles_89: 968984248
+      Map Level Tiles_9: 1231516456
+      Map Level Tiles_90: -376345505
+      Map Level Tiles_91: -1592651301
+      Map Level Tiles_92: -117158848
+      Map Level Tiles_93: 1818428021
+      Map Level Tiles_94: -1788729493
+      Map Level Tiles_95: -205942066
+      Map Level Tiles_96: 894167397
+      Map Level Tiles_97: -1558012560
+      Map Level Tiles_98: 1704098461
+      Map Level Tiles_99: -1067840818
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

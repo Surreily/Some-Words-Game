@@ -5,6 +5,7 @@ using Surreily.SomeWords.Scripts.Json.Game;
 using Surreily.SomeWords.Scripts.Materials;
 using Surreily.SomeWords.Scripts.Renderers;
 using Surreily.SomeWords.Scripts.Utility;
+using TMPro;
 using UnityEngine;
 
 namespace Surreily.SomeWords.Scripts.Level {
@@ -45,6 +46,7 @@ namespace Surreily.SomeWords.Scripts.Level {
         }
 
         private void SetUpBorder() {
+            // TODO: Put all these under a single GameObject to clean up the hierarchy.
             CreateBorderTileAreaRenderer(0, level.Height, level.Width, 1, SquareTileSetPosition.Top);
             CreateBorderTileRenderer(level.Width, level.Height, SquareTileSetPosition.TopRight);
             CreateBorderTileAreaRenderer(level.Width, 0, 1, level.Height, SquareTileSetPosition.Right);
@@ -57,7 +59,7 @@ namespace Surreily.SomeWords.Scripts.Level {
         }
 
         private void CreateBorderTileRenderer(int x, int y, SquareTileSetPosition position) {
-            GameObject child = new GameObject();
+            GameObject child = new GameObject("Border");
             child.transform.parent = transform;
             child.transform.localPosition = new Vector3(x, y, 0.1f);
 
@@ -66,7 +68,7 @@ namespace Surreily.SomeWords.Scripts.Level {
         }
 
         private void CreateBorderTileAreaRenderer(int x, int y, int width, int height, SquareTileSetPosition position) {
-            GameObject child = new GameObject();
+            GameObject child = new GameObject("Border");
             child.transform.parent = transform;
             child.transform.localPosition = new Vector3(x, y, 0.1f);
 
@@ -77,7 +79,7 @@ namespace Surreily.SomeWords.Scripts.Level {
         }
 
         private void SetUpCursor(int x, int y) {
-            cursorGameObject = new GameObject();
+            cursorGameObject = new GameObject("Cursor");
             cursorGameObject.transform.parent = transform;
             cursorGameObject.transform.localPosition = new Vector3(x, y, -10f);
 
@@ -98,37 +100,49 @@ namespace Surreily.SomeWords.Scripts.Level {
         }
 
         private void AddTile(char character, int x, int y) {
-            GameObject tileGameObject = new GameObject();
+            GameObject tileObject = new GameObject("Tile");
+            tileObject.transform.parent = transform;
+            tileObject.transform.localPosition = new Vector3(x, y, -1f);
 
-            tileGameObject.transform.SetParent(transform, false);
-            tileGameObject.transform.localPosition = new Vector3(x, y, -1f);
-
-            MovableBehaviour movableBehaviour = tileGameObject.AddComponent<MovableBehaviour>();
+            MovableBehaviour movableBehaviour = tileObject.AddComponent<MovableBehaviour>();
             movableBehaviour.speed = 15f;
             movableBehaviour.distance = 1f;
 
-            TileBackgroundRenderer backgroundRenderer = tileGameObject.AddComponent<TileBackgroundRenderer>();
-            backgroundRenderer.Position = TileBackgroundPosition;
-            backgroundRenderer.Width = 1f;
-            backgroundRenderer.Height = 1f;
-            backgroundRenderer.Material = MaterialStore.Level.GetImmovableTileMaterial();
+            GameObject backgroundObject = new GameObject("Background");
+            backgroundObject.transform.parent = tileObject.transform;
+            backgroundObject.transform.localPosition = Vector3.zero;
+            backgroundObject.transform.localScale = Vector3.one;
 
-            GameObject tileCharacterGameObject = new GameObject();
+            SpriteRenderer backgroundRenderer = backgroundObject.AddComponent<SpriteRenderer>();
+            backgroundRenderer.sprite = MaterialStore.Level.DefaultTileSprite;
 
-            tileCharacterGameObject.transform.SetParent(tileGameObject.transform, false);
-            tileCharacterGameObject.transform.localPosition = new Vector3(0f, 0f, -1f);
+            GameObject characterObject = new GameObject();
 
-            TileBackgroundRenderer characterRenderer = tileCharacterGameObject.AddComponent<TileBackgroundRenderer>();
-            characterRenderer.Position = TileCharacterPosition;
-            characterRenderer.Width = 1f;
-            characterRenderer.Height = 1f;
-            characterRenderer.Material = MaterialStore.Font.GetRainbowFontMaterial(character);
+            characterObject.transform.parent = tileObject.transform;
+            characterObject.transform.localPosition = Vector3.zero;
 
-            PulseAnimationBehaviour pulseAnimationBehaviour = tileCharacterGameObject.AddComponent<PulseAnimationBehaviour>();
+            RectTransform rectTransform = characterObject.AddComponent<RectTransform>();
+            rectTransform.anchorMin = Vector2.zero;
+            rectTransform.anchorMax = Vector2.one;
+
+            TMP_Text textMeshProText = characterObject.AddComponent<TextMeshPro>();
+            textMeshProText.font = Resources.Load<TMP_FontAsset>("Fonts/VGA Font");
+            textMeshProText.text = character.ToString();
+            textMeshProText.horizontalAlignment = HorizontalAlignmentOptions.Center;
+            textMeshProText.verticalAlignment = VerticalAlignmentOptions.Middle;
+            textMeshProText.fontSize = 8f;
+
+            ////TileBackgroundRenderer characterRenderer = characterObject.AddComponent<TileBackgroundRenderer>();
+            ////characterRenderer.Position = TileCharacterPosition;
+            ////characterRenderer.Width = 1f;
+            ////characterRenderer.Height = 1f;
+            ////characterRenderer.Material = MaterialStore.Font.GetRainbowFontMaterial(character);
+
+            PulseAnimationBehaviour pulseAnimationBehaviour = characterObject.AddComponent<PulseAnimationBehaviour>();
             pulseAnimationBehaviour.Scale = 2f;
             pulseAnimationBehaviour.Speed = 5f;
 
-            Tile tile = new Tile(MaterialStore, movableBehaviour, pulseAnimationBehaviour, characterRenderer, backgroundRenderer) {
+            Tile tile = new Tile(MaterialStore, movableBehaviour, pulseAnimationBehaviour, textMeshProText, backgroundRenderer) {
                 X = x,
                 Y = y,
                 Character = character,

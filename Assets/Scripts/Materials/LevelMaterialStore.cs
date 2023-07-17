@@ -11,6 +11,10 @@ namespace Surreily.SomeWords.Scripts.Materials {
         private IMaterial matchedTileMaterial;
         private IMaterial immovableTileMaterial;
 
+        public Sprite DefaultTileSprite { get; private set; }
+        public Sprite MatchedTileSprite { get; private set; }
+        public Sprite ImmovableTileSprite { get; private set; }
+
         public LevelMaterialStore(GlobalTimer timer) {
             this.timer = timer;
 
@@ -65,6 +69,10 @@ namespace Surreily.SomeWords.Scripts.Materials {
                 Resources.Load<Sprite>("Sprites/Game Tiles"));
             immovableTileMaterial = MaterialHelper.SetUpStaticMaterial(
                 Resources.Load<Sprite>("Sprites/Game Tiles"));
+
+            DefaultTileSprite = Resources.Load<Sprite>("Sprites/Game Tiles");
+            MatchedTileSprite = Resources.Load<Sprite>("Sprites/Game Tiles");
+            ImmovableTileSprite = Resources.Load<Sprite>("Sprites/Game Tiles");
         }
     }
 }

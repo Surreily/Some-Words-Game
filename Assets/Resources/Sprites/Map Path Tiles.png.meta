@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -47,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 8
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -63,6 +64,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
@@ -75,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -87,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -99,6 +103,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -4042,196 +4047,195 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Map Path Tiles_71: 689258803
-      Map Path Tiles_179: 2040580640
-      Map Path Tiles_16: 1443673813
-      Map Path Tiles_130: 1759850672
-      Map Path Tiles_3: -950100618
-      Map Path Tiles_15: -687814811
-      Map Path Tiles_175: -94074672
-      Map Path Tiles_181: -793440456
-      Map Path Tiles_40: 356985806
-      Map Path Tiles_128: 578825750
-      Map Path Tiles_13: 394676445
-      Map Path Tiles_88: 1892141841
-      Map Path Tiles_141: 1367650770
-      Map Path Tiles_109: -805535295
-      Map Path Tiles_139: -1547585001
-      Map Path Tiles_154: 1869996311
-      Map Path Tiles_21: -221036840
-      Map Path Tiles_107: -1171722165
-      Map Path Tiles_145: -227039924
-      Map Path Tiles_34: 838081914
-      Map Path Tiles_165: -271186013
-      Map Path Tiles_39: 1519328405
-      Map Path Tiles_138: 1252516438
-      Map Path Tiles_106: -1757495958
-      Map Path Tiles_146: 291910696
-      Map Path Tiles_182: 129523623
-      Map Path Tiles_153: 693720293
-      Map Path Tiles_9: -1107613320
-      Map Path Tiles_76: -904344762
-      Map Path Tiles_67: -638885289
-      Map Path Tiles_68: 1771451243
-      Map Path Tiles_58: 1499885792
-      Map Path Tiles_37: 850474950
-      Map Path Tiles_11: 1837644551
-      Map Path Tiles_77: -2115412859
-      Map Path Tiles_51: 356281941
-      Map Path Tiles_29: -1685090603
-      Map Path Tiles_31: 167913112
-      Map Path Tiles_137: -1358038301
-      Map Path Tiles_180: 699813404
-      Map Path Tiles_96: -187396181
-      Map Path Tiles_156: 377382059
-      Map Path Tiles_47: -1367984593
-      Map Path Tiles_19: 1929784416
-      Map Path Tiles_43: -1858050898
-      Map Path Tiles_101: 1579525474
-      Map Path Tiles_89: -2064785564
-      Map Path Tiles_173: -1357691277
-      Map Path Tiles_150: 580514013
-      Map Path Tiles_94: 550498079
-      Map Path Tiles_111: -1988188818
-      Map Path Tiles_118: -1637435997
-      Map Path Tiles_149: 1198577152
-      Map Path Tiles_72: -253609191
-      Map Path Tiles_6: 2057545486
-      Map Path Tiles_10: 2057037304
-      Map Path Tiles_7: -1015483199
-      Map Path Tiles_12: -1255882917
-      Map Path Tiles_28: 2002744647
-      Map Path Tiles_57: 1823922150
-      Map Path Tiles_17: -1730491123
-      Map Path Tiles_52: 1106850200
-      Map Path Tiles_129: 1203269643
-      Map Path Tiles_123: -1456522687
-      Map Path Tiles_20: 636821404
-      Map Path Tiles_38: 1047005244
+      Map Path Tiles_0: 1535167625
       Map Path Tiles_1: -1161168059
-      Map Path Tiles_108: -691229178
-      Map Path Tiles_168: 519805783
-      Map Path Tiles_184: 1517190959
-      Map Path Tiles_114: 257087401
-      Map Path Tiles_160: 1655638304
-      Map Path Tiles_56: -189055258
+      Map Path Tiles_10: 2057037304
+      Map Path Tiles_100: 1043412334
+      Map Path Tiles_101: 1579525474
+      Map Path Tiles_102: 370034502
       Map Path Tiles_103: 292766556
-      Map Path Tiles_164: 1001257888
+      Map Path Tiles_104: -697709438
+      Map Path Tiles_105: -1611463792
+      Map Path Tiles_106: -1757495958
+      Map Path Tiles_107: -1171722165
+      Map Path Tiles_108: -691229178
+      Map Path Tiles_109: -805535295
+      Map Path Tiles_11: 1837644551
+      Map Path Tiles_110: -1649947401
+      Map Path Tiles_111: -1988188818
+      Map Path Tiles_112: 1058085554
+      Map Path Tiles_113: 1657014615
+      Map Path Tiles_114: 257087401
+      Map Path Tiles_115: 1093019342
+      Map Path Tiles_116: -2085022396
+      Map Path Tiles_117: 35698931
+      Map Path Tiles_118: -1637435997
+      Map Path Tiles_119: 2004304088
+      Map Path Tiles_12: -1255882917
+      Map Path Tiles_120: 375280040
+      Map Path Tiles_121: -427476042
+      Map Path Tiles_122: -2093451713
+      Map Path Tiles_123: -1456522687
+      Map Path Tiles_124: -1110928390
+      Map Path Tiles_125: -979300244
+      Map Path Tiles_126: -366465120
+      Map Path Tiles_127: 23240660
+      Map Path Tiles_128: 578825750
+      Map Path Tiles_129: 1203269643
+      Map Path Tiles_13: 394676445
+      Map Path Tiles_130: 1759850672
+      Map Path Tiles_131: 1094354100
+      Map Path Tiles_132: 242026653
+      Map Path Tiles_133: -103395341
+      Map Path Tiles_134: 895076579
+      Map Path Tiles_135: 939509719
+      Map Path Tiles_136: -706140798
+      Map Path Tiles_137: -1358038301
+      Map Path Tiles_138: 1252516438
+      Map Path Tiles_139: -1547585001
+      Map Path Tiles_14: -396883000
+      Map Path Tiles_140: 1075844868
+      Map Path Tiles_141: 1367650770
+      Map Path Tiles_142: -1181506352
+      Map Path Tiles_143: 744788259
+      Map Path Tiles_144: -1933015531
+      Map Path Tiles_145: -227039924
+      Map Path Tiles_146: 291910696
+      Map Path Tiles_147: 1754164710
+      Map Path Tiles_148: 1374261527
+      Map Path Tiles_149: 1198577152
+      Map Path Tiles_15: -687814811
+      Map Path Tiles_150: 580514013
+      Map Path Tiles_151: 688903159
+      Map Path Tiles_152: -453342299
+      Map Path Tiles_153: 693720293
+      Map Path Tiles_154: 1869996311
+      Map Path Tiles_155: 1850114696
+      Map Path Tiles_156: 377382059
+      Map Path Tiles_157: 1728565157
       Map Path Tiles_158: 1517424725
+      Map Path Tiles_159: 1581329907
+      Map Path Tiles_16: 1443673813
+      Map Path Tiles_160: 1655638304
+      Map Path Tiles_161: 1363744682
+      Map Path Tiles_162: 1124664952
+      Map Path Tiles_163: -1156628314
+      Map Path Tiles_164: 1001257888
+      Map Path Tiles_165: -271186013
+      Map Path Tiles_166: -1356100714
+      Map Path Tiles_167: -1453807960
+      Map Path Tiles_168: 519805783
+      Map Path Tiles_169: 2090888231
+      Map Path Tiles_17: -1730491123
+      Map Path Tiles_170: 591178772
+      Map Path Tiles_171: -1124514862
+      Map Path Tiles_172: 138987179
+      Map Path Tiles_173: -1357691277
+      Map Path Tiles_174: -1765592889
+      Map Path Tiles_175: -94074672
+      Map Path Tiles_176: -1620832187
+      Map Path Tiles_177: -916675270
+      Map Path Tiles_178: 2115735717
+      Map Path Tiles_179: 2040580640
+      Map Path Tiles_18: 1367746344
+      Map Path Tiles_180: 699813404
+      Map Path Tiles_181: -793440456
+      Map Path Tiles_182: 129523623
+      Map Path Tiles_183: 1912955116
+      Map Path Tiles_184: 1517190959
+      Map Path Tiles_185: 806226574
+      Map Path Tiles_186: 1728013708
+      Map Path Tiles_19: 1929784416
+      Map Path Tiles_2: -1932815020
+      Map Path Tiles_20: 636821404
+      Map Path Tiles_21: -221036840
+      Map Path Tiles_22: -235273710
+      Map Path Tiles_23: 2088831498
+      Map Path Tiles_24: -1917295471
+      Map Path Tiles_25: -1026160557
+      Map Path Tiles_26: 1798084274
+      Map Path Tiles_27: 2047866816
+      Map Path Tiles_28: 2002744647
+      Map Path Tiles_29: -1685090603
+      Map Path Tiles_3: -950100618
+      Map Path Tiles_30: -470260037
+      Map Path Tiles_31: 167913112
+      Map Path Tiles_32: -1934254023
+      Map Path Tiles_33: 672352444
+      Map Path Tiles_34: 838081914
+      Map Path Tiles_35: -753903450
+      Map Path Tiles_36: 1866345577
+      Map Path Tiles_37: 850474950
+      Map Path Tiles_38: 1047005244
+      Map Path Tiles_39: 1519328405
+      Map Path Tiles_4: -409469875
+      Map Path Tiles_40: 356985806
+      Map Path Tiles_41: 631008866
+      Map Path Tiles_42: 204343622
+      Map Path Tiles_43: -1858050898
+      Map Path Tiles_44: 1124328345
+      Map Path Tiles_45: -275116688
+      Map Path Tiles_46: -1906125662
+      Map Path Tiles_47: -1367984593
       Map Path Tiles_48: -1002088147
       Map Path Tiles_49: -1631304191
-      Map Path Tiles_105: -1611463792
-      Map Path Tiles_183: 1912955116
-      Map Path Tiles_18: 1367746344
-      Map Path Tiles_42: 204343622
-      Map Path Tiles_84: -1906482370
-      Map Path Tiles_147: 1754164710
-      Map Path Tiles_70: 1639125680
-      Map Path Tiles_36: 1866345577
-      Map Path Tiles_120: 375280040
-      Map Path Tiles_115: 1093019342
-      Map Path Tiles_82: 1828596660
-      Map Path Tiles_177: -916675270
-      Map Path Tiles_155: 1850114696
-      Map Path Tiles_66: -1335251509
-      Map Path Tiles_102: 370034502
-      Map Path Tiles_27: 2047866816
-      Map Path Tiles_122: -2093451713
-      Map Path Tiles_32: -1934254023
-      Map Path Tiles_80: 1104339116
-      Map Path Tiles_151: 688903159
-      Map Path Tiles_95: -1594683809
-      Map Path Tiles_41: 631008866
-      Map Path Tiles_54: 1593935949
-      Map Path Tiles_121: -427476042
-      Map Path Tiles_99: 268791372
-      Map Path Tiles_74: 269288880
-      Map Path Tiles_65: -1710556021
-      Map Path Tiles_131: 1094354100
-      Map Path Tiles_26: 1798084274
-      Map Path Tiles_127: 23240660
-      Map Path Tiles_174: -1765592889
-      Map Path Tiles_59: -243253918
-      Map Path Tiles_83: 290994990
-      Map Path Tiles_142: -1181506352
-      Map Path Tiles_64: -1182855810
-      Map Path Tiles_140: 1075844868
-      Map Path Tiles_136: -706140798
-      Map Path Tiles_124: -1110928390
-      Map Path Tiles_61: 982812477
-      Map Path Tiles_148: 1374261527
-      Map Path Tiles_63: 785062469
-      Map Path Tiles_55: 165343731
-      Map Path Tiles_35: -753903450
-      Map Path Tiles_98: -119258340
-      Map Path Tiles_110: -1649947401
-      Map Path Tiles_97: 940194126
-      Map Path Tiles_119: 2004304088
-      Map Path Tiles_104: -697709438
-      Map Path Tiles_159: 1581329907
-      Map Path Tiles_133: -103395341
-      Map Path Tiles_163: -1156628314
-      Map Path Tiles_178: 2115735717
-      Map Path Tiles_170: 591178772
-      Map Path Tiles_25: -1026160557
-      Map Path Tiles_33: 672352444
-      Map Path Tiles_167: -1453807960
-      Map Path Tiles_112: 1058085554
-      Map Path Tiles_53: -731615663
-      Map Path Tiles_4: -409469875
-      Map Path Tiles_50: -1011937227
-      Map Path Tiles_24: -1917295471
-      Map Path Tiles_161: 1363744682
-      Map Path Tiles_117: 35698931
-      Map Path Tiles_162: 1124664952
-      Map Path Tiles_69: 1262500267
-      Map Path Tiles_14: -396883000
-      Map Path Tiles_86: -279371171
-      Map Path Tiles_126: -366465120
-      Map Path Tiles_171: -1124514862
-      Map Path Tiles_81: -1168294290
-      Map Path Tiles_100: 1043412334
-      Map Path Tiles_186: 1728013708
-      Map Path Tiles_78: 1084971805
-      Map Path Tiles_87: 1847504802
-      Map Path Tiles_75: -1208057053
-      Map Path Tiles_172: 138987179
-      Map Path Tiles_23: 2088831498
-      Map Path Tiles_85: -958089909
-      Map Path Tiles_60: 2061565061
-      Map Path Tiles_132: 242026653
-      Map Path Tiles_46: -1906125662
-      Map Path Tiles_92: 1274843455
-      Map Path Tiles_157: 1728565157
-      Map Path Tiles_116: -2085022396
-      Map Path Tiles_113: 1657014615
-      Map Path Tiles_45: -275116688
-      Map Path Tiles_8: -755579327
-      Map Path Tiles_93: 1687601626
-      Map Path Tiles_22: -235273710
-      Map Path Tiles_30: -470260037
-      Map Path Tiles_62: 569956634
-      Map Path Tiles_143: 744788259
-      Map Path Tiles_73: -45429292
-      Map Path Tiles_90: 859965189
-      Map Path Tiles_185: 806226574
-      Map Path Tiles_91: 1651882662
-      Map Path Tiles_169: 2090888231
-      Map Path Tiles_2: -1932815020
-      Map Path Tiles_176: -1620832187
-      Map Path Tiles_166: -1356100714
-      Map Path Tiles_79: 1784586237
-      Map Path Tiles_134: 895076579
-      Map Path Tiles_144: -1933015531
-      Map Path Tiles_152: -453342299
-      Map Path Tiles_0: 1535167625
-      Map Path Tiles_44: 1124328345
-      Map Path Tiles_125: -979300244
-      Map Path Tiles_135: 939509719
       Map Path Tiles_5: -190748233
-  spritePackingTag: 
+      Map Path Tiles_50: -1011937227
+      Map Path Tiles_51: 356281941
+      Map Path Tiles_52: 1106850200
+      Map Path Tiles_53: -731615663
+      Map Path Tiles_54: 1593935949
+      Map Path Tiles_55: 165343731
+      Map Path Tiles_56: -189055258
+      Map Path Tiles_57: 1823922150
+      Map Path Tiles_58: 1499885792
+      Map Path Tiles_59: -243253918
+      Map Path Tiles_6: 2057545486
+      Map Path Tiles_60: 2061565061
+      Map Path Tiles_61: 982812477
+      Map Path Tiles_62: 569956634
+      Map Path Tiles_63: 785062469
+      Map Path Tiles_64: -1182855810
+      Map Path Tiles_65: -1710556021
+      Map Path Tiles_66: -1335251509
+      Map Path Tiles_67: -638885289
+      Map Path Tiles_68: 1771451243
+      Map Path Tiles_69: 1262500267
+      Map Path Tiles_7: -1015483199
+      Map Path Tiles_70: 1639125680
+      Map Path Tiles_71: 689258803
+      Map Path Tiles_72: -253609191
+      Map Path Tiles_73: -45429292
+      Map Path Tiles_74: 269288880
+      Map Path Tiles_75: -1208057053
+      Map Path Tiles_76: -904344762
+      Map Path Tiles_77: -2115412859
+      Map Path Tiles_78: 1084971805
+      Map Path Tiles_79: 1784586237
+      Map Path Tiles_8: -755579327
+      Map Path Tiles_80: 1104339116
+      Map Path Tiles_81: -1168294290
+      Map Path Tiles_82: 1828596660
+      Map Path Tiles_83: 290994990
+      Map Path Tiles_84: -1906482370
+      Map Path Tiles_85: -958089909
+      Map Path Tiles_86: -279371171
+      Map Path Tiles_87: 1847504802
+      Map Path Tiles_88: 1892141841
+      Map Path Tiles_89: -2064785564
+      Map Path Tiles_9: -1107613320
+      Map Path Tiles_90: 859965189
+      Map Path Tiles_91: 1651882662
+      Map Path Tiles_92: 1274843455
+      Map Path Tiles_93: 1687601626
+      Map Path Tiles_94: 550498079
+      Map Path Tiles_95: -1594683809
+      Map Path Tiles_96: -187396181
+      Map Path Tiles_97: 940194126
+      Map Path Tiles_98: -119258340
+      Map Path Tiles_99: 268791372
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

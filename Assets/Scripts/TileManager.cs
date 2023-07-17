@@ -1,12 +1,14 @@
 using System;
 using Surreily.SomeWords.Scripts.Materials;
+using TMPro;
+using UnityEngine;
 
 public class Tile : ITile {
     private readonly MaterialStore materialStore;
     private readonly MovableBehaviour movableBehaviour;
     private readonly PulseAnimationBehaviour pulseAnimationBehaviour;
-    private readonly TileBackgroundRenderer characterRenderer;
-    private readonly TileBackgroundRenderer backgroundRenderer;
+    private readonly TMP_Text textMeshProText;
+    private readonly SpriteRenderer backgroundRenderer;
 
     private TileState tileState;
 
@@ -14,13 +16,13 @@ public class Tile : ITile {
         MaterialStore materialStore,
         MovableBehaviour movableBehaviour,
         PulseAnimationBehaviour pulseAnimationBehaviour,
-        TileBackgroundRenderer characterRenderer,
-        TileBackgroundRenderer backgroundRenderer) {
+        TMP_Text textMeshProText,
+        SpriteRenderer backgroundRenderer) {
 
         this.materialStore = materialStore;
         this.movableBehaviour = movableBehaviour;
         this.pulseAnimationBehaviour = pulseAnimationBehaviour;
-        this.characterRenderer = characterRenderer;
+        this.textMeshProText = textMeshProText;
         this.backgroundRenderer = backgroundRenderer;
     }
 
@@ -60,17 +62,17 @@ public class Tile : ITile {
     }
 
     private void SetNormalState() {
-        characterRenderer.Material = materialStore.Font.GetWhiteFontMaterial(Character);
-        backgroundRenderer.Material = materialStore.Level.GetDefaultTileMaterial();
+        textMeshProText.color = Color.white;
+        backgroundRenderer.sprite = materialStore.Level.DefaultTileSprite;
     }
 
     private void SetValidState() {
-        characterRenderer.Material = materialStore.Font.GetRainbowFontMaterial(Character);
-        backgroundRenderer.Material = materialStore.Level.GetMatchedTileMaterial();
+        textMeshProText.color = Color.green; // TODO: Rainbow?
+        backgroundRenderer.sprite = materialStore.Level.MatchedTileSprite;
     }
 
     private void SetInvalidState() {
-        characterRenderer.Material = materialStore.Font.GetBlackFontMaterial(Character); // TODO: Make this red.
-        backgroundRenderer.Material = materialStore.Level.GetImmovableTileMaterial();
+        textMeshProText.color = Color.red;
+        backgroundRenderer.sprite = materialStore.Level.ImmovableTileSprite;
     }
 }
