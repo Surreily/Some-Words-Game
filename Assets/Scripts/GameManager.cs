@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour {
 
     public void OpenLevel(JsonLevel level) {
         levelObject = new GameObject();
-        levelObject.transform.position = new Vector3(level.X, level.Y, 0f);
+        levelObject.transform.position = new Vector3(level.X - level.StartX, level.Y - level.StartY, 0f);
 
         LevelManager levelManager = levelObject.AddComponent<LevelManager>();
         levelManager.MaterialStore = materialStore;

@@ -58,8 +58,8 @@ namespace Surreily.SomeWords.Scripts.Level {
 
         private void CreateBorderTileRenderer(int x, int y, SquareTileSetPosition position) {
             GameObject child = new GameObject();
-            child.transform.SetParent(transform);
-            child.transform.Translate(x, y, 0.1f);
+            child.transform.parent = transform;
+            child.transform.localPosition = new Vector3(x, y, 0.1f);
 
             TileRenderer renderer = child.AddComponent<TileRenderer>();
             renderer.Material = MaterialStore.Level.GetBackgroundMaterial(position);
@@ -67,8 +67,8 @@ namespace Surreily.SomeWords.Scripts.Level {
 
         private void CreateBorderTileAreaRenderer(int x, int y, int width, int height, SquareTileSetPosition position) {
             GameObject child = new GameObject();
-            child.transform.SetParent(transform);
-            child.transform.Translate(x, y, 0.1f);
+            child.transform.parent = transform;
+            child.transform.localPosition = new Vector3(x, y, 0.1f);
 
             TileAreaRenderer renderer = child.AddComponent<TileAreaRenderer>();
             renderer.Width = width;
@@ -78,8 +78,8 @@ namespace Surreily.SomeWords.Scripts.Level {
 
         private void SetUpCursor(int x, int y) {
             cursorGameObject = new GameObject();
-            cursorGameObject.transform.SetParent(transform, false);
-            cursorGameObject.transform.localPosition = new Vector3(x, (level.Height - 1) - y, -10f);
+            cursorGameObject.transform.parent = transform;
+            cursorGameObject.transform.localPosition = new Vector3(x, y, -10f);
 
             cursorMovableBehaviour = cursorGameObject.AddComponent<MovableBehaviour>();
             cursorMovableBehaviour.speed = 15f;
@@ -101,7 +101,7 @@ namespace Surreily.SomeWords.Scripts.Level {
             GameObject tileGameObject = new GameObject();
 
             tileGameObject.transform.SetParent(transform, false);
-            tileGameObject.transform.localPosition = new Vector3(x, (level.Height - 1) - y, -1f);
+            tileGameObject.transform.localPosition = new Vector3(x, y, -1f);
 
             MovableBehaviour movableBehaviour = tileGameObject.AddComponent<MovableBehaviour>();
             movableBehaviour.speed = 15f;
