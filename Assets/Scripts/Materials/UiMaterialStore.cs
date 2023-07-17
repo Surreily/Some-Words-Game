@@ -6,6 +6,8 @@ namespace Surreily.SomeWords.Scripts.Materials {
 
         private IMaterial cursorMaterial;
 
+        public Sprite CursorSprite { get; private set; }
+
         public UiMaterialStore(GlobalTimer timer) {
             this.timer = timer;
 
@@ -20,6 +22,8 @@ namespace Surreily.SomeWords.Scripts.Materials {
             Sprite sprite = Resources.Load<Sprite>("Sprites/Cursor");
 
             cursorMaterial = MaterialHelper.SetUpStaticMaterial(sprite);
+
+            CursorSprite = Resources.Load<Sprite>("Sprites/Cursor");
         }
     }
 }

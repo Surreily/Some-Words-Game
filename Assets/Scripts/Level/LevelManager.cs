@@ -81,17 +81,14 @@ namespace Surreily.SomeWords.Scripts.Level {
         private void SetUpCursor(int x, int y) {
             cursorGameObject = new GameObject("Cursor");
             cursorGameObject.transform.parent = transform;
-            cursorGameObject.transform.localPosition = new Vector3(x, y, -10f);
+            cursorGameObject.transform.localPosition = new Vector3(x, y, -3f);
 
             cursorMovableBehaviour = cursorGameObject.AddComponent<MovableBehaviour>();
             cursorMovableBehaviour.speed = 15f;
             cursorMovableBehaviour.distance = 1f;
 
-            TextureRenderer textureRenderer = cursorGameObject.AddComponent<TextureRenderer>();
-            textureRenderer.material = MaterialStore.Ui.GetCursorMaterial();
-            textureRenderer.width = 1.05f;
-            textureRenderer.height = 1.05f;
-            textureRenderer.z = 5f;
+            SpriteRenderer cursorRenderer = cursorGameObject.AddComponent<SpriteRenderer>();
+            cursorRenderer.sprite = MaterialStore.Ui.CursorSprite;
         }
 
         private void SetUpCameraMovement() {
@@ -116,7 +113,7 @@ namespace Surreily.SomeWords.Scripts.Level {
             SpriteRenderer backgroundRenderer = backgroundObject.AddComponent<SpriteRenderer>();
             backgroundRenderer.sprite = MaterialStore.Level.DefaultTileSprite;
 
-            GameObject characterObject = new GameObject();
+            GameObject characterObject = new GameObject("Character");
 
             characterObject.transform.parent = tileObject.transform;
             characterObject.transform.localPosition = Vector3.zero;
