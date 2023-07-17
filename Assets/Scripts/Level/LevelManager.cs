@@ -132,12 +132,6 @@ namespace Surreily.SomeWords.Scripts.Level {
             textMeshProText.verticalAlignment = VerticalAlignmentOptions.Middle;
             textMeshProText.fontSize = 8f;
 
-            ////TileBackgroundRenderer characterRenderer = characterObject.AddComponent<TileBackgroundRenderer>();
-            ////characterRenderer.Position = TileCharacterPosition;
-            ////characterRenderer.Width = 1f;
-            ////characterRenderer.Height = 1f;
-            ////characterRenderer.Material = MaterialStore.Font.GetRainbowFontMaterial(character);
-
             PulseAnimationBehaviour pulseAnimationBehaviour = characterObject.AddComponent<PulseAnimationBehaviour>();
             pulseAnimationBehaviour.Scale = 2f;
             pulseAnimationBehaviour.Speed = 5f;
