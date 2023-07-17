@@ -38,8 +38,6 @@ public class GameManager : MonoBehaviour {
         SetUpMaterialStore();
         SetUpGameDictionary();
         OpenMap(game);
-
-        mapManager.LoadMap(game);
     }
 
     private void SetUpCanvas() {
