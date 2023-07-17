@@ -51,12 +51,20 @@ namespace Surreily.SomeWords.Scripts.Materials {
         }
 
         private void SetUpTileMaterials() {
-            defaultTileMaterial = MaterialHelper.SetUpAnimatedMaterial(
-                Resources.LoadAll<Sprite>("Sprites/Lines"), timer);
-            matchedTileMaterial = MaterialHelper.SetUpAnimatedMaterial(
-                Resources.LoadAll<Sprite>("Sprites/Squares"), timer);
-            immovableTileMaterial = MaterialHelper.SetUpAnimatedMaterial(
-                Resources.LoadAll<Sprite>("Sprites/Static"), timer);
+            // TODO: Fully replace these materials.
+            ////defaultTileMaterial = MaterialHelper.SetUpAnimatedMaterial(
+            ////    Resources.LoadAll<Sprite>("Sprites/Lines"), timer);
+            ////matchedTileMaterial = MaterialHelper.SetUpAnimatedMaterial(
+            ////    Resources.LoadAll<Sprite>("Sprites/Squares"), timer);
+            ////immovableTileMaterial = MaterialHelper.SetUpAnimatedMaterial(
+            ////    Resources.LoadAll<Sprite>("Sprites/Static"), timer);
+
+            defaultTileMaterial = MaterialHelper.SetUpStaticMaterial(
+                Resources.Load<Sprite>("Sprites/Game Tiles"));
+            matchedTileMaterial = MaterialHelper.SetUpStaticMaterial(
+                Resources.Load<Sprite>("Sprites/Game Tiles"));
+            immovableTileMaterial = MaterialHelper.SetUpStaticMaterial(
+                Resources.Load<Sprite>("Sprites/Game Tiles"));
         }
     }
 }

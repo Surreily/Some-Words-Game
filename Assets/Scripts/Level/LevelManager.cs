@@ -109,8 +109,8 @@ namespace Surreily.SomeWords.Scripts.Level {
 
             TileBackgroundRenderer backgroundRenderer = tileGameObject.AddComponent<TileBackgroundRenderer>();
             backgroundRenderer.Position = TileBackgroundPosition;
-            backgroundRenderer.Width = 0.95f;
-            backgroundRenderer.Height = 0.95f;
+            backgroundRenderer.Width = 1f;
+            backgroundRenderer.Height = 1f;
             backgroundRenderer.Material = MaterialStore.Level.GetImmovableTileMaterial();
 
             GameObject tileCharacterGameObject = new GameObject();
