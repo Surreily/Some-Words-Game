@@ -9,7 +9,6 @@ using UnityEngine.UI;
 using Surreily.SomeWords.Scripts.Json.Game;
 
 public class GameManager : MonoBehaviour {
-    private GameObject canvasObject;
     private MaterialStore materialStore;
     private HashSet<string> gameDictionary;
     private MapManager mapManager;
@@ -20,8 +19,6 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField]
     public Camera MainCamera;
-
-    public GameObject CanvasObject => canvasObject;
 
     public CameraMovement CameraMovement => cameraMovement;
 
@@ -34,20 +31,9 @@ public class GameManager : MonoBehaviour {
 
         JsonGame game = LoadFromJson();
 
-        SetUpCanvas();
         SetUpMaterialStore();
         SetUpGameDictionary();
         OpenMap(game);
-    }
-
-    private void SetUpCanvas() {
-        canvasObject = new GameObject();
-
-        Canvas canvas = canvasObject.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceCamera;
-        canvas.worldCamera = MainCamera;
-
-        canvasObject.AddComponent<CanvasScaler>();
     }
 
     private void SetUpMaterialStore() {
