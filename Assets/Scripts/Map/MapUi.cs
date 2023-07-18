@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Surreily.SomeWords.Scripts.Map {
     public class MapUi : MonoBehaviour {
-        private GameObject mapUiObject;
+        private GameObject panelObject;
         private TextMeshProUGUI levelTitleText;
 
         public MaterialStore MaterialStore { get; set; }
@@ -13,10 +13,7 @@ namespace Surreily.SomeWords.Scripts.Map {
         public void EnableUi() {
             GameObject canvasObject = GameObject.Find("Canvas");
 
-            mapUiObject = new GameObject("Map UI");
-            mapUiObject.transform.parent = canvasObject.transform;
-
-            GameObject panelObject = new GameObject("Panel");
+            panelObject = new GameObject("Panel");
             panelObject.transform.parent = canvasObject.transform;
 
             Image image = panelObject.AddComponent<Image>();
@@ -44,9 +41,9 @@ namespace Surreily.SomeWords.Scripts.Map {
         }
 
         public void DisableUi() {
-            Destroy(mapUiObject);
+            Destroy(panelObject);
 
-            mapUiObject = null;
+            panelObject = null;
             levelTitleText = null;
         }
 
