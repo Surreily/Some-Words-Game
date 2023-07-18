@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 namespace Surreily.SomeWords.Scripts.Materials {
@@ -13,10 +14,14 @@ namespace Surreily.SomeWords.Scripts.Materials {
         private Dictionary<char, IMaterial> blackFontMaterialDictionary;
         private Dictionary<char, IMaterial> rainbowFontMaterialDictionary;
 
+        public TMP_FontAsset VgaFont { get; private set; }
+
         public FontMaterialStore(GlobalTimer timer) {
             this.timer = timer;
 
             SetUpFontMaterials();
+
+            VgaFont = Resources.Load<TMP_FontAsset>("Fonts/VGA Font");
         }
 
         public Material GetWhiteFontMaterial(char character) {

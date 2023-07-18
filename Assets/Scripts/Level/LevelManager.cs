@@ -11,9 +11,6 @@ using UnityEngine;
 namespace Surreily.SomeWords.Scripts.Level {
 
     public class LevelManager : MonoBehaviour {
-        private static readonly Vector3 TileCharacterPosition = new Vector3(1f / 16f * 4.5f, 1f / 16f * 1.5f, 0f);
-        private static readonly Vector3 TileBackgroundPosition = new Vector3(0f, 0f, 0f);
-
         private GameObject cursorGameObject;
 
         private MovableBehaviour cursorMovableBehaviour;

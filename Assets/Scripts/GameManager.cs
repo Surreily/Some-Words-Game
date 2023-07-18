@@ -5,16 +5,16 @@ using Surreily.SomeWords.Scripts.Json.Game;
 using Surreily.SomeWords.Scripts.Level;
 using Surreily.SomeWords.Scripts.Map;
 using Surreily.SomeWords.Scripts.Materials;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     private MaterialStore materialStore;
     private HashSet<string> gameDictionary;
+    private MapUi mapUi;
     private MapManager mapManager;
-    private LevelManager levelManager;
     private CameraMovement cameraMovement;
-
-    private GameObject mapCanvasObject;
 
     private GameObject levelObject;
 
@@ -26,16 +26,20 @@ public class GameManager : MonoBehaviour {
     public GameState State { get; private set; }
 
     public void Start() {
-        State = GameState.Map;
+        SetUpMaterialStore();
+        SetUpGameDictionary();
 
-        mapCanvasObject = GameObject.Find("Map Canvas");
+        State = GameState.Map;
 
         cameraMovement = MainCamera.GetComponent<CameraMovement>();
 
         JsonGame game = LoadFromJson();
 
-        SetUpMaterialStore();
-        SetUpGameDictionary();
+        mapUi = gameObject.AddComponent<MapUi>();
+        mapUi.MaterialStore = materialStore;
+
+        mapUi.EnableUi();
+
         OpenMap(game);
     }
 
@@ -59,10 +63,9 @@ public class GameManager : MonoBehaviour {
         mapManager = mapManagerObject.AddComponent<MapManager>();
         mapManager.GameManager = this;
         mapManager.MaterialStore = materialStore;
+        mapManager.MapUi = mapUi;
 
         mapManager.LoadMap(game);
-
-        mapCanvasObject.SetActive(true);
 
         State = GameState.Map;
     }
@@ -81,15 +84,14 @@ public class GameManager : MonoBehaviour {
         levelManager.GameDictionary = gameDictionary;
         levelManager.LoadBoard(level);
 
-        mapCanvasObject.SetActive(false);
-
         State = GameState.Level;
     }
 
     public void CloseLevel() {
         Destroy(levelObject);
-
         levelObject = null;
+
+        mapUi.EnableUi();
 
         State = GameState.Map;
     }

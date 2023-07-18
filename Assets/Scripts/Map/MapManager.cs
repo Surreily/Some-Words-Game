@@ -11,8 +11,6 @@ namespace Surreily.SomeWords.Scripts.Map {
     public class MapManager : MonoBehaviour {
         private MapState state;
 
-        private TMP_Text levelTitleText;
-
         private Dictionary<(int, int), MapPathTile> pathTileDictionary;
         private Dictionary<(int, int), MapLevelTile> levelTileDictionary;
 
@@ -25,11 +23,11 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         public MaterialStore MaterialStore { get; set; }
 
+        public MapUi MapUi { get; set; }
+
         #region Start
 
         public void Start() {
-            levelTitleText = GameObject.Find("Map Canvas/Level Title").GetComponent<TMP_Text>();
-
             state = MapState.Ready;
         }
 
@@ -54,7 +52,7 @@ namespace Surreily.SomeWords.Scripts.Map {
 
             if (cursorObject.transform.localPosition == cursorTarget) {
                 if (TryGetLevel(cursorX, cursorY, out MapLevelTile tile)) {
-                    levelTitleText.text = tile.JsonLevel.Title;
+                    MapUi.SetLevelTitleText(tile.JsonLevel.Title);
                 }
                 
                 state = MapState.Ready;
@@ -227,7 +225,7 @@ namespace Surreily.SomeWords.Scripts.Map {
             cursorY = newY;
             cursorTarget = new Vector3(cursorX, cursorY, 0f);
 
-            levelTitleText.text = string.Empty;
+            MapUi.ClearLevelTitleText();
 
             state = MapState.CursorMoving;
         }
