@@ -183,8 +183,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Level Title Goes Here
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ed1b8546d48f13f44821d3ca567083da, type: 2}
-  m_sharedMaterial: {fileID: 305045558277226578, guid: ed1b8546d48f13f44821d3ca567083da, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ca765671011cd3340a2f2234b798547e, type: 2}
+  m_sharedMaterial: {fileID: 305045558277226578, guid: ca765671011cd3340a2f2234b798547e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

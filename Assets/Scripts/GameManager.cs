@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Surreily.SomeWords.Scripts.Json.Game;
+using Surreily.SomeWords.Scripts.Level;
 using Surreily.SomeWords.Scripts.Map;
 using Surreily.SomeWords.Scripts.Materials;
-using Surreily.SomeWords.Scripts.Level;
 using UnityEngine;
-using UnityEngine.UI;
-using Surreily.SomeWords.Scripts.Json.Game;
 
 public class GameManager : MonoBehaviour {
     private MaterialStore materialStore;
@@ -14,6 +13,8 @@ public class GameManager : MonoBehaviour {
     private MapManager mapManager;
     private LevelManager levelManager;
     private CameraMovement cameraMovement;
+
+    private GameObject mapCanvasObject;
 
     private GameObject levelObject;
 
@@ -26,6 +27,8 @@ public class GameManager : MonoBehaviour {
 
     public void Start() {
         State = GameState.Map;
+
+        mapCanvasObject = GameObject.Find("Map Canvas");
 
         cameraMovement = MainCamera.GetComponent<CameraMovement>();
 
@@ -59,6 +62,8 @@ public class GameManager : MonoBehaviour {
 
         mapManager.LoadMap(game);
 
+        mapCanvasObject.SetActive(true);
+
         State = GameState.Map;
     }
 
@@ -76,11 +81,13 @@ public class GameManager : MonoBehaviour {
         levelManager.GameDictionary = gameDictionary;
         levelManager.LoadBoard(level);
 
+        mapCanvasObject.SetActive(false);
+
         State = GameState.Level;
     }
 
     public void CloseLevel() {
-        GameObject.Destroy(levelObject);
+        Destroy(levelObject);
 
         levelObject = null;
 
