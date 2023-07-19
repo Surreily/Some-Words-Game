@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Surreily.SomeWords.Scripts.Json.Game;
 using Surreily.SomeWords.Scripts.Materials;
+using Surreily.SomeWords.Scripts.Model.Game;
 using Surreily.SomeWords.Scripts.Renderers;
 using Surreily.SomeWords.Scripts.Ui;
 using Surreily.SomeWords.Scripts.Utility;
@@ -52,7 +53,7 @@ namespace Surreily.SomeWords.Scripts.Map {
 
             if (cursorObject.transform.localPosition == cursorTarget) {
                 if (TryGetLevel(cursorX, cursorY, out MapLevelTile tile)) {
-                    MapUi.SetLevelTitleText(tile.JsonLevel.Title);
+                    MapUi.SetLevelTitleText(tile.LevelModel.Title);
                 }
                 
                 state = MapState.Ready;
@@ -63,7 +64,7 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         #region Load Map
 
-        public void LoadMap(JsonGame game) {
+        public void LoadMap(GameModel game) {
             SetUpPathObjects(game);
             SetUpLevelObjects(game);
             SetUpCursor(game);
@@ -71,10 +72,10 @@ namespace Surreily.SomeWords.Scripts.Map {
             SetUpLevelTileRenderers();
         }
 
-        private void SetUpPathObjects(JsonGame game) {
+        private void SetUpPathObjects(GameModel game) {
             pathTileDictionary = new Dictionary<(int, int), MapPathTile>();
 
-            foreach (JsonPath path in game.Paths) {
+            foreach (PathModel path in game.Paths) {
                 for (int x = 0; x < path.Width; x++) {
                     for (int y = 0; y < path.Height; y++) {
                         GameObject pathObject = new GameObject("Path Tile");
@@ -92,16 +93,16 @@ namespace Surreily.SomeWords.Scripts.Map {
             }
         }
 
-        private void SetUpLevelObjects(JsonGame game) {
+        private void SetUpLevelObjects(GameModel game) {
             levelTileDictionary = new Dictionary<(int, int), MapLevelTile>();
 
-            foreach (JsonLevel level in game.Levels) {
+            foreach (LevelModel level in game.Levels) {
                 GameObject levelObject = new GameObject();
                 levelObject.transform.SetParent(transform, false);
                 levelObject.transform.Translate(level.X, level.Y, Layers.MapLevel, Space.Self);
 
                 MapLevelTile levelTile = new MapLevelTile {
-                    JsonLevel = level,
+                    LevelModel = level,
                     GameObject = levelObject,
                     IsOpen = true,
                 };
@@ -110,7 +111,7 @@ namespace Surreily.SomeWords.Scripts.Map {
             }
         }
 
-        private void SetUpCursor(JsonGame game) {
+        private void SetUpCursor(GameModel game) {
             cursorObject = new GameObject();
             cursorObject.transform.SetParent(transform, false);
             cursorObject.transform.Translate(game.StartX, game.StartY, Layers.MapCursor, Space.Self);
@@ -232,7 +233,7 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         private void HandleEnter() {
             if (TryGetLevel(cursorX, cursorY, out MapLevelTile tile)) {
-                GameManager.OpenLevel(tile.JsonLevel);
+                GameManager.OpenLevel(tile.LevelModel);
             }
         }
 
@@ -278,7 +279,7 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         private class MapLevelTile {
             public GameObject GameObject { get; set; }
-            public JsonLevel JsonLevel { get; set; }
+            public LevelModel LevelModel { get; set; }
             public int Colour { get; set; }
             public bool IsOpen { get; set; }
         }

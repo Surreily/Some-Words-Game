@@ -6,9 +6,9 @@
     "Paths": [
         {
             "X": 0,
-            "Y": 1,
+            "Y": 0,
             "Width": 1,
-            "Height": 2,
+            "Height": 3,
             "Colour": 4
         },
         {
@@ -19,7 +19,7 @@
             "Colour": 5
         },
         {
-            "X": 3,
+            "X": 0,
             "Y": 4,
             "Width": 1,
             "Height": 3,

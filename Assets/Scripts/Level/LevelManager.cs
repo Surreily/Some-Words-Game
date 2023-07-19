@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Surreily.SomeWords.Scripts.Json.Game;
 using Surreily.SomeWords.Scripts.Materials;
+using Surreily.SomeWords.Scripts.Model.Game;
 using Surreily.SomeWords.Scripts.Renderers;
 using Surreily.SomeWords.Scripts.Utility;
 using TMPro;
@@ -24,13 +24,13 @@ namespace Surreily.SomeWords.Scripts.Level {
 
         private Surreily.SomeWords.Scripts.Level.Level level;
 
-        public void LoadBoard(JsonLevel jsonLevel) {
+        public void LoadBoard(LevelModel levelModel) {
             actions = new Stack<IAction>();
 
-            level = new Surreily.SomeWords.Scripts.Level.Level(jsonLevel.Width, jsonLevel.Height, jsonLevel.StartX, jsonLevel.StartY);
+            level = new Surreily.SomeWords.Scripts.Level.Level(levelModel.Width, levelModel.Height, levelModel.StartX, levelModel.StartY);
 
-            foreach (JsonTile jsonTile in jsonLevel.Tiles) {
-                AddTile(jsonTile.Character[0], jsonTile.X, jsonTile.Y);
+            foreach (LevelTileModel levelTileModel in levelModel.Tiles) {
+                AddTile(levelTileModel.Character, levelTileModel.X, levelTileModel.Y);
             }
 
             SetUpBorder();

@@ -50,5 +50,9 @@ namespace Surreily.SomeWords.Scripts.Level {
             panelObject = null;
             goalText = null;
         }
+
+        public void UpdateGoalText(string word) {
+            goalText.SetText("Goal: " + word);
+        }
     }
 }
