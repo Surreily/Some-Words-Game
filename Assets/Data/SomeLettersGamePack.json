@@ -38,7 +38,6 @@
             "Height": 5,
             "StartX": 1,
             "StartY": 1,
-            "TargetWord": "start",
             "Tiles": [
                 {
                     "X": 1,
@@ -65,7 +64,11 @@
                     "Y": 1,
                     "Character": "t"
                 }
-            ]
+            ],
+            "Goal": {
+                "Type": "ExactMatch",
+                "Word": "start"
+            }
         },
         {
             "X": 6,
@@ -78,7 +81,6 @@
             "Height": 7,
             "StartX": 1,
             "StartY": 5,
-            "TargetWord": "welcome",
             "Tiles": [
                 {
                     "X": 3,
@@ -115,7 +117,11 @@
                     "Y": 6,
                     "Character": "e"
                 }
-            ]
+            ],
+            "Goal": {
+                "Type": "ExactMatch",
+                "Word": "welcome"
+            }
         }
     ]
 }

@@ -14,7 +14,7 @@ namespace Surreily.SomeWords.Scripts.Json.Game {
         public int Height;
         public int StartX;
         public int StartY;
-        public string TargetWord;
         public List<JsonTile> Tiles;
+        public JsonLevelGoal Goal;
     }
 }
