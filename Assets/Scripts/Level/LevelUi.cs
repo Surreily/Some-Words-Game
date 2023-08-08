@@ -14,7 +14,7 @@ namespace Surreily.SomeWords.Scripts.Level {
             this.materialStore = materialStore;
         }
 
-        public void BuildUi() {
+        public void EnableUi() {
             GameObject canvasObject = GameObject.Find("Canvas");
 
             panelObject = new GameObject("Panel");
@@ -44,7 +44,7 @@ namespace Surreily.SomeWords.Scripts.Level {
             goalText.rectTransform.offsetMax = new Vector2(-8f, -8f);
         }
 
-        public void DestroyUi() {
+        public void DisableUi() {
             GameObject.Destroy(panelObject);
 
             panelObject = null;

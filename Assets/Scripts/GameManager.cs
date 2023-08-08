@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,25 +10,35 @@ using Surreily.SomeWords.Scripts.Model.Game;
 using UnityEngine;
 
 namespace Surreily.SomeWords.Scripts {
-    public class GameManager : MonoBehaviour {
-        private MaterialStore materialStore;
-        private HashSet<string> gameDictionary;
+    public class GameManager : MonoBehaviour, IGameManager {
         private MapUi mapUi;
+        private LevelUi levelUi;
         private MapManager mapManager;
+        private LevelManager levelManager;
         private CameraMovement cameraMovement;
-
-        private GameObject levelObject;
 
         [SerializeField]
         public Camera MainCamera;
 
         public CameraMovement CameraMovement => cameraMovement;
 
+        public MaterialStore MaterialStore { get; private set; }
+
+        public HashSet<string> Dictionary { get; private set; }
+
         public GameState State { get; private set; }
+
+        #region Start
 
         public void Start() {
             SetUpMaterialStore();
             SetUpGameDictionary();
+
+            SetUpMapUi();
+            SetUpLevelUi();
+
+            SetUpMapManager();
+            SetUpLevelManager();
 
             State = GameState.Map;
 
@@ -35,39 +46,56 @@ namespace Surreily.SomeWords.Scripts {
 
             GameModel game = LoadFromJson();
 
-            mapUi = gameObject.AddComponent<MapUi>();
-            mapUi.MaterialStore = materialStore;
-
-            mapUi.EnableUi();
-
             OpenMap(game);
         }
 
         private void SetUpMaterialStore() {
             GlobalTimer timer = gameObject.GetComponent<GlobalTimer>();
 
-            materialStore = new MaterialStore(timer);
+            MaterialStore = new MaterialStore(timer);
         }
 
         private void SetUpGameDictionary() {
             List<string> words = File.ReadLines(Path.Combine(Application.dataPath, "Data/Dictionary.txt"))
                 .ToList();
 
-            gameDictionary = new HashSet<string>(words);
+            Dictionary = new HashSet<string>(words);
         }
 
-        private void OpenMap(GameModel game) {
-            GameObject mapManagerObject = new GameObject("Map Manager");
-            mapManagerObject.transform.parent = transform;
+        private void SetUpMapUi() {
+            mapUi = gameObject.AddComponent<MapUi>();
+            mapUi.MaterialStore = MaterialStore;
+        }
 
-            mapManager = mapManagerObject.AddComponent<MapManager>();
+        private void SetUpLevelUi() {
+            levelUi = new LevelUi(MaterialStore);
+        }
+
+        private void SetUpMapManager() {
+            mapManager = gameObject.AddComponent<MapManager>();
             mapManager.GameManager = this;
-            mapManager.MaterialStore = materialStore;
-            mapManager.MapUi = mapUi;
 
-            mapManager.LoadMap(game);
+            mapManager.MapUi = mapUi;
+        }
+
+        private void SetUpLevelManager() {
+            levelManager = gameObject.AddComponent<LevelManager>();
+            levelManager.GameManager = this;
+        }
+
+        #endregion
+
+        public void OpenMap(GameModel game) {
+            mapManager.OpenMap(game);
+            mapUi.EnableUi();
 
             State = GameState.Map;
+        }
+
+        public void CloseMap() {
+            // TODO: Close map
+            // TODO: Set game state to "select game"
+            throw new NotImplementedException();
         }
 
         private GameModel LoadFromJson() {
@@ -78,21 +106,17 @@ namespace Surreily.SomeWords.Scripts {
         }
 
         public void OpenLevel(LevelModel level) {
-            levelObject = new GameObject();
-            levelObject.transform.position = new Vector3(level.X - level.StartX, level.Y - level.StartY, 0f);
+            mapUi.DisableUi();
+            levelUi.EnableUi();
 
-            LevelManager levelManager = levelObject.AddComponent<LevelManager>();
-            levelManager.MaterialStore = materialStore;
-            levelManager.GameDictionary = gameDictionary;
-            levelManager.LoadBoard(level);
+            levelManager.OpenLevel(level);
 
             State = GameState.Level;
         }
 
         public void CloseLevel() {
-            Destroy(levelObject);
-            levelObject = null;
-
+            // TODO: Close level
+            levelUi.DisableUi();
             mapUi.EnableUi();
 
             State = GameState.Map;

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Surreily.SomeWords.Scripts.Materials;
 using Surreily.SomeWords.Scripts.Model.Game;
 using Surreily.SomeWords.Scripts.Renderers;
 using Surreily.SomeWords.Scripts.Utility;
@@ -17,14 +16,14 @@ namespace Surreily.SomeWords.Scripts.Level {
 
         private Stack<IAction> actions;
 
-        private CameraMovement cameraMovement;
-
-        public MaterialStore MaterialStore { get; set; }
-        public HashSet<string> GameDictionary { get; set; }
+        public IGameManager GameManager { get; set; }
 
         private Surreily.SomeWords.Scripts.Level.Level level;
 
-        public void LoadBoard(LevelModel levelModel) {
+        public void Start() {
+        }
+
+        public void OpenLevel(LevelModel levelModel) {
             actions = new Stack<IAction>();
 
             level = new Surreily.SomeWords.Scripts.Level.Level(levelModel.Width, levelModel.Height, levelModel.StartX, levelModel.StartY);
@@ -61,7 +60,7 @@ namespace Surreily.SomeWords.Scripts.Level {
             child.transform.localPosition = new Vector3(x, y, 0.1f);
 
             TileRenderer renderer = child.AddComponent<TileRenderer>();
-            renderer.Material = MaterialStore.Level.GetBackgroundMaterial(position);
+            renderer.Material = GameManager.MaterialStore.Level.GetBackgroundMaterial(position);
         }
 
         private void CreateBorderTileAreaRenderer(int x, int y, int width, int height, SquareTileSetPosition position) {
@@ -72,7 +71,7 @@ namespace Surreily.SomeWords.Scripts.Level {
             TileAreaRenderer renderer = child.AddComponent<TileAreaRenderer>();
             renderer.Width = width;
             renderer.Height = height;
-            renderer.Material = MaterialStore.Level.GetBackgroundMaterial(position);
+            renderer.Material = GameManager.MaterialStore.Level.GetBackgroundMaterial(position);
         }
 
         private void SetUpCursor(int x, int y) {
@@ -85,12 +84,11 @@ namespace Surreily.SomeWords.Scripts.Level {
             cursorMovableBehaviour.distance = 1f;
 
             SpriteRenderer cursorRenderer = cursorGameObject.AddComponent<SpriteRenderer>();
-            cursorRenderer.sprite = MaterialStore.Ui.CursorSprite;
+            cursorRenderer.sprite = GameManager.MaterialStore.Ui.CursorSprite;
         }
 
         private void SetUpCameraMovement() {
-            cameraMovement = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>();
-            cameraMovement.Target(cursorGameObject);
+            GameManager.CameraMovement.Target(cursorGameObject);
         }
 
         private void AddTile(char character, int x, int y) {
@@ -108,7 +106,7 @@ namespace Surreily.SomeWords.Scripts.Level {
             backgroundObject.transform.localScale = Vector3.one;
 
             SpriteRenderer backgroundRenderer = backgroundObject.AddComponent<SpriteRenderer>();
-            backgroundRenderer.sprite = MaterialStore.Level.DefaultTileSprite;
+            backgroundRenderer.sprite = GameManager.MaterialStore.Level.DefaultTileSprite;
 
             GameObject characterObject = new GameObject("Character");
 
@@ -130,7 +128,7 @@ namespace Surreily.SomeWords.Scripts.Level {
             pulseAnimationBehaviour.Scale = 2f;
             pulseAnimationBehaviour.Speed = 5f;
 
-            Tile tile = new Tile(MaterialStore, movableBehaviour, pulseAnimationBehaviour, textMeshProText, backgroundRenderer) {
+            Tile tile = new Tile(GameManager.MaterialStore, movableBehaviour, pulseAnimationBehaviour, textMeshProText, backgroundRenderer) {
                 X = x,
                 Y = y,
                 Character = character,
@@ -156,6 +154,12 @@ namespace Surreily.SomeWords.Scripts.Level {
         #endregion
 
         public void Update() {
+            if (GameManager.State == GameState.Level) {
+                HandleInput();
+            }
+        }
+
+        private void HandleInput() {
             if (Input.GetKeyDown(KeyCode.LeftArrow)) {
                 HandleMovement(Direction.Left);
             }
@@ -356,7 +360,7 @@ namespace Surreily.SomeWords.Scripts.Level {
             foreach (List<ITile> span in horizontalSpans) {
                 bool isValidWord =
                     span.Count >= 3 &&
-                    GameDictionary.Contains(new string(span.Select(t => t.Character).ToArray()));
+                    GameManager.Dictionary.Contains(new string(span.Select(t => t.Character).ToArray()));
 
                 foreach (ITile tile in span) {
                     newStates[tile.X, tile.Y] = isValidWord
@@ -368,7 +372,7 @@ namespace Surreily.SomeWords.Scripts.Level {
             foreach (List<ITile> span in verticalSpans) {
                 bool isValidWord =
                     span.Count >= 3 &&
-                    GameDictionary.Contains(new string(span.Select(t => t.Character).ToArray()));
+                    GameManager.Dictionary.Contains(new string(span.Select(t => t.Character).ToArray()));
 
                 if (!isValidWord) {
                     continue;

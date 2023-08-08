@@ -1,11 +1,7 @@
 using System.Collections.Generic;
-using Surreily.SomeWords.Scripts.Json.Game;
-using Surreily.SomeWords.Scripts.Materials;
 using Surreily.SomeWords.Scripts.Model.Game;
 using Surreily.SomeWords.Scripts.Renderers;
-using Surreily.SomeWords.Scripts.Ui;
 using Surreily.SomeWords.Scripts.Utility;
-using TMPro;
 using UnityEngine;
 
 namespace Surreily.SomeWords.Scripts.Map {
@@ -20,9 +16,7 @@ namespace Surreily.SomeWords.Scripts.Map {
         private int cursorY;
         private Vector3 cursorTarget;
 
-        public GameManager GameManager { get; set; }
-
-        public MaterialStore MaterialStore { get; set; }
+        public IGameManager GameManager { get; set; }
 
         public MapUi MapUi { get; set; }
 
@@ -64,7 +58,7 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         #region Load Map
 
-        public void LoadMap(GameModel game) {
+        public void OpenMap(GameModel game) {
             SetUpPathObjects(game);
             SetUpLevelObjects(game);
             SetUpCursor(game);
@@ -117,7 +111,7 @@ namespace Surreily.SomeWords.Scripts.Map {
             cursorObject.transform.Translate(game.StartX, game.StartY, Layers.MapCursor, Space.Self);
 
             TileRenderer tileRenderer = cursorObject.AddComponent<TileRenderer>();
-            tileRenderer.Material = MaterialStore.Ui.GetCursorMaterial();
+            tileRenderer.Material = GameManager.MaterialStore.Ui.GetCursorMaterial();
             tileRenderer.Size = 2f;
 
             GameManager.CameraMovement.Target(cursorObject);
@@ -139,9 +133,11 @@ namespace Surreily.SomeWords.Scripts.Map {
                 TileRenderer tileRenderer = tile.GameObject.AddComponent<TileRenderer>();
 
                 if (tile.IsOpen) {
-                    tileRenderer.Material = MaterialStore.Map.GetOpenPathMaterial(tile.Colour, pathTileType);
+                    tileRenderer.Material = GameManager.MaterialStore.Map
+                        .GetOpenPathMaterial(tile.Colour, pathTileType);
                 } else {
-                    tileRenderer.Material = MaterialStore.Map.GetClosedPathMaterial(pathTileType);
+                    tileRenderer.Material = GameManager.MaterialStore.Map
+                        .GetClosedPathMaterial(pathTileType);
                 }
             }
         }
@@ -155,9 +151,11 @@ namespace Surreily.SomeWords.Scripts.Map {
                 TileRenderer tileRenderer = tile.GameObject.AddComponent<TileRenderer>();
 
                 if (tile.IsOpen) {
-                    tileRenderer.Material = MaterialStore.Map.GetOpenLevelMaterial(tile.Colour);
+                    tileRenderer.Material = GameManager.MaterialStore.Map
+                        .GetOpenLevelMaterial(tile.Colour);
                 } else {
-                    tileRenderer.Material = MaterialStore.Map.GetClearedLevelMaterial(tile.Colour);
+                    tileRenderer.Material = GameManager.MaterialStore.Map
+                        .GetClearedLevelMaterial(tile.Colour);
                 }
             }
         }
