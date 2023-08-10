@@ -8,6 +8,7 @@ namespace Surreily.SomeWords.Scripts.Level {
         public MaterialStore MaterialStore { get; set; }
 
         public int X { get; set; }
+
         public int Y { get; set; }
 
         #region Start

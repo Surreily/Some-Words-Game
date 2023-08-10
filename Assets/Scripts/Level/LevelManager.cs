@@ -118,6 +118,7 @@ namespace Surreily.SomeWords.Scripts.Level {
             TileManager tileManager = tileObject.AddComponent<TileManager>();
             tileManager.MaterialStore = GameManager.MaterialStore;
             tileManager.Character = character;
+            tileManager.State = TileState.Normal;
             tileManager.X = x;
             tileManager.Y = y;
 
@@ -226,11 +227,7 @@ namespace Surreily.SomeWords.Scripts.Level {
         }
 
         private void HandleNormalMovement(Direction direction) {
-            // TODO: Condense this down into a helper method.
-            int newX = cursorManager.X + direction.GetXOffset();
-            int newY = cursorManager.Y + direction.GetYOffset();
-
-            if (newX < 0 || newX >= level.Width || newY < 0 || newY >= level.Height) {
+            if (!AreCoordinatesInBounds(cursorManager.X, cursorManager.Y, direction)) {
                 // TODO: Play "error" sound.
                 return;
             }
@@ -254,11 +251,10 @@ namespace Surreily.SomeWords.Scripts.Level {
                 x += direction.GetXOffset();
                 y += direction.GetYOffset();
 
-                // TODO: Add helper method for this!
-                ////if (!level.IsPositionOnBoard(x, y)) {
-                ////    // TODO: Play "error" sound.
-                ////    return;
-                ////}
+                if (!AreCoordinatesInBounds(x, y)) {
+                    // TODO: Play "error" sound.
+                    return;
+                }
 
                 TileManager tileManagerToMove = TileManagers[x, y];
 
@@ -401,5 +397,12 @@ namespace Surreily.SomeWords.Scripts.Level {
 
         #endregion
 
+        private bool AreCoordinatesInBounds(int x, int y) {
+            return x >= 0 && x < level.Width && y >= 0 && y < level.Height;
+        }
+
+        private bool AreCoordinatesInBounds(int x, int y, Direction direction) {
+            return AreCoordinatesInBounds(x + direction.GetXOffset(), y + direction.GetYOffset());
+        }
     }
 }
