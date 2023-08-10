@@ -76,6 +76,5 @@ namespace Surreily.SomeWords.Scripts.Level {
         public void Pulse() {
             pulseAnimationBehaviour.Pulse();
         }
-
     }
 }

@@ -16,8 +16,6 @@ namespace Surreily.SomeWords.Scripts.Level {
 
         private GameObject bordersObject;
         private LevelModel level;
-        private int cursorX;
-        private int cursorY;
 
         private MovableBehaviour cursorMovableBehaviour;
 
@@ -42,9 +40,6 @@ namespace Surreily.SomeWords.Scripts.Level {
 
             SetUpBorder();
             SetUpCursor(level.StartX, level.StartY);
-
-            cursorX = level.StartX;
-            cursorY = level.StartY;
 
             SetUpCameraMovement();
         }
@@ -193,7 +188,7 @@ namespace Surreily.SomeWords.Scripts.Level {
         }
 
         private void HandleNormalInteract() {
-            TileManager tileManager = TileManagers[cursorX, cursorY];
+            TileManager tileManager = TileManagers[cursorManager.X, cursorManager.Y];
 
             if (tileManager == null) {
                 // TODO: Play "error" sound.
