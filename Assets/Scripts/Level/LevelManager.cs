@@ -299,7 +299,7 @@ namespace Surreily.SomeWords.Scripts.Level {
             List<TileManager> currentSpan = new List<TileManager>();
 
             // Create spans of tiles in both directions.
-            for (int y = 0; y < level.Height; y++) {
+            for (int y = level.Height - 1; y >= 0; y--) {
                 for (int x = 0; x < level.Width; x++) {
                     TileManager tileManager = TileManagers[x, y];
 
@@ -324,7 +324,7 @@ namespace Surreily.SomeWords.Scripts.Level {
             // TODO: If we just ended on a span in progress, do we save that span?
 
             for (int x = 0; x < level.Width; x++) {
-                for (int y = 0; y < level.Height; y++) {
+                for (int y = level.Height - 1; y >= 0; y--) {
                     TileManager tileManager = TileManagers[x, y];
 
                     if (tileManager != null) {
