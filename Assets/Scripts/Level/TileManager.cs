@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Surreily.SomeWords.Scripts.Level {
     public class TileManager : MonoBehaviour {
         private MovableBehaviour movableBehaviour;
+        private TextMeshPro textMeshPro;
         private PulseAnimationBehaviour pulseAnimationBehaviour;
 
         [SerializeField]
@@ -49,12 +50,12 @@ namespace Surreily.SomeWords.Scripts.Level {
             rectTransform.anchorMin = Vector2.zero;
             rectTransform.anchorMax = Vector2.one;
 
-            TMP_Text textMeshProText = characterObject.AddComponent<TextMeshPro>();
-            textMeshProText.font = Resources.Load<TMP_FontAsset>("Fonts/VGA Font");
-            textMeshProText.text = Character.ToString();
-            textMeshProText.horizontalAlignment = HorizontalAlignmentOptions.Center;
-            textMeshProText.verticalAlignment = VerticalAlignmentOptions.Middle;
-            textMeshProText.fontSize = 8f;
+            textMeshPro = characterObject.AddComponent<TextMeshPro>();
+            textMeshPro.font = Resources.Load<TMP_FontAsset>("Fonts/VGA Font");
+            textMeshPro.text = Character.ToString();
+            textMeshPro.horizontalAlignment = HorizontalAlignmentOptions.Center;
+            textMeshPro.verticalAlignment = VerticalAlignmentOptions.Middle;
+            textMeshPro.fontSize = 8f;
 
             pulseAnimationBehaviour = characterObject.AddComponent<PulseAnimationBehaviour>();
             pulseAnimationBehaviour.Scale = 2f;
@@ -71,6 +72,10 @@ namespace Surreily.SomeWords.Scripts.Level {
 
         public void Move(Direction direction) {
             movableBehaviour.Move(direction);
+        }
+
+        public void SetFontColor(Color color) {
+            textMeshPro.color = color;
         }
 
         public void Pulse() {

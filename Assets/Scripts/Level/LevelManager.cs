@@ -453,8 +453,19 @@ namespace Surreily.SomeWords.Scripts.Level {
                     if (tileManager.State != newTileState) {
                         tileManager.State = newTileState;
 
-                        if (newTileState == TileState.Valid) {
-                            tileManager.Pulse();
+                        switch (newTileState) {
+                            case TileState.Normal:
+                                tileManager.SetFontColor(Color.white);
+                                break;
+                            case TileState.Valid:
+                                tileManager.SetFontColor(Color.cyan);
+                                tileManager.Pulse();
+                                break;
+                            case TileState.Invalid:
+                                tileManager.SetFontColor(Color.red);
+                                break;
+                            default:
+                                throw new InvalidOperationException($"TileState {newTileState} not recognised.");
                         }
                     }
                 }
