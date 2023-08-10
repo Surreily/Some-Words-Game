@@ -14,6 +14,5 @@ namespace Surreily.SomeWords.Scripts {
         public void CloseMap();
         public void OpenLevel(LevelModel level);
         public void CloseLevel();
-        
     }
 }

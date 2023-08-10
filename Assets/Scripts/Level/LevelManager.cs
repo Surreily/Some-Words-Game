@@ -17,8 +17,6 @@ namespace Surreily.SomeWords.Scripts.Level {
         private GameObject bordersObject;
         private LevelModel level;
 
-        private MovableBehaviour cursorMovableBehaviour;
-
         private Stack<IAction> actions;
 
         public IGameManager GameManager { get; set; }
@@ -29,17 +27,11 @@ namespace Surreily.SomeWords.Scripts.Level {
 
         public void OpenLevel(LevelModel level) {
             this.level = level;
-
             actions = new Stack<IAction>();
 
-            TileManagers = new TileManager[level.Width, level.Height];
-
-            foreach (LevelTileModel levelTile in level.Tiles) {
-                AddTile(levelTile.Character, levelTile.X, levelTile.Y);
-            }
-
-            SetUpBorder();
-            SetUpCursor(level.StartX, level.StartY);
+            CreateTiles(level);
+            CreateBorder();
+            CreateCursor(level.StartX, level.StartY);
 
             SetUpCameraMovement();
         }
@@ -47,14 +39,15 @@ namespace Surreily.SomeWords.Scripts.Level {
         public void CloseLevel() {
             level = null;
             actions = null;
-            TileManagers = null;
 
-            Destroy(bordersObject);
+            DestroyBorder();
+            DestroyCursor();
+            DestroyTiles();
         }
 
         #region Border
 
-        private void SetUpBorder() {
+        private void CreateBorder() {
             bordersObject = new GameObject("Borders");
             bordersObject.transform.parent = transform;
 
@@ -67,6 +60,11 @@ namespace Surreily.SomeWords.Scripts.Level {
             CreateBorderTileAreaRenderer(-1, 0, 1, level.Height, SquareTileSetPosition.Left);
             CreateBorderTileRenderer(-1, level.Height, SquareTileSetPosition.TopLeft);
             CreateBorderTileAreaRenderer(0, 0, level.Width, level.Height, SquareTileSetPosition.Center);
+        }
+
+        private void DestroyBorder() {
+            Destroy(bordersObject);
+            bordersObject = null;
         }
 
         private void CreateBorderTileRenderer(int x, int y, SquareTileSetPosition position) {
@@ -93,7 +91,7 @@ namespace Surreily.SomeWords.Scripts.Level {
 
         #region Cursor
 
-        private void SetUpCursor(int x, int y) {
+        private void CreateCursor(int x, int y) {
             cursorGameObject = new GameObject("Cursor");
             cursorGameObject.transform.parent = transform;
             cursorGameObject.transform.localPosition = new Vector3(x, y, -3f);
@@ -104,13 +102,28 @@ namespace Surreily.SomeWords.Scripts.Level {
             cursorManager.Y = y;
         }
 
+        private void DestroyCursor() {
+            Destroy(cursorManager.gameObject);
+            cursorManager = null;
+        }
+
         #endregion
 
         private void SetUpCameraMovement() {
             GameManager.CameraMovement.Target(cursorGameObject);
         }
 
-        private void AddTile(char character, int x, int y) {
+        #region Tiles
+
+        private void CreateTiles(LevelModel level) {
+            TileManagers = new TileManager[level.Width, level.Height];
+
+            foreach (LevelTileModel levelTile in level.Tiles) {
+                CreateTile(levelTile.Character, levelTile.X, levelTile.Y);
+            }
+        }
+
+        private void CreateTile(char character, int x, int y) {
             GameObject tileObject = new GameObject("Tile");
             tileObject.transform.parent = transform;
             tileObject.transform.localPosition = new Vector3(x, y, -1f);
@@ -124,6 +137,18 @@ namespace Surreily.SomeWords.Scripts.Level {
 
             TileManagers[x, y] = tileManager;
         }
+
+        private void DestroyTiles() {
+            foreach (TileManager tileManager in TileManagers) {
+                if (tileManager != null) {
+                    Destroy(tileManager.gameObject);
+                }
+            }
+
+            TileManagers = null;
+        }
+
+        #endregion
 
         #region Action Stack
 
@@ -142,53 +167,80 @@ namespace Surreily.SomeWords.Scripts.Level {
         #endregion
 
         public void Update() {
-            if (GameManager.State == GameState.Level) {
-                HandleInput();
-            }
+            HandleInput();
         }
+
+        #region Input
 
         private void HandleInput() {
-            if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-                HandleMovement(Direction.Left);
+            if (GameManager.State != GameState.Level) {
+                return;
             }
 
-            if (Input.GetKeyDown(KeyCode.RightArrow)) {
-                HandleMovement(Direction.Right);
+            bool enter = Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Return);
+
+            if (enter) {
+                TryInteractWithTile();
+                return;
             }
 
-            if (Input.GetKeyDown(KeyCode.UpArrow)) {
-                HandleMovement(Direction.Up);
-            }
+            bool backspace = Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.Z);
 
-            if (Input.GetKeyDown(KeyCode.DownArrow)) {
-                HandleMovement(Direction.Down);
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space)) {
-                HandleInteract();
-            }
-
-            if (Input.GetKeyDown(KeyCode.Backspace)) {
+            if (backspace) {
                 UndoAction();
+                return;
+            }
+
+            bool up = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow);
+            bool right = Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow);
+            bool down = Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow);
+            bool left = Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow);
+
+            if (up && !right && !down && !left) {
+                TryMove(Direction.Up);
+                return;
+            }
+
+            if (right && !up && !down && !left) {
+                TryMove(Direction.Right);
+                return;
+            }
+
+            if (down && !up && !right && !left) {
+                TryMove(Direction.Down);
+                return;
+            }
+
+            if (left && !up && !right && !down) {
+                TryMove(Direction.Left);
+                return;
+            }
+
+            bool escape = Input.GetKeyDown(KeyCode.Escape);
+
+            if (escape) {
+                GameManager.CloseLevel();
             }
         }
 
-        #region Handle Interact
+        #endregion
 
-        private void HandleInteract() {
+        #region Interact
+
+        private void TryInteractWithTile() {
             switch (State) {
                 case LevelState.Normal:
-                    HandleNormalInteract();
+                    TryPickUpTile();
                     break;
                 case LevelState.Selected:
-                    HandleSelectedInteract();
+                    TryDropTile();
                     break;
                 default:
                     throw new InvalidOperationException("Unsupported cursor state.");
             }
         }
 
-        private void HandleNormalInteract() {
+        private void TryPickUpTile() {
             TileManager tileManager = TileManagers[cursorManager.X, cursorManager.Y];
 
             if (tileManager == null) {
@@ -202,7 +254,7 @@ namespace Surreily.SomeWords.Scripts.Level {
             DoAction(combinedAction);
         }
 
-        private void HandleSelectedInteract() {
+        private void TryDropTile() {
             CombinedAction combinedAction = new CombinedAction(
                 new DropTileAction(this));
 
@@ -211,22 +263,22 @@ namespace Surreily.SomeWords.Scripts.Level {
 
         #endregion
 
-        #region Handle Movement
+        #region Move
 
-        private void HandleMovement(Direction direction) {
+        private void TryMove(Direction direction) {
             switch (State) {
                 case LevelState.Normal:
-                    HandleNormalMovement(direction);
+                    TryMoveWithoutTile(direction);
                     break;
                 case LevelState.Selected:
-                    HandleSelectedMovement(direction);
+                    TryMoveWithTile(direction);
                     break;
                 default:
                     throw new InvalidOperationException("Unsupported cursor state.");
             }
         }
 
-        private void HandleNormalMovement(Direction direction) {
+        private void TryMoveWithoutTile(Direction direction) {
             if (!AreCoordinatesInBounds(cursorManager.X, cursorManager.Y, direction)) {
                 // TODO: Play "error" sound.
                 return;
@@ -239,7 +291,7 @@ namespace Surreily.SomeWords.Scripts.Level {
             DoAction(action);
         }
 
-        private void HandleSelectedMovement(Direction direction) {
+        private void TryMoveWithTile(Direction direction) {
             int x = cursorManager.X;
             int y = cursorManager.Y;
 

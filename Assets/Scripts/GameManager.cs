@@ -115,7 +115,7 @@ namespace Surreily.SomeWords.Scripts {
         }
 
         public void CloseLevel() {
-            // TODO: Close level
+            levelManager.CloseLevel();
             levelUi.DisableUi();
             mapUi.EnableUi();
 
