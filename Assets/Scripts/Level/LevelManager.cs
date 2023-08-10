@@ -320,9 +320,6 @@ namespace Surreily.SomeWords.Scripts.Level {
                 }
             }
 
-            // TODO: Confirm that currentSpan is always empty at this point!
-            // TODO: If we just ended on a span in progress, do we save that span?
-
             for (int x = 0; x < level.Width; x++) {
                 for (int y = level.Height - 1; y >= 0; y--) {
                     TileManager tileManager = TileManagers[x, y];
@@ -343,8 +340,6 @@ namespace Surreily.SomeWords.Scripts.Level {
                     currentSpan = new List<TileManager>();
                 }
             }
-
-            // TODO: If we just ended on a span in progress, do we save that span?
 
             // Check for valid words in both directions.
             foreach (List<TileManager> span in horizontalSpans) {
