@@ -5,7 +5,6 @@ using Surreily.SomeWords.Scripts.Level.Actions;
 using Surreily.SomeWords.Scripts.Model.Game;
 using Surreily.SomeWords.Scripts.Renderers;
 using Surreily.SomeWords.Scripts.Utility;
-using TMPro;
 using UnityEngine;
 
 namespace Surreily.SomeWords.Scripts.Level {
@@ -444,6 +443,8 @@ namespace Surreily.SomeWords.Scripts.Level {
 
         #endregion
 
+        #region Helpers
+
         private bool AreCoordinatesInBounds(int x, int y) {
             return x >= 0 && x < level.Width && y >= 0 && y < level.Height;
         }
@@ -451,5 +452,8 @@ namespace Surreily.SomeWords.Scripts.Level {
         private bool AreCoordinatesInBounds(int x, int y, Direction direction) {
             return AreCoordinatesInBounds(x + direction.GetXOffset(), y + direction.GetYOffset());
         }
+
+        #endregion
+
     }
 }
