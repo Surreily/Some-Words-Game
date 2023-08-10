@@ -10,7 +10,8 @@ using UnityEngine;
 namespace Surreily.SomeWords.Scripts.Level {
 
     public class LevelManager : MonoBehaviour {
-        private GameObject cursorGameObject;
+        private GameObject levelObject;
+
         private CursorManager cursorManager;
 
         private GameObject bordersObject;
@@ -25,9 +26,12 @@ namespace Surreily.SomeWords.Scripts.Level {
         public TileManager[,] TileManagers { get; set; }
 
         public void OpenLevel(LevelModel level) {
+            
+
             this.level = level;
             actions = new Stack<IAction>();
 
+            CreateLevelObject();
             CreateTiles(level);
             CreateBorder();
             CreateCursor(level.StartX, level.StartY);
@@ -42,13 +46,29 @@ namespace Surreily.SomeWords.Scripts.Level {
             DestroyBorder();
             DestroyCursor();
             DestroyTiles();
+            DestroyLevelObject();
         }
+
+        #region Level Object
+
+        private void CreateLevelObject() {
+            levelObject = new GameObject("Level");
+            levelObject.transform.parent = transform;
+            levelObject.transform.localPosition = new Vector3(level.X - level.StartX, level.Y - level.StartY, 0f);
+        }
+
+        private void DestroyLevelObject() {
+            Destroy(levelObject);
+        }
+
+        #endregion
 
         #region Border
 
         private void CreateBorder() {
             bordersObject = new GameObject("Borders");
-            bordersObject.transform.parent = transform;
+            bordersObject.transform.parent = levelObject.transform;
+            bordersObject.transform.localPosition = Vector3.zero;
 
             CreateBorderTileAreaRenderer(0, level.Height, level.Width, 1, SquareTileSetPosition.Top);
             CreateBorderTileRenderer(level.Width, level.Height, SquareTileSetPosition.TopRight);
@@ -91,8 +111,8 @@ namespace Surreily.SomeWords.Scripts.Level {
         #region Cursor
 
         private void CreateCursor(int x, int y) {
-            cursorGameObject = new GameObject("Cursor");
-            cursorGameObject.transform.parent = transform;
+            GameObject cursorGameObject = new GameObject("Cursor");
+            cursorGameObject.transform.parent = levelObject.transform;
             cursorGameObject.transform.localPosition = new Vector3(x, y, -3f);
 
             cursorManager = cursorGameObject.AddComponent<CursorManager>();
@@ -109,7 +129,7 @@ namespace Surreily.SomeWords.Scripts.Level {
         #endregion
 
         private void SetUpCameraMovement() {
-            GameManager.CameraMovement.Target(cursorGameObject);
+            GameManager.CameraMovement.Target(cursorManager.gameObject);
         }
 
         #region Tiles
@@ -124,7 +144,7 @@ namespace Surreily.SomeWords.Scripts.Level {
 
         private void CreateTile(char character, int x, int y) {
             GameObject tileObject = new GameObject("Tile");
-            tileObject.transform.parent = transform;
+            tileObject.transform.parent = levelObject.transform;
             tileObject.transform.localPosition = new Vector3(x, y, -1f);
 
             TileManager tileManager = tileObject.AddComponent<TileManager>();
