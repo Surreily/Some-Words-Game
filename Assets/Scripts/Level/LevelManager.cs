@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Surreily.SomeWords.Scripts.Level.Actions;
 using Surreily.SomeWords.Scripts.Model.Game;
 using Surreily.SomeWords.Scripts.Renderers;
 using Surreily.SomeWords.Scripts.Utility;
@@ -11,6 +12,12 @@ namespace Surreily.SomeWords.Scripts.Level {
 
     public class LevelManager : MonoBehaviour {
         private GameObject cursorGameObject;
+        private CursorManager cursorManager;
+
+        private GameObject bordersObject;
+        private LevelModel level;
+        private int cursorX;
+        private int cursorY;
 
         private MovableBehaviour cursorMovableBehaviour;
 
@@ -18,31 +25,44 @@ namespace Surreily.SomeWords.Scripts.Level {
 
         public IGameManager GameManager { get; set; }
 
-        private Surreily.SomeWords.Scripts.Level.Level level;
+        public LevelState State { get; set; }
 
-        public void Start() {
-        }
+        public TileManager[,] TileManagers { get; set; }
 
-        public void OpenLevel(LevelModel levelModel) {
+        public void OpenLevel(LevelModel level) {
+            this.level = level;
+
             actions = new Stack<IAction>();
 
-            level = new Surreily.SomeWords.Scripts.Level.Level(levelModel.Width, levelModel.Height, levelModel.StartX, levelModel.StartY);
+            TileManagers = new TileManager[level.Width, level.Height];
 
-            foreach (LevelTileModel levelTileModel in levelModel.Tiles) {
-                AddTile(levelTileModel.Character, levelTileModel.X, levelTileModel.Y);
+            foreach (LevelTileModel levelTile in level.Tiles) {
+                AddTile(levelTile.Character, levelTile.X, levelTile.Y);
             }
 
             SetUpBorder();
+            SetUpCursor(level.StartX, level.StartY);
 
-            SetUpCursor(level.CursorX, level.CursorY);
-
-            level.CursorMovableBehaviour = cursorMovableBehaviour;
+            cursorX = level.StartX;
+            cursorY = level.StartY;
 
             SetUpCameraMovement();
         }
 
+        public void CloseLevel() {
+            level = null;
+            actions = null;
+            TileManagers = null;
+
+            Destroy(bordersObject);
+        }
+
+        #region Border
+
         private void SetUpBorder() {
-            // TODO: Put all these under a single GameObject to clean up the hierarchy.
+            bordersObject = new GameObject("Borders");
+            bordersObject.transform.parent = transform;
+
             CreateBorderTileAreaRenderer(0, level.Height, level.Width, 1, SquareTileSetPosition.Top);
             CreateBorderTileRenderer(level.Width, level.Height, SquareTileSetPosition.TopRight);
             CreateBorderTileAreaRenderer(level.Width, 0, 1, level.Height, SquareTileSetPosition.Right);
@@ -55,37 +75,41 @@ namespace Surreily.SomeWords.Scripts.Level {
         }
 
         private void CreateBorderTileRenderer(int x, int y, SquareTileSetPosition position) {
-            GameObject child = new GameObject("Border");
-            child.transform.parent = transform;
-            child.transform.localPosition = new Vector3(x, y, 0.1f);
+            GameObject borderObject = new GameObject("Border");
+            borderObject.transform.parent = bordersObject.transform;
+            borderObject.transform.localPosition = new Vector3(x, y, 0.1f);
 
-            TileRenderer renderer = child.AddComponent<TileRenderer>();
+            TileRenderer renderer = borderObject.AddComponent<TileRenderer>();
             renderer.Material = GameManager.MaterialStore.Level.GetBackgroundMaterial(position);
         }
 
         private void CreateBorderTileAreaRenderer(int x, int y, int width, int height, SquareTileSetPosition position) {
-            GameObject child = new GameObject("Border");
-            child.transform.parent = transform;
-            child.transform.localPosition = new Vector3(x, y, 0.1f);
+            GameObject borderObject = new GameObject("Border");
+            borderObject.transform.parent = bordersObject.transform;
+            borderObject.transform.localPosition = new Vector3(x, y, 0.1f);
 
-            TileAreaRenderer renderer = child.AddComponent<TileAreaRenderer>();
+            TileAreaRenderer renderer = borderObject.AddComponent<TileAreaRenderer>();
             renderer.Width = width;
             renderer.Height = height;
             renderer.Material = GameManager.MaterialStore.Level.GetBackgroundMaterial(position);
         }
+
+        #endregion
+
+        #region Cursor
 
         private void SetUpCursor(int x, int y) {
             cursorGameObject = new GameObject("Cursor");
             cursorGameObject.transform.parent = transform;
             cursorGameObject.transform.localPosition = new Vector3(x, y, -3f);
 
-            cursorMovableBehaviour = cursorGameObject.AddComponent<MovableBehaviour>();
-            cursorMovableBehaviour.speed = 15f;
-            cursorMovableBehaviour.distance = 1f;
-
-            SpriteRenderer cursorRenderer = cursorGameObject.AddComponent<SpriteRenderer>();
-            cursorRenderer.sprite = GameManager.MaterialStore.Ui.CursorSprite;
+            cursorManager = cursorGameObject.AddComponent<CursorManager>();
+            cursorManager.MaterialStore = GameManager.MaterialStore;
+            cursorManager.X = x;
+            cursorManager.Y = y;
         }
+
+        #endregion
 
         private void SetUpCameraMovement() {
             GameManager.CameraMovement.Target(cursorGameObject);
@@ -96,45 +120,13 @@ namespace Surreily.SomeWords.Scripts.Level {
             tileObject.transform.parent = transform;
             tileObject.transform.localPosition = new Vector3(x, y, -1f);
 
-            MovableBehaviour movableBehaviour = tileObject.AddComponent<MovableBehaviour>();
-            movableBehaviour.speed = 15f;
-            movableBehaviour.distance = 1f;
+            TileManager tileManager = tileObject.AddComponent<TileManager>();
+            tileManager.MaterialStore = GameManager.MaterialStore;
+            tileManager.Character = character;
+            tileManager.X = x;
+            tileManager.Y = y;
 
-            GameObject backgroundObject = new GameObject("Background");
-            backgroundObject.transform.parent = tileObject.transform;
-            backgroundObject.transform.localPosition = Vector3.zero;
-            backgroundObject.transform.localScale = Vector3.one;
-
-            SpriteRenderer backgroundRenderer = backgroundObject.AddComponent<SpriteRenderer>();
-            backgroundRenderer.sprite = GameManager.MaterialStore.Level.DefaultTileSprite;
-
-            GameObject characterObject = new GameObject("Character");
-
-            characterObject.transform.parent = tileObject.transform;
-            characterObject.transform.localPosition = Vector3.zero;
-
-            RectTransform rectTransform = characterObject.AddComponent<RectTransform>();
-            rectTransform.anchorMin = Vector2.zero;
-            rectTransform.anchorMax = Vector2.one;
-
-            TMP_Text textMeshProText = characterObject.AddComponent<TextMeshPro>();
-            textMeshProText.font = Resources.Load<TMP_FontAsset>("Fonts/VGA Font");
-            textMeshProText.text = character.ToString();
-            textMeshProText.horizontalAlignment = HorizontalAlignmentOptions.Center;
-            textMeshProText.verticalAlignment = VerticalAlignmentOptions.Middle;
-            textMeshProText.fontSize = 8f;
-
-            PulseAnimationBehaviour pulseAnimationBehaviour = characterObject.AddComponent<PulseAnimationBehaviour>();
-            pulseAnimationBehaviour.Scale = 2f;
-            pulseAnimationBehaviour.Speed = 5f;
-
-            Tile tile = new Tile(GameManager.MaterialStore, movableBehaviour, pulseAnimationBehaviour, textMeshProText, backgroundRenderer) {
-                X = x,
-                Y = y,
-                Character = character,
-            };
-
-            level.Tiles[x, y] = tile;
+            TileManagers[x, y] = tileManager;
         }
 
         #region Action Stack
@@ -188,11 +180,11 @@ namespace Surreily.SomeWords.Scripts.Level {
         #region Handle Interact
 
         private void HandleInteract() {
-            switch (level.CursorState) {
-                case CursorState.Normal:
+            switch (State) {
+                case LevelState.Normal:
                     HandleNormalInteract();
                     break;
-                case CursorState.Selected:
+                case LevelState.Selected:
                     HandleSelectedInteract();
                     break;
                 default:
@@ -201,22 +193,22 @@ namespace Surreily.SomeWords.Scripts.Level {
         }
 
         private void HandleNormalInteract() {
-            ITile tile = level.Tiles[level.CursorX, level.CursorY];
+            TileManager tileManager = TileManagers[cursorX, cursorY];
 
-            if (tile == null) {
-                // Play "error" sound.
+            if (tileManager == null) {
+                // TODO: Play "error" sound.
                 return;
             }
 
             CombinedAction combinedAction = new CombinedAction(
-                new PickUpTileAction(level));
+                new PickUpTileAction(this));
 
             DoAction(combinedAction);
         }
 
         private void HandleSelectedInteract() {
             CombinedAction combinedAction = new CombinedAction(
-                new DropTileAction(level));
+                new DropTileAction(this));
 
             DoAction(combinedAction);
         }
@@ -226,11 +218,11 @@ namespace Surreily.SomeWords.Scripts.Level {
         #region Handle Movement
 
         private void HandleMovement(Direction direction) {
-            switch (level.CursorState) {
-                case CursorState.Normal:
+            switch (State) {
+                case LevelState.Normal:
                     HandleNormalMovement(direction);
                     break;
-                case CursorState.Selected:
+                case LevelState.Selected:
                     HandleSelectedMovement(direction);
                     break;
                 default:
@@ -239,8 +231,9 @@ namespace Surreily.SomeWords.Scripts.Level {
         }
 
         private void HandleNormalMovement(Direction direction) {
-            int newX = level.CursorX + direction.GetXOffset();
-            int newY = level.CursorY + direction.GetYOffset();
+            // TODO: Condense this down into a helper method.
+            int newX = cursorManager.X + direction.GetXOffset();
+            int newY = cursorManager.Y + direction.GetYOffset();
 
             if (newX < 0 || newX >= level.Width || newY < 0 || newY >= level.Height) {
                 // TODO: Play "error" sound.
@@ -248,50 +241,51 @@ namespace Surreily.SomeWords.Scripts.Level {
             }
 
             CombinedAction action = new CombinedAction(
-                new UpdateCursorPositionAction(level, direction),
-                new MoveCursorAction(level, direction));
+                new UpdateCursorPositionAction(cursorManager, direction),
+                new MoveCursorAction(cursorManager, direction));
 
             DoAction(action);
         }
 
         private void HandleSelectedMovement(Direction direction) {
-            int x = level.CursorX;
-            int y = level.CursorY;
+            int x = cursorManager.X;
+            int y = cursorManager.Y;
 
-            List<ITile> tiles = new List<ITile>() {
-                level.Tiles[x, y],
+            List<TileManager> tileManagersToMove = new List<TileManager>() {
+                TileManagers[x, y],
             };
 
             while (true) {
                 x += direction.GetXOffset();
                 y += direction.GetYOffset();
 
-                if (!level.IsPositionOnBoard(x, y)) {
-                    // TODO: Play "error" sound.
-                    return;
-                }
+                // TODO: Add helper method for this!
+                ////if (!level.IsPositionOnBoard(x, y)) {
+                ////    // TODO: Play "error" sound.
+                ////    return;
+                ////}
 
-                ITile tile = level.Tiles[x, y];
+                TileManager tileManagerToMove = TileManagers[x, y];
 
-                if (tile == null) {
+                if (tileManagerToMove == null) {
                     break;
                 }
 
-                tiles.Add(tile);
+                tileManagersToMove.Add(tileManagerToMove);
             }
 
             CombinedAction combinedAction = new CombinedAction();
 
             combinedAction.Add(
-                new UpdateCursorPositionAction(level, direction),
-                new MoveCursorAction(level, direction));
+                new UpdateCursorPositionAction(cursorManager, direction),
+                new MoveCursorAction(cursorManager, direction));
 
-            for (int i = tiles.Count - 1; i >= 0; i--) {
-                ITile tile = tiles[i];
+            for (int i = tileManagersToMove.Count - 1; i >= 0; i--) {
+                TileManager tileManagerToMove = tileManagersToMove[i];
 
                 combinedAction.Add(
-                    new UpdateTilePositionAction(level, tile.X, tile.Y, direction),
-                    new MoveTileAction(tile, direction));
+                    new UpdateTilePositionAction(this, tileManagerToMove.X, tileManagerToMove.Y, direction),
+                    new MoveTileAction(tileManagerToMove, direction));
             }
 
             DoAction(combinedAction);
@@ -308,68 +302,73 @@ namespace Surreily.SomeWords.Scripts.Level {
 
             TileState[,] newStates = new TileState[level.Width, level.Height];
 
-            List<List<ITile>> horizontalSpans = new List<List<ITile>>();
-            List<List<ITile>> verticalSpans = new List<List<ITile>>();
+            List<List<TileManager>> horizontalSpans = new List<List<TileManager>>();
+            List<List<TileManager>> verticalSpans = new List<List<TileManager>>();
 
-            List<ITile> currentSpan = new List<ITile>();
+            List<TileManager> currentSpan = new List<TileManager>();
 
             // Create spans of tiles in both directions.
             for (int y = 0; y < level.Height; y++) {
                 for (int x = 0; x < level.Width; x++) {
-                    ITile tile = level.Tiles[x, y];
+                    TileManager tileManager = TileManagers[x, y];
 
-                    if (tile != null) {
-                        currentSpan.Add(tile);
+                    if (tileManager != null) {
+                        currentSpan.Add(tileManager);
                         continue;
                     }
 
                     if (currentSpan.Count > 0) {
                         horizontalSpans.Add(currentSpan);
-                        currentSpan = new List<ITile>();
+                        currentSpan = new List<TileManager>();
                     }
                 }
 
                 if (currentSpan.Count > 0) {
                     horizontalSpans.Add(currentSpan);
-                    currentSpan = new List<ITile>();
+                    currentSpan = new List<TileManager>();
                 }
             }
 
+            // TODO: Confirm that currentSpan is always empty at this point!
+            // TODO: If we just ended on a span in progress, do we save that span?
+
             for (int x = 0; x < level.Width; x++) {
                 for (int y = 0; y < level.Height; y++) {
-                    ITile tile = level.Tiles[x, y];
+                    TileManager tileManager = TileManagers[x, y];
 
-                    if (tile != null) {
-                        currentSpan.Add(tile);
+                    if (tileManager != null) {
+                        currentSpan.Add(tileManager);
                         continue;
                     }
 
                     if (currentSpan.Count > 0) {
                         verticalSpans.Add(currentSpan);
-                        currentSpan = new List<ITile>();
+                        currentSpan = new List<TileManager>();
                     }
                 }
 
                 if (currentSpan.Count > 0) {
                     verticalSpans.Add(currentSpan);
-                    currentSpan = new List<ITile>();
+                    currentSpan = new List<TileManager>();
                 }
             }
 
+            // TODO: If we just ended on a span in progress, do we save that span?
+
             // Check for valid words in both directions.
-            foreach (List<ITile> span in horizontalSpans) {
+            foreach (List<TileManager> span in horizontalSpans) {
                 bool isValidWord =
                     span.Count >= 3 &&
                     GameManager.Dictionary.Contains(new string(span.Select(t => t.Character).ToArray()));
 
-                foreach (ITile tile in span) {
-                    newStates[tile.X, tile.Y] = isValidWord
+                foreach (TileManager tileManager in span) {
+                    newStates[tileManager.X, tileManager.Y] = isValidWord
                         ? TileState.Valid
                         : TileState.Normal;
                 }
             }
 
-            foreach (List<ITile> span in verticalSpans) {
+            foreach (List<TileManager> span in verticalSpans) {
                 bool isValidWord =
                     span.Count >= 3 &&
                     GameManager.Dictionary.Contains(new string(span.Select(t => t.Character).ToArray()));
@@ -378,27 +377,27 @@ namespace Surreily.SomeWords.Scripts.Level {
                     continue;
                 }
 
-                foreach (ITile tile in span) {
-                    newStates[tile.X, tile.Y] = TileState.Valid;
+                foreach (TileManager tileManager in span) {
+                    newStates[tileManager.X, tileManager.Y] = TileState.Valid;
                 }
             }
 
             // Set tiles.
             for (int x = 0; x < level.Width; x++) {
                 for (int y = 0; y < level.Height; y++) {
-                    ITile tile = level.Tiles[x, y];
+                    TileManager tileManager = TileManagers[x, y];
 
-                    if (tile == null) {
+                    if (tileManager == null) {
                         continue;
                     }
 
                     TileState newTileState = newStates[x, y];
 
-                    if (tile.TileState != newTileState) {
-                        tile.TileState = newTileState;
+                    if (tileManager.State != newTileState) {
+                        tileManager.State = newTileState;
 
                         if (newTileState == TileState.Valid) {
-                            tile.AnimatePulse();
+                            tileManager.Pulse();
                         }
                     }
                 }
