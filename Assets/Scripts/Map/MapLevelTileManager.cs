@@ -17,7 +17,7 @@ namespace Surreily.SomeWords.Scripts.Map {
         public int Y { get; set; }
 
         [SerializeField]
-        public bool IsOpen { get; set; }
+        public MapLevelState State { get; set; }
 
         #region Start
 
@@ -36,5 +36,6 @@ namespace Surreily.SomeWords.Scripts.Map {
         }
 
         #endregion
+
     }
 }

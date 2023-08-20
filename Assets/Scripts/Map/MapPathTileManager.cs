@@ -17,7 +17,7 @@ namespace Surreily.SomeWords.Scripts.Map {
         public PathTileType Type { get; set; }
 
         [SerializeField]
-        public bool IsOpen { get; set; }
+        public MapPathState State { get; set; }
 
         #region Start
 
