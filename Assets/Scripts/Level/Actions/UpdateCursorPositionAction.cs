@@ -1,4 +1,5 @@
-﻿using Surreily.SomeWords.Scripts.Utility;
+﻿using Surreily.SomeWords.Model.Game;
+using Surreily.SomeWords.Scripts.Utility;
 
 namespace Surreily.SomeWords.Scripts.Level.Actions {
     public class UpdateCursorPositionAction : IAction {

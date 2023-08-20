@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Surreily.SomeWords.Model.Game;
 using Surreily.SomeWords.Scripts.Model.Game;
 using Surreily.SomeWords.Scripts.Utility;
-using UnityEngine;
 
 namespace Surreily.SomeWords.Scripts.Map {
     public class MapLoader {

@@ -1,4 +1,4 @@
-namespace Surreily.SomeWords.Scripts.Utility {
+namespace Surreily.SomeWords.Model.Game {
     public enum Direction {
         Left,
         Right,

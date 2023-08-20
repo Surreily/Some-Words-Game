@@ -7,7 +7,7 @@ namespace Surreily.SomeWords.Scripts.Json.Game {
         public int Y;
         public int Width;
         public int Height;
+        public string State;
         public int Colour;
-        public bool IsHidden;
     }
 }

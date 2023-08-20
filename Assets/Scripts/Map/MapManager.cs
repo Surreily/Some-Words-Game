@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Surreily.SomeWords.Model.Game;
 using Surreily.SomeWords.Scripts.Model.Game;
 using Surreily.SomeWords.Scripts.Renderers;
 using Surreily.SomeWords.Scripts.Utility;

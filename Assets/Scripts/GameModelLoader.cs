@@ -45,11 +45,12 @@ namespace Surreily.SomeWords.Scripts {
 
             foreach (JsonLevel jsonLevel in jsonLevels) {
                 LevelModel levelModel = new LevelModel {
+                    Id = jsonLevel.Id,
                     X = jsonLevel.X,
                     Y = jsonLevel.Y,
-                    Id = jsonLevel.Id,
                     Title = jsonLevel.Title,
                     Description = jsonLevel.Description,
+                    State = GetLevelState(jsonLevel.State),
                     Colour = jsonLevel.Colour,
                     Width = jsonLevel.Width,
                     Height = jsonLevel.Height,
@@ -86,20 +87,15 @@ namespace Surreily.SomeWords.Scripts {
         }
 
         private static LevelGoalModel LoadLevelGoal(JsonLevelGoal jsonLevelGoal) {
-            if (!Enum.TryParse(jsonLevelGoal.Type, out LevelGoalType levelGoalType)) {
-                throw new InvalidOperationException(
-                    $"Unrecognised {nameof(LevelGoalType)}: \"{jsonLevelGoal.Type}\".");
-            }
-
             LevelGoalModel levelGoalModel = new LevelGoalModel {
-                Type = levelGoalType,
+                Type = GetLevelGoalType(jsonLevelGoal.Type),
                 Word = jsonLevelGoal.Word,
             };
 
             return levelGoalModel;
         }
 
-        public static List<DecorationModel> LoadDecorations(List<JsonDecoration> jsonDecorations) {
+        private static List<DecorationModel> LoadDecorations(List<JsonDecoration> jsonDecorations) {
             List<DecorationModel> decorationModels = new List<DecorationModel>();
 
             foreach (JsonDecoration jsonDecoration in jsonDecorations) {
@@ -115,6 +111,33 @@ namespace Surreily.SomeWords.Scripts {
             }
 
             return decorationModels;
+        }
+
+        private static PathState GetPathState(string value) {
+            if (Enum.TryParse(value, out PathState pathState)) {
+                return pathState;
+            }
+
+            throw new InvalidOperationException(
+                $"Unrecognised {nameof(PathState)}: \"{value}\".");
+        }
+
+        private static LevelState GetLevelState(string value) {
+            if (Enum.TryParse(value, out LevelState levelState)) {
+                return levelState;
+            }
+
+            throw new InvalidOperationException(
+                $"Unrecognised {nameof(LevelState)}: \"{value}\".");
+        }
+
+        private static LevelGoalType GetLevelGoalType(string value) {
+            if (Enum.TryParse(value, out LevelGoalType levelGoalType)) {
+                return levelGoalType;
+            }
+
+            throw new InvalidOperationException(
+                $"Unrecognised {nameof(LevelGoalType)}: \"{value}\".");
         }
     }
 }

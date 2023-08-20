@@ -9,6 +9,7 @@ namespace Surreily.SomeWords.Scripts.Json.Game {
         public string Id;
         public string Title;
         public string Description;
+        public string State;
         public int Colour;
         public int Width;
         public int Height;

@@ -1,5 +1,5 @@
-﻿using Surreily.SomeWords.Scripts.Materials;
-using Surreily.SomeWords.Scripts.Utility;
+﻿using Surreily.SomeWords.Model.Game;
+using Surreily.SomeWords.Scripts.Materials;
 using UnityEngine;
 
 namespace Surreily.SomeWords.Scripts.Level {
