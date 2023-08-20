@@ -9,6 +9,7 @@
             "Y": 0,
             "Width": 1,
             "Height": 3,
+            "State": "Open",
             "Colour": 4
         },
         {
@@ -67,8 +68,10 @@
                 }
             ],
             "Goal": {
+                "Id": "normal",
                 "Type": "ExactMatch",
-                "Word": "start"
+                "Word": "start",
+                "Direction": "Right"
             }
         },
         {
@@ -85,17 +88,17 @@
             "Tiles": [
                 {
                     "X": 3,
-                    "Y": 0,
+                    "Y": 6,
                     "Character": "w"
                 },
                 {
                     "X": 3,
-                    "Y": 1,
+                    "Y": 5,
                     "Character": "e"
                 },
                 {
                     "X": 3,
-                    "Y": 2,
+                    "Y": 4,
                     "Character": "l"
                 },
                 {
@@ -105,23 +108,25 @@
                 },
                 {
                     "X": 3,
-                    "Y": 4,
+                    "Y": 2,
                     "Character": "o"
                 },
                 {
                     "X": 4,
-                    "Y": 5,
+                    "Y": 1,
                     "Character": "m"
                 },
                 {
                     "X": 3,
-                    "Y": 6,
+                    "Y": 0,
                     "Character": "e"
                 }
             ],
             "Goal": {
+                "Id": "normal",
                 "Type": "ExactMatch",
-                "Word": "welcome"
+                "Word": "welcome",
+                "Direction": "Up"
             }
         }
     ]
