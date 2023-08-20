@@ -10,21 +10,33 @@
             "Width": 1,
             "Height": 3,
             "State": "Open",
-            "Colour": 4
+            "Color": {
+                "R": 243,
+                "G": 85,
+                "B": 175
+            }
         },
         {
             "X": 1,
             "Y": 3,
             "Width": 5,
             "Height": 1,
-            "Colour": 5
+            "Color": {
+                "R": 243,
+                "G": 85,
+                "B": 175
+            }
         },
         {
             "X": 0,
             "Y": 4,
             "Width": 1,
             "Height": 3,
-            "Colour": 12
+            "Color": {
+                "R": 243,
+                "G": 85,
+                "B": 175
+            }
         }
     ],
     "Levels": [
@@ -35,7 +47,11 @@
             "Title": "An Easy Start!",
             "Description": "Here's an easy one to get you started.",
             "State": "Open",
-            "Colour": 1,
+            "Color": {
+                "R": 243,
+                "G": 85,
+                "B": 175
+            },
             "Width": 7,
             "Height": 5,
             "StartX": 1,

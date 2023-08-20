@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Surreily.SomeWords.Scripts.Json.Game;
 using Surreily.SomeWords.Scripts.Model.Game;
+using UnityEngine;
 
 namespace Surreily.SomeWords.Scripts {
     public static class GameModelLoader {
@@ -30,7 +31,7 @@ namespace Surreily.SomeWords.Scripts {
                             X = jsonPath.X + x,
                             Y = jsonPath.Y + y,
                             State = GetPathState(jsonPath.State),
-                            Colour = jsonPath.Colour,
+                            Color = GetColor(jsonPath.Color),
                         };
 
                         pathModels.Add(pathModel);
@@ -52,7 +53,7 @@ namespace Surreily.SomeWords.Scripts {
                     Title = jsonLevel.Title,
                     Description = jsonLevel.Description,
                     State = GetLevelState(jsonLevel.State),
-                    Colour = jsonLevel.Colour,
+                    Color = GetColor(jsonLevel.Color),
                     Width = jsonLevel.Width,
                     Height = jsonLevel.Height,
                     StartX = jsonLevel.StartX,
@@ -112,6 +113,14 @@ namespace Surreily.SomeWords.Scripts {
             }
 
             return decorationModels;
+        }
+
+        private static Color GetColor(JsonColor value) {
+            if (value == null) {
+                return Color.white;
+            }
+
+            return new Color(value.R / 255f, value.G / 255f, value.B / 255f);
         }
 
         private static PathState GetPathState(string value) {

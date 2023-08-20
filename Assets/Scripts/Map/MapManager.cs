@@ -68,19 +68,20 @@ namespace Surreily.SomeWords.Scripts.Map {
             SetUpCursor(game);
         }
 
-        public void AddPathManager(PathModel path, int x, int y, PathTileType type, PathState state) {
+        public void AddPathManager(PathModel path, PathTileType type, PathState state) {
             GameObject pathObject = new GameObject("Path Tile");
             pathObject.transform.SetParent(gameObject.transform, false);
-            pathObject.transform.Translate(x, y, Layers.MapPath, Space.Self);
+            pathObject.transform.Translate(path.X, path.Y, Layers.MapPath, Space.Self);
 
             MapPathTileManager pathManager = pathObject.AddComponent<MapPathTileManager>();
             pathManager.MaterialStore = GameManager.MaterialStore;
-            pathManager.X = x;
-            pathManager.Y = y;
+            pathManager.X = path.X;
+            pathManager.Y = path.Y;
             pathManager.Type = type;
             pathManager.State = state;
+            pathManager.Color = path.Color;
 
-            pathManagers.Add((x, y), pathManager);
+            pathManagers.Add((path.X, path.Y), pathManager);
         }
 
         public void AddLevelManager(LevelModel level, LevelState state) {
@@ -94,6 +95,7 @@ namespace Surreily.SomeWords.Scripts.Map {
             levelManager.X = level.X;
             levelManager.Y = level.Y;
             levelManager.State = state;
+            levelManager.Color = level.Color;
 
             levelManagers.Add((level.X, level.Y), levelManager);
         }

@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace Surreily.SomeWords.Scripts.Map {
     public class MapPathTileManager : MonoBehaviour {
+        private static readonly Color ClosedPathMultiplier = new Color(0.3f, 0.3f, 0.3f);
+
         [SerializeField]
         public MaterialStore MaterialStore { get; set; }
 
@@ -20,6 +22,9 @@ namespace Surreily.SomeWords.Scripts.Map {
         [SerializeField]
         public PathState State { get; set; }
 
+        [SerializeField]
+        public Color Color { get; set; }
+
         #region Start
 
         public void Start() {
@@ -34,6 +39,11 @@ namespace Surreily.SomeWords.Scripts.Map {
 
             SpriteRenderer backgroundSpriteRenderer = backgroundObject.AddComponent<SpriteRenderer>();
             backgroundSpriteRenderer.sprite = MaterialStore.Map.GetPathSprite(Type);
+            backgroundSpriteRenderer.color = Color;
+
+            if (State == PathState.Closed) {
+                backgroundSpriteRenderer.color *= ClosedPathMultiplier;
+            }
         }
 
         #endregion

@@ -19,6 +19,9 @@ namespace Surreily.SomeWords.Scripts.Map {
         [SerializeField]
         public LevelState State { get; set; }
 
+        [SerializeField]
+        public Color Color { get; set; }
+
         #region Start
 
         public void Start() {
@@ -33,6 +36,7 @@ namespace Surreily.SomeWords.Scripts.Map {
 
             SpriteRenderer backgroundSpriteRenderer = backgroundObject.AddComponent<SpriteRenderer>();
             backgroundSpriteRenderer.sprite = MaterialStore.Map.GetLevelSprite();
+            backgroundSpriteRenderer.color = Color;
         }
 
         #endregion

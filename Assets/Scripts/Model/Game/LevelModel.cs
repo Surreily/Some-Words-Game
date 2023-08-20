@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Surreily.SomeWords.Scripts.Model.Game {
     public class LevelModel {
@@ -8,7 +9,7 @@ namespace Surreily.SomeWords.Scripts.Model.Game {
         public string Title { get; set; }
         public string Description { get; set; }
         public LevelState State { get; set; }
-        public int Colour { get; set; }
+        public Color Color { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
         public int StartX { get; set; }

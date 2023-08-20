@@ -51,7 +51,7 @@ namespace Surreily.SomeWords.Scripts.Map {
                     IsTileVisible(path.X, path.Y, Direction.Down),
                     IsTileVisible(path.X, path.Y, Direction.Left));
 
-                mapManager.AddPathManager(path, path.X, path.Y, type, path.State);
+                mapManager.AddPathManager(path, type, path.State);
             }
         }
 
