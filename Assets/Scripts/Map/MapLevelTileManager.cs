@@ -17,7 +17,7 @@ namespace Surreily.SomeWords.Scripts.Map {
         public int Y { get; set; }
 
         [SerializeField]
-        public MapLevelState State { get; set; }
+        public LevelState State { get; set; }
 
         #region Start
 

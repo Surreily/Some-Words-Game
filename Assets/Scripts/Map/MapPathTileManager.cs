@@ -1,4 +1,5 @@
 ﻿using Surreily.SomeWords.Scripts.Materials;
+using Surreily.SomeWords.Scripts.Model.Game;
 using Surreily.SomeWords.Scripts.Utility;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ namespace Surreily.SomeWords.Scripts.Map {
         public PathTileType Type { get; set; }
 
         [SerializeField]
-        public MapPathState State { get; set; }
+        public PathState State { get; set; }
 
         #region Start
 

@@ -68,7 +68,7 @@ namespace Surreily.SomeWords.Scripts.Map {
             SetUpCursor(game);
         }
 
-        public void AddPathManager(PathModel path, int x, int y, PathTileType type, MapPathState state) {
+        public void AddPathManager(PathModel path, int x, int y, PathTileType type, PathState state) {
             GameObject pathObject = new GameObject("Path Tile");
             pathObject.transform.SetParent(gameObject.transform, false);
             pathObject.transform.Translate(x, y, Layers.MapPath, Space.Self);
@@ -83,7 +83,7 @@ namespace Surreily.SomeWords.Scripts.Map {
             pathManagers.Add((x, y), pathManager);
         }
 
-        public void AddLevelManager(LevelModel level, MapLevelState state) {
+        public void AddLevelManager(LevelModel level, LevelState state) {
             GameObject levelObject = new GameObject();
             levelObject.transform.SetParent(gameObject.transform, false);
             levelObject.transform.Translate(level.X, level.Y, Layers.MapLevel, Space.Self);
@@ -199,11 +199,11 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         private bool DoesOpenPathExist(int x, int y) {
             if (pathManagers.TryGetValue((x, y), out MapPathTileManager path)) {
-                return path.State == MapPathState.Open;
+                return path.State == PathState.Open;
             }
 
             if (levelManagers.TryGetValue((x, y), out MapLevelTileManager level)) {
-                return level.State == MapLevelState.Open || level.State == MapLevelState.Complete;
+                return level.State == LevelState.Open || level.State == LevelState.Complete;
             }
 
             return false;

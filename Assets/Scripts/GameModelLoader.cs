@@ -29,6 +29,7 @@ namespace Surreily.SomeWords.Scripts {
                         PathModel pathModel = new PathModel {
                             X = jsonPath.X + x,
                             Y = jsonPath.Y + y,
+                            State = GetPathState(jsonPath.State),
                             Colour = jsonPath.Colour,
                         };
 

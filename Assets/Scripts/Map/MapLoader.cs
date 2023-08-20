@@ -7,15 +7,15 @@ namespace Surreily.SomeWords.Scripts.Map {
         private readonly MapManager mapManager;
         private readonly GameModel game;
 
-        private readonly Dictionary<(int, int), MapPathState> pathStates;
-        private readonly Dictionary<(int, int), MapLevelState> levelStates;
+        private readonly Dictionary<(int, int), PathState> pathStates;
+        private readonly Dictionary<(int, int), LevelState> levelStates;
 
         public MapLoader(MapManager mapManager, GameModel game) {
             this.mapManager = mapManager;
             this.game = game;
 
-            pathStates = new Dictionary<(int, int), MapPathState>();
-            levelStates = new Dictionary<(int, int), MapLevelState>();
+            pathStates = new Dictionary<(int, int), PathState>();
+            levelStates = new Dictionary<(int, int), LevelState>();
         }
 
         public void Load() {
@@ -28,14 +28,14 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         private void SetInitialPathStates() {
             foreach (PathModel path in game.Paths) {
-                pathStates.Add((path.X, path.Y), MapPathState.Open); // TODO: Get isOpen from path.
+                pathStates.Add((path.X, path.Y), PathState.Open); // TODO: Get isOpen from path.
 
             }
         }
 
         private void SetInitialLevelStates() {
             foreach (LevelModel level in game.Levels) {
-                levelStates.Add((level.X, level.Y), MapLevelState.Open); // TODO: get isOpen from level.
+                levelStates.Add((level.X, level.Y), LevelState.Open); // TODO: get isOpen from level.
             }
         }
 
@@ -51,13 +51,13 @@ namespace Surreily.SomeWords.Scripts.Map {
                     IsTileVisible(path.X, path.Y, Direction.Down),
                     IsTileVisible(path.X, path.Y, Direction.Left));
 
-                mapManager.AddPathManager(path, path.X, path.Y, type, MapPathState.Open);
+                mapManager.AddPathManager(path, path.X, path.Y, type, path.State);
             }
         }
 
         private void CreateLevelManagers() {
             foreach (LevelModel level in game.Levels) {
-                mapManager.AddLevelManager(level, MapLevelState.Open);
+                mapManager.AddLevelManager(level, LevelState.Open);
             }
         }
 
@@ -72,12 +72,12 @@ namespace Surreily.SomeWords.Scripts.Map {
         }
 
         private bool IsTileVisible(int x, int y) {
-            if (pathStates.TryGetValue((x, y), out MapPathState pathState)) {
-                return pathState != MapPathState.Hidden;
+            if (pathStates.TryGetValue((x, y), out PathState pathState)) {
+                return pathState != PathState.Hidden;
             }
 
-            if (levelStates.TryGetValue((x, y), out MapLevelState levelState)) {
-                return levelState != MapLevelState.Hidden;
+            if (levelStates.TryGetValue((x, y), out LevelState levelState)) {
+                return levelState != LevelState.Hidden;
             }
 
             return false;
