@@ -28,11 +28,12 @@
     ],
     "Levels": [
         {
+            "Id": "tutorial-1",
             "X": 0,
             "Y": 3,
-            "Id": "tutorial-1",
             "Title": "An Easy Start!",
             "Description": "Here's an easy one to get you started.",
+            "State": "Open",
             "Colour": 1,
             "Width": 7,
             "Height": 5,
@@ -71,9 +72,9 @@
             }
         },
         {
+            "Id": "tutorial-2",
             "X": 6,
             "Y": 3,
-            "Id": "tutorial-2",
             "Title": "Write It Down",
             "Description": "Here's something a little harder...",
             "Colour": 2,

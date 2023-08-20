@@ -114,6 +114,10 @@ namespace Surreily.SomeWords.Scripts {
         }
 
         private static PathState GetPathState(string value) {
+            if (string.IsNullOrEmpty(value)) {
+                return PathState.Closed;
+            }
+
             if (Enum.TryParse(value, out PathState pathState)) {
                 return pathState;
             }
@@ -123,6 +127,10 @@ namespace Surreily.SomeWords.Scripts {
         }
 
         private static LevelState GetLevelState(string value) {
+            if (string.IsNullOrEmpty(value)) {
+                return LevelState.Closed;
+            }
+
             if (Enum.TryParse(value, out LevelState levelState)) {
                 return levelState;
             }
@@ -138,6 +146,15 @@ namespace Surreily.SomeWords.Scripts {
 
             throw new InvalidOperationException(
                 $"Unrecognised {nameof(LevelGoalType)}: \"{value}\".");
+        }
+
+        private static Direction GetDirection(string value) {
+            if (Enum.TryParse(value, out Direction direction)) {
+                return direction;
+            }
+
+            throw new InvalidOperationException(
+                $"Unrecognised {nameof(Direction)}: \"{value}\".");
         }
     }
 }

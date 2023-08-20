@@ -1,5 +1,5 @@
 using System;
-using Surreily.SomeWords.Model.Game;
+using Surreily.SomeWords.Scripts.Model.Game;
 using UnityEngine;
 
 public class MovableBehaviour : MonoBehaviour

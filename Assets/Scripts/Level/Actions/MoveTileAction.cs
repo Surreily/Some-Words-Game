@@ -1,4 +1,4 @@
-﻿using Surreily.SomeWords.Model.Game;
+﻿using Surreily.SomeWords.Scripts.Model.Game;
 using Surreily.SomeWords.Scripts.Utility;
 
 namespace Surreily.SomeWords.Scripts.Level.Actions {

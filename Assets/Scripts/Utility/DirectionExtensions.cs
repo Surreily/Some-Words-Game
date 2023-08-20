@@ -1,5 +1,5 @@
 ﻿using System;
-using Surreily.SomeWords.Model.Game;
+using Surreily.SomeWords.Scripts.Model.Game;
 
 namespace Surreily.SomeWords.Scripts.Utility {
     public static class DirectionExtensions {

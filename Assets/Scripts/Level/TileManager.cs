@@ -1,5 +1,5 @@
-﻿using Surreily.SomeWords.Model.Game;
-using Surreily.SomeWords.Scripts.Materials;
+﻿using Surreily.SomeWords.Scripts.Materials;
+using Surreily.SomeWords.Scripts.Model.Game;
 using TMPro;
 using UnityEngine;
 
