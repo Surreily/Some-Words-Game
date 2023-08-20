@@ -237,6 +237,8 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         #endregion
 
+        #region Helpers
+
         private bool DoesPathExist(int x, int y) {
             return pathTileDictionary.ContainsKey((x, y)) || levelTileDictionary.ContainsKey((x, y));
         }
@@ -268,6 +270,8 @@ namespace Surreily.SomeWords.Scripts.Map {
 
             return false;
         }
+
+        #endregion
 
         private class MapPathTile {
             public GameObject GameObject { get; set; }
