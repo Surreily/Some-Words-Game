@@ -24,15 +24,17 @@ namespace Surreily.SomeWords.Scripts {
             List<PathModel> pathModels = new List<PathModel>();
 
             foreach (JsonPath jsonPath in jsonPaths) {
-                PathModel pathModel = new PathModel {
-                    X = jsonPath.X,
-                    Y = jsonPath.Y,
-                    Width = jsonPath.Width,
-                    Height = jsonPath.Height,
-                    Colour = jsonPath.Colour,
-                };
+                for (int x = 0; x < jsonPath.Width; x++) {
+                    for (int y = 0; y < jsonPath.Height; y++) {
+                        PathModel pathModel = new PathModel {
+                            X = jsonPath.X + x,
+                            Y = jsonPath.Y + y,
+                            Colour = jsonPath.Colour,
+                        };
 
-                pathModels.Add(pathModel);
+                        pathModels.Add(pathModel);
+                    }
+                }
             }
 
             return pathModels;

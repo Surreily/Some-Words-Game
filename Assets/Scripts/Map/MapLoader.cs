@@ -33,11 +33,8 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         private void SetInitialPathStates() {
             foreach (PathModel path in game.Paths) {
-                for (int x = 0; x < path.Width; x++) {
-                    for (int y = 0; y < path.Height; y++) {
-                        pathStates.Add((x, y), MapPathState.Open); // TODO: Get isOpen from path.
-                    }
-                }
+                pathStates.Add((path.X, path.Y), MapPathState.Open); // TODO: Get isOpen from path.
+
             }
         }
 
@@ -53,17 +50,13 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         private void CreatePathManagers() {
             foreach (PathModel path in game.Paths) {
-                for (int x = 0; x < path.Width; x++) {
-                    for (int y = 0; y < path.Height; y++) {
-                        PathTileType type = PathTileTypeHelper.GetPathTileType(
-                            IsTileVisible(path.X + x, path.Y + y, Direction.Up),
-                            IsTileVisible(path.X + x, path.Y + y, Direction.Right),
-                            IsTileVisible(path.X + x, path.Y + y, Direction.Down),
-                            IsTileVisible(path.X + x, path.Y + y, Direction.Left));
+                PathTileType type = PathTileTypeHelper.GetPathTileType(
+                    IsTileVisible(path.X, path.Y, Direction.Up),
+                    IsTileVisible(path.X, path.Y, Direction.Right),
+                    IsTileVisible(path.X, path.Y, Direction.Down),
+                    IsTileVisible(path.X, path.Y, Direction.Left));
 
-                        mapManager.AddPathManager(path, path.X + x, path.Y + y, type, MapPathState.Open);
-                    }
-                }
+                mapManager.AddPathManager(path, path.X, path.Y, type, MapPathState.Open);
             }
         }
 
