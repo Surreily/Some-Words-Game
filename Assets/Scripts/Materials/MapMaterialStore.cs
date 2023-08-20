@@ -25,7 +25,6 @@ namespace Surreily.SomeWords.Scripts.Materials {
             SetUpPathSprites();
             SetUpLevelSprites();
 
-            SetUpPathMaterials();
             SetUpLevelMaterials();
         }
 
@@ -103,86 +102,6 @@ namespace Surreily.SomeWords.Scripts.Materials {
             pathSpriteDictionary.Add(
                 PathTileType.Up | PathTileType.Right | PathTileType.Down | PathTileType.Left,
                 sprites[10]);
-        }
-
-        private void SetUpPathMaterials() {
-            openPathDictionary = new Dictionary<(int, PathTileType), IMaterial>();
-
-            Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Map Path Tiles");
-
-            int spriteIndex = 0;
-
-            for (int i = 0; i < 16; i++) {
-                openPathDictionary.Add(
-                    (i, PathTileType.Right | PathTileType.Left),
-                    MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
-                openPathDictionary.Add(
-                    (i, PathTileType.Up | PathTileType.Down),
-                    MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
-                openPathDictionary.Add(
-                    (i, PathTileType.Up | PathTileType.Right),
-                    MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
-                openPathDictionary.Add(
-                    (i, PathTileType.Right | PathTileType.Down),
-                    MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
-                openPathDictionary.Add(
-                    (i, PathTileType.Down | PathTileType.Left),
-                    MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
-                openPathDictionary.Add(
-                    (i, PathTileType.Up | PathTileType.Left),
-                    MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
-                openPathDictionary.Add(
-                    (i, PathTileType.Up | PathTileType.Right | PathTileType.Left),
-                    MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
-                openPathDictionary.Add(
-                    (i, PathTileType.Up | PathTileType.Right | PathTileType.Down),
-                    MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
-                openPathDictionary.Add(
-                    (i, PathTileType.Right | PathTileType.Down | PathTileType.Left),
-                    MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
-                openPathDictionary.Add(
-                    (i, PathTileType.Up | PathTileType.Down | PathTileType.Left),
-                    MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
-                openPathDictionary.Add(
-                    (i, PathTileType.Up | PathTileType.Right | PathTileType.Down | PathTileType.Left),
-                    MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
-            }
-
-            closedPathDictionary = new Dictionary<PathTileType, IMaterial>();
-
-            closedPathDictionary.Add(
-                PathTileType.Right | PathTileType.Left,
-                MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
-            closedPathDictionary.Add(
-                PathTileType.Up | PathTileType.Down,
-                MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
-            closedPathDictionary.Add(
-                PathTileType.Up | PathTileType.Right,
-                MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
-            closedPathDictionary.Add(
-                PathTileType.Right | PathTileType.Down,
-                MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
-            closedPathDictionary.Add(
-                PathTileType.Down | PathTileType.Left,
-                MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
-            closedPathDictionary.Add(
-                PathTileType.Up | PathTileType.Left,
-                MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
-            closedPathDictionary.Add(
-                PathTileType.Up | PathTileType.Right | PathTileType.Left,
-                MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
-            closedPathDictionary.Add(
-                PathTileType.Up | PathTileType.Right | PathTileType.Down,
-                MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
-            closedPathDictionary.Add(
-                PathTileType.Right | PathTileType.Down | PathTileType.Left,
-                MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
-            closedPathDictionary.Add(
-                PathTileType.Up | PathTileType.Down | PathTileType.Left,
-                MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
-            closedPathDictionary.Add(
-                PathTileType.Up | PathTileType.Right | PathTileType.Down | PathTileType.Left,
-                MaterialHelper.SetUpStaticMaterial(sprites[spriteIndex++]));
         }
 
         // TODO: This just loads the first sprite on the sprite sheet!
