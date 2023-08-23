@@ -7,6 +7,7 @@ namespace Surreily.SomeWords.Scripts.Map {
     public class MapPathTileManager : MonoBehaviour {
         private static readonly Color ClosedPathMultiplier = new Color(0.3f, 0.3f, 0.3f);
 
+        private SpriteRenderer backgroundSpriteRenderer;
         private PulseAnimationBehaviour pulseAnimationBehaviour;
 
         [SerializeField]
@@ -39,13 +40,8 @@ namespace Surreily.SomeWords.Scripts.Map {
             backgroundObject.transform.localPosition = Vector3.zero;
             backgroundObject.transform.localScale = Vector3.one;
 
-            SpriteRenderer backgroundSpriteRenderer = backgroundObject.AddComponent<SpriteRenderer>();
-            backgroundSpriteRenderer.sprite = MaterialStore.Map.GetPathSprite(Type);
-            backgroundSpriteRenderer.color = Color;
-
-            if (State == PathState.Closed) {
-                backgroundSpriteRenderer.color *= ClosedPathMultiplier;
-            }
+            backgroundSpriteRenderer = backgroundObject.AddComponent<SpriteRenderer>();
+            Redraw();
 
             pulseAnimationBehaviour = backgroundObject.AddComponent<PulseAnimationBehaviour>();
             pulseAnimationBehaviour.Speed = 5f;
@@ -53,6 +49,16 @@ namespace Surreily.SomeWords.Scripts.Map {
         }
 
         #endregion
+
+        public void Redraw() {
+            backgroundSpriteRenderer.enabled = State != PathState.Hidden;
+            backgroundSpriteRenderer.sprite = MaterialStore.Map.GetPathSprite(Type);
+            backgroundSpriteRenderer.color = Color;
+
+            if (State == PathState.Closed) {
+                backgroundSpriteRenderer.color *= ClosedPathMultiplier;
+            }
+        }
 
         public void Pulse() {
             pulseAnimationBehaviour.Pulse();

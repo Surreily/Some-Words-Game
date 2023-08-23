@@ -145,16 +145,15 @@ namespace Surreily.SomeWords.Scripts.Map {
             foreach (MapPathTileManager revealedPathManager in revealedPathManagers) {
                 revealedPathManager.State = PathState.Open;
                 revealedPathManager.Pulse();
-
-                // TODO: Re-render the sprite.
+                revealedPathManager.Redraw();
             }
 
             // Update level managers.
             foreach (MapLevelTileManager revealedLevelManager in revealedLevelManagers) {
                 revealedLevelManager.State = LevelState.Open;
+                revealedLevelManager.Redraw();
 
                 // TODO: Fancy animation for level opening.
-                // TODO: Re-render the sprite.
             }
 
             // Exit the revealing state if we're done.
