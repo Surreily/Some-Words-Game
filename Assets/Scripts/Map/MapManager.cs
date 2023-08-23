@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Surreily.SomeWords.Scripts.Model.Game;
 using Surreily.SomeWords.Scripts.Renderers;
 using Surreily.SomeWords.Scripts.Utility;
@@ -24,6 +26,8 @@ namespace Surreily.SomeWords.Scripts.Map {
 
         public void Start() {
             state = MapState.Ready;
+
+            EnterRevealingState(1, 3);
         }
 
         #endregion
@@ -38,6 +42,9 @@ namespace Surreily.SomeWords.Scripts.Map {
                 case MapState.CursorMoving:
                     UpdateCursorMovingState();
                     break;
+                case MapState.Revealing:
+                    UpdateRevealingState();
+                    break;
             }
         }
 
@@ -49,9 +56,116 @@ namespace Surreily.SomeWords.Scripts.Map {
                 if (TryGetLevelManager(cursorX, cursorY, out MapLevelTileManager levelTileManager)) {
                     MapUi.SetLevelTitleText(levelTileManager.Level.Title);
                 }
-                
+
                 state = MapState.Ready;
             }
+        }
+
+        #endregion
+
+        #region Revealing State
+
+        private float currentRevealSeconds;
+        private float targetRevealSeconds;
+        private List<MapPathTileManager> revealedPathManagers;
+        private List<MapLevelTileManager> revealedLevelManagers;
+
+        private void EnterRevealingState(int x, int y) {
+            // Initialise values.
+            currentRevealSeconds = 0f;
+            targetRevealSeconds = 0.2f;
+            revealedPathManagers = new List<MapPathTileManager>();
+            revealedLevelManagers = new List<MapLevelTileManager>();
+
+            if (TryGetPathManager(x, y, out MapPathTileManager pathManager)) {
+                revealedPathManagers.Add(pathManager);
+            } else if (TryGetLevelManager(x, y, out MapLevelTileManager levelManager)) {
+                revealedLevelManagers.Add(levelManager);
+            }
+
+            state = MapState.Revealing;
+        }
+
+        private void UpdateRevealingState() {
+            // Handle timing. Each iteration is slightly quicker than the last.
+            currentRevealSeconds += Time.deltaTime;
+
+            if (currentRevealSeconds < targetRevealSeconds) {
+                return;
+            }
+
+            if (targetRevealSeconds > 0.05f) {
+                targetRevealSeconds -= 0.02f;
+            }
+
+            currentRevealSeconds -= targetRevealSeconds;
+
+            // Reveal paths and levels.
+            List<MapPathTileManager> revealingPathManagers = new List<MapPathTileManager>();
+            List<MapLevelTileManager> revealingLevelManagers = new List<MapLevelTileManager>();
+
+            HashSet<(int, int)> revealingCoordinates = new HashSet<(int, int)>();
+
+            foreach (MapPathTileManager revealedPathManager in revealedPathManagers) {
+                // Get the next generation of path managers.
+                IEnumerable<MapPathTileManager> adjacentPathManagers = GetAdjacentPathManagers(
+                    revealedPathManager.X, revealedPathManager.Y);
+
+                foreach (MapPathTileManager adjacentPathManager in adjacentPathManagers) {
+                    if (adjacentPathManager.State != PathState.Closed) {
+                        continue;
+                    }
+
+                    if (revealingCoordinates.Contains((adjacentPathManager.X, adjacentPathManager.Y))) {
+                        continue;
+                    }
+
+                    revealingPathManagers.Add(adjacentPathManager);
+                    revealingCoordinates.Add((adjacentPathManager.X, adjacentPathManager.Y));
+                }
+
+                // Get the next generation of level managers.
+                IEnumerable<MapLevelTileManager> adjacentLevelManagers = GetAdjacentLevelManagers(
+                    revealedPathManager.X, revealedPathManager.Y);
+
+                foreach (MapLevelTileManager adjacentLevelManager in adjacentLevelManagers) {
+                    if (adjacentLevelManager.State != LevelState.Closed) {
+                        continue;
+                    }
+
+                    if (revealingCoordinates.Contains((adjacentLevelManager.X, adjacentLevelManager.Y))) {
+                        continue;
+                    }
+
+                    revealingCoordinates.Add((adjacentLevelManager.X, adjacentLevelManager.Y));
+                }
+            }
+
+            // Update path managers.
+            foreach (MapPathTileManager revealedPathManager in revealedPathManagers) {
+                revealedPathManager.State = PathState.Open;
+                revealedPathManager.Pulse();
+
+                // TODO: Re-render the sprite.
+            }
+
+            // Update level managers.
+            foreach (MapLevelTileManager revealedLevelManager in revealedLevelManagers) {
+                revealedLevelManager.State = LevelState.Open;
+
+                // TODO: Fancy animation for level opening.
+                // TODO: Re-render the sprite.
+            }
+
+            // Exit the revealing state if we're done.
+            if (!revealedPathManagers.Any() && !revealedLevelManagers.Any()) {
+                state = MapState.Ready;
+                return;
+            }
+
+            // Prepare for next iteration.
+            revealedPathManagers = revealingPathManagers;
+            revealedLevelManagers = revealingLevelManagers;
         }
 
         #endregion
@@ -215,12 +329,52 @@ namespace Surreily.SomeWords.Scripts.Map {
             return DoesOpenPathExist(x + direction.GetXOffset(), y + direction.GetYOffset());
         }
 
+        private bool TryGetPathManager(int x, int y, out MapPathTileManager pathManager) {
+            if (pathManagers.TryGetValue((x, y), out pathManager)) {
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool TryGetPathManager(int x, int y, Direction direction, out MapPathTileManager pathManager) {
+            return TryGetPathManager(x + direction.GetXOffset(), y + direction.GetYOffset(), out pathManager);
+        }
+
         private bool TryGetLevelManager(int x, int y, out MapLevelTileManager levelManager) {
             if (levelManagers.TryGetValue((x, y), out levelManager)) {
                 return true;
             }
 
             return false;
+        }
+
+        private bool TryGetLevelManager(int x, int y, Direction direction, out MapLevelTileManager levelManager) {
+            return TryGetLevelManager(x + direction.GetXOffset(), y + direction.GetYOffset(), out levelManager);
+        }
+
+        private IEnumerable<MapPathTileManager> GetAdjacentPathManagers(int x, int y) {
+            List<MapPathTileManager> pathManagers = new List<MapPathTileManager>();
+
+            foreach (Direction direction in Enum.GetValues(typeof(Direction)).Cast<Direction>()) {
+                if (TryGetPathManager(x, y, direction, out MapPathTileManager pathManager)) {
+                    pathManagers.Add(pathManager);
+                }
+            }
+
+            return pathManagers;
+        }
+
+        private IEnumerable<MapLevelTileManager> GetAdjacentLevelManagers(int x, int y) {
+            List<MapLevelTileManager> levelManagers = new List<MapLevelTileManager>();
+
+            foreach (Direction direction in Enum.GetValues(typeof(Direction)).Cast<Direction>()) {
+                if (TryGetLevelManager(x, y, direction, out MapLevelTileManager levelManager)) {
+                    levelManagers.Add(levelManager);
+                }
+            }
+
+            return levelManagers;
         }
 
         #endregion
