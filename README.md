@@ -1,5 +1,7 @@
 # Some-Words-Game
 
+> **This project is on indefinite hold due to changes in Unity's pricing.** I will be looking into porting over to Godot instead.
+
 This is a fairly simple game where you move tiles around on a grid to create words (a bit like Scrabble, or some levels in Baba Is You). Levels require the player to create specific words or a specific number of words to progress. Some tiles have special rules that apply to them - for example, tiles that cannot be moved or tiles that must always be part of a complete word. If any rules are broken, the player must undo their action and try something else.
 
 This entire thing is me learning how Unity 2D works. Pretty much everything is done by script and all assets are loaded in at runtime. There are no guarantees I am doing things the 'right way' here, and while I am trying to apply professional software development practices where I can, it might not be the correct 'unity way' of doing things.
